@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Priyavrat Misra's Hardware</title><link>/tags/hardware/</link><description>Recent content in Priyavrat Misra's Hardware</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&amp;copy; 2022-{year} Priyavrat Misra. All rights reserved.</copyright><lastBuildDate>Wed, 20 Jul 2022 12:12:12 +0530</lastBuildDate><atom:link href="/tags/hardware/rss.xml" rel="self" type="application/rss+xml"/><item><title>Building a PC</title><link>/blog/first-pc-build-journey/</link><pubDate>Wed, 20 Jul 2022 12:12:12 +0530</pubDate><guid>/blog/first-pc-build-journey/</guid><content>&lt;p>A couple of weeks ago, I learned that my laptop’s processor and the motherboard had fried. It might have sounded like a surprise to someone in my place, but to me it didn’t.&lt;/p>
+&lt;p>I have been using that laptop for over four years, spending extended hours on it every day. I knew I had it coming. As a result, it was about time I built a PC.&lt;/p>
+&lt;p>After spending a few exhausting days researching the hardware, comparing various benchmarks, choosing the components, looking for compatibility issues, and on and on, I finally placed the orders. It took me a lot of work to get through this step, but like they say:&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;em>All&amp;rsquo;s well that ends well.&lt;/em>&lt;/p>&lt;/blockquote>
+&lt;h3 id="parts">Parts&lt;/h3>
+&lt;p>When choosing the parts, my goal was to get better performance while staying within the budget of an average laptop. I was able to accomplish that with the following components.&lt;/p>
+&lt;p>
+&lt;img src="/images/parts.webp" alt="The Parts">
+&lt;/p>
+&lt;p>
+&lt;table class="table table-sm table-borderless table-hover">
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align: left">&lt;/th>
+&lt;th style="text-align: left">&lt;/th>
+&lt;th style="text-align: right">&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align: left">&lt;strong>CPU&lt;/strong>&lt;/td>
+&lt;td style="text-align: left">&lt;strong>:&lt;/strong>&lt;/td>
+&lt;td style="text-align: right">&lt;a href="https://www.amd.com/en/products/cpu/amd-ryzen-5-5600x">AMD Ryzen 5 5600X 3.7 GHz 6-Core&lt;/a>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: left">&lt;strong>GPU&lt;/strong>&lt;/td>
+&lt;td style="text-align: left">&lt;strong>:&lt;/strong>&lt;/td>
+&lt;td style="text-align: right">&lt;a href="https://www.zotac.com/us/product/graphics_card/zotac-geforce-gt-1030-2gb-gddr5-hdmi-vga-low-profile">ZOTAC GeForce® GT 1030 2GB GDDR5&lt;/a>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: left">&lt;strong>Motherboard&lt;/strong>&lt;/td>
+&lt;td style="text-align: left">&lt;strong>:&lt;/strong>&lt;/td>
+&lt;td style="text-align: right">&lt;a href="https://www.asus.com/Motherboards-Components/Motherboards/PRIME/PRIME-B450M-K-II/">Asus PRIME B450M-K II Micro ATX AM4&lt;/a>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: left">&lt;strong>Memory&lt;/strong>&lt;/td>
+&lt;td style="text-align: left">&lt;strong>:&lt;/strong>&lt;/td>
+&lt;td style="text-align: right">&lt;a href="https://www.corsair.com/eu/en/Categories/Products/Memory/VENGEANCE-LPX/p/CMK8GX4M1Z3200C16">Corsair VENGEANCE® LPX 8GB DDR4 3200MHz C16&lt;/a> (×2)&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: left">&lt;strong>Storage&lt;/strong>&lt;/td>
+&lt;td style="text-align: left">&lt;strong>:&lt;/strong>&lt;/td>
+&lt;td style="text-align: right">&lt;a href="https://www.crucial.in/ssd/p2/CT500P2SSD8">Crucial P2 500GB PCIe 3D NAND NVMe M.2 2280&lt;/a>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: left">&lt;strong>PSU&lt;/strong>&lt;/td>
+&lt;td style="text-align: left">&lt;strong>:&lt;/strong>&lt;/td>
+&lt;td style="text-align: right">&lt;a href="https://www.corsair.com/us/en/Categories/Products/Power-Supply-Units/Power-Supply-Units-General-Purpose/CV-Series/p/CP-9020211-NA">Corsair CV 650 Watt 80+ Bronze Certified&lt;/a>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: left">&lt;strong>Case&lt;/strong>&lt;/td>
+&lt;td style="text-align: left">&lt;strong>:&lt;/strong>&lt;/td>
+&lt;td style="text-align: right">&lt;a href="https://www.corsair.com/ww/en/Categories/Products/Cases/Mid-Tower-ATX-Cases/Carbide-Series-SPEC-05-Mid-Tower-Gaming-Case-%E2%80%94-Black/p/CC-9011138-WW">Corsair SPEC-05 ATX Mid Tower Case&lt;/a>&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+As for why I bought a &lt;strong>GT 1030&lt;/strong> in 2022, it’s because I intend to replace it once the &lt;a href="https://en.wikipedia.org/wiki/2020%E2%80%93present_global_chip_shortage" target="_blank">global chip shortage&lt;/a> boils down. Until then, it’ll do.&lt;/p>
+&lt;p>&lt;strong>&lt;em>UPDATE:&lt;/em>&lt;/strong> Within an year or so, I replaced it with a &lt;strong>RTX 3060 Ti&lt;/strong> along with a few more additions.
+&lt;table class="table table-sm table-borderless table-hover">
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align: left">&lt;/th>
+&lt;th style="text-align: left">&lt;/th>
+&lt;th style="text-align: right">&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align: left">&lt;strong>GPU&lt;/strong>&lt;/td>
+&lt;td style="text-align: left">&lt;strong>:&lt;/strong>&lt;/td>
+&lt;td style="text-align: right">&lt;a href="https://www.zotac.com/us/product/graphics_card/zotac-gaming-geforce-rtx-3060-ti-twin-edge-oc">ZOTAC GAMING GeForce RTX 3060 Ti Twin Edge OC&lt;/a>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: left">&lt;strong>CPU Cooler&lt;/strong>&lt;/td>
+&lt;td style="text-align: left">&lt;strong>:&lt;/strong>&lt;/td>
+&lt;td style="text-align: right">&lt;a href="https://www.deepcool.com/products/Cooling/cpuaircoolers/AK400-Performance-CPU-Cooler-1700-AM5/2021/15222.shtml">DeepCool AK400&lt;/a>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: left">&lt;strong>Monitor&lt;/strong>&lt;/td>
+&lt;td style="text-align: left">&lt;strong>:&lt;/strong>&lt;/td>
+&lt;td style="text-align: right">&lt;a href="https://www.gigabyte.com/Monitor/G24F-2/">Gigabyte G24F 2&lt;/a>&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;/p>
+&lt;h3 id="assemblage">Assemblage&lt;/h3>
+&lt;p>After a whole week of anxious waiting, I finally received the orders. Since this was my first time putting together a computer, I made sure I had everything ready before I began. Surprisingly, that “everything” included only a &lt;a href="https://en.wikipedia.org/wiki/List_of_screw_drives#Phillips" target="_blank">Phillips #1 screwdriver&lt;/a>, that’s all. That’s all one needs to assemble a PC. Also, another thing that goes without saying is “a great deal of concentration.”&lt;/p>
+&lt;p>I took my sweet time going through the manuals in the boxes, and then everything started to come together (pun intended).&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align: center">&lt;/th>
+&lt;th style="text-align: center">&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align: center">
+&lt;figure>
+&lt;img src="/images/assembled.webp" alt="Assembled">
+&lt;figcaption class="text-center figure-caption">Version 1.0&lt;/figcaption>
+&lt;/figure>
+&lt;/td>
+&lt;td style="text-align: center">
+&lt;figure>
+&lt;img src="/images/assembledV2.webp" alt="Assembled V2">
+&lt;figcaption class="text-center figure-caption">Version 2.0&lt;/figcaption>
+&lt;/figure>
+&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>After having assembled a PC by myself, I can confirm that it is simpler than it sounds; still, I did mess up once, which led to a series of unfortunate events.&lt;/p>
+&lt;p>It started with the way I inserted the AMD heatsink; they have this projection for the logo on one side which blocked a RAM slot. As one would expect, I tried removing it, but the thermal paste adhesion was way too strong. I could have looked up the internet for answers, but for some reason, I was wholeheartedly focused on removing it by force. As a result, the CPU came off with it even though the motherboard’s CPU lock was intact. Thankfully, neither the CPU pins nor the motherboard were damaged. And again, it was a case of &lt;em>all’s well that ends well&lt;/em>.&lt;/p>
+&lt;p>
+&lt;figure>
+&lt;img src="/images/build.webp" alt="The Build">
+&lt;figcaption class="text-center figure-caption">Translation: &amp;#34;Hello, World!&amp;#34;&lt;/figcaption>
+&lt;/figure>
+&lt;/p>
+&lt;h3 id="final-thoughts">Final Thoughts&lt;/h3>
+&lt;p>I recommend building your own PC if you get the chance. It takes a little research and time, but it’s incredibly rewarding. As a final note, I am glad I decided to embark on this journey.&lt;/p></content></item></channel></rss>
