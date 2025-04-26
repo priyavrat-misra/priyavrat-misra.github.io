@@ -297,13 +297,11 @@
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>A b &lt;span style="color:#f92672">=&lt;/span> a; &lt;span style="color:#75715e">// copy ctor invoked
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>a &lt;span style="color:#f92672">=&lt;/span> b; &lt;span style="color:#75715e">// operator= invoked
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="to-be-continued">To Be Continued&amp;hellip;&lt;/h3>
-&lt;p>At first, I had big dreams of covering everything there is to know about structs in a single article. But, let&amp;rsquo;s be real—it was turning into a novel. So, I’ve decided to break it up into a trilogy (think &lt;em>Lord of the Rings&lt;/em>, but with fewer swords and more code). Stay tuned for the next part, where I’ll dive deeper into how structs really shine in C++!&lt;/p></content></item><item><title>Building a PC</title><link>/blog/first-pc-build-journey/</link><pubDate>Wed, 20 Jul 2022 12:12:12 +0530</pubDate><guid>/blog/first-pc-build-journey/</guid><content>&lt;p>A couple of weeks ago, I learned that my laptop’s processor and the motherboard had fried. It might have sounded like a surprise to someone in my place, but to me it didn’t.&lt;/p>
-&lt;p>I have been using that laptop for over four years, spending extended hours on it every day. I knew I had it coming. As a result, it was about time I built a PC.&lt;/p>
-&lt;p>After spending a few exhausting days researching the hardware, comparing various benchmarks, choosing the components, looking for compatibility issues, and on and on, I finally placed the orders. It took me a lot of work to get through this step, but like they say:&lt;/p>
-&lt;blockquote>
-&lt;p>&lt;em>All&amp;rsquo;s well that ends well.&lt;/em>&lt;/p>&lt;/blockquote>
+&lt;p>At first, I had big dreams of covering everything there is to know about structs in a single article. But, let&amp;rsquo;s be real—it was turning into a novel. So, I’ve decided to break it up into a trilogy (think &lt;em>Lord of the Rings&lt;/em>, but with fewer swords and more code). Stay tuned for the next part, where I’ll dive deeper into how structs really shine in C++!&lt;/p></content></item><item><title>Building a PC</title><link>/blog/first-pc-build-journey/</link><pubDate>Wed, 20 Jul 2022 12:12:12 +0530</pubDate><guid>/blog/first-pc-build-journey/</guid><content>&lt;p>A couple of weeks ago, I learned that my laptop’s processor and motherboard had fried. While this might have come as a shock to some, I can’t say I was surprised.&lt;/p>
+&lt;p>After all, I’d been using that laptop for over four years, subjecting it to marathon sessions almost every day. Frankly, it was more of a “when” than an “if.” So, when the inevitable happened, I decided it was finally time to build myself a PC.&lt;/p>
+&lt;p>I spent several exhausting days researching hardware, poring over benchmarks, hunting for compatibility issues, and generally falling down the rabbit hole of PC building. Eventually, after much deliberation, I placed my orders. It was a ton of work, but hey—if it ends with a working PC, I’ll call that a win.&lt;/p>
 &lt;h3 id="parts">Parts&lt;/h3>
-&lt;p>When choosing the parts, my goal was to get better performance while staying within the budget of an average laptop. I was able to accomplish that with the following components.&lt;/p>
+&lt;p>My goal was to get significantly better performance than my old laptop, but without blowing my budget. Mission accomplished—with these parts:&lt;/p>
 &lt;p>
 &lt;img src="/images/parts.webp" alt="The Parts">
 &lt;/p>
@@ -354,8 +352,8 @@
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
-As for why I bought a &lt;strong>GT 1030&lt;/strong> in 2022, it’s because I intend to replace it once the &lt;a href="https://en.wikipedia.org/wiki/2020%E2%80%93present_global_chip_shortage" target="_blank">global chip shortage&lt;/a> boils down. Until then, it’ll do.&lt;/p>
-&lt;p>&lt;strong>&lt;em>UPDATE:&lt;/em>&lt;/strong> Within an year or so, I replaced it with a &lt;strong>RTX 3060 Ti&lt;/strong> along with a few more additions.
+Now, you might be wondering: “Why on earth did you buy a &lt;strong>GT 1030&lt;/strong> in 2022?” Excellent question! The short answer: &lt;a href="https://en.wikipedia.org/wiki/2020%E2%80%93present_global_chip_shortage" target="_blank">global chip shortage&lt;/a>. My plan was to use it as a placeholder until the GPU market cooled off. Until then, it was the little graphics card that could.&lt;/p>
+&lt;p>&lt;strong>&lt;em>UPDATE:&lt;/em>&lt;/strong> About a year later, I finally upgraded to an &lt;strong>RTX 3060 Ti&lt;/strong>, along with a couple of other improvements:
 &lt;table class="table table-sm table-borderless table-hover">
 &lt;thead>
 &lt;tr>
@@ -384,8 +382,8 @@ As for why I bought a &lt;strong>GT 1030&lt;/strong> in 2022, it’s because I i
 &lt;/table>
 &lt;/p>
 &lt;h3 id="assemblage">Assemblage&lt;/h3>
-&lt;p>After a whole week of anxious waiting, I finally received the orders. Since this was my first time putting together a computer, I made sure I had everything ready before I began. Surprisingly, that “everything” included only a &lt;a href="https://en.wikipedia.org/wiki/List_of_screw_drives#Phillips" target="_blank">Phillips #1 screwdriver&lt;/a>, that’s all. That’s all one needs to assemble a PC. Also, another thing that goes without saying is “a great deal of concentration.”&lt;/p>
-&lt;p>I took my sweet time going through the manuals in the boxes, and then everything started to come together (pun intended).&lt;/p>
+&lt;p>After a week of impatiently tracking shipping updates, my parts finally arrived. This was my first time assembling a PC, so I made sure I was prepared. Surprisingly, all I really needed was a &lt;a href="https://en.wikipedia.org/wiki/List_of_screw_drives#Phillips" target="_blank">Phillips #1 screwdriver&lt;/a>. That, and a healthy dose of concentration (and maybe a little prayer).&lt;/p>
+&lt;p>I took my time reading through the manuals—yes, I actually read the manuals—and soon enough, everything started coming together (pun absolutely intended).&lt;/p>
 &lt;table>
 &lt;thead>
 &lt;tr>
@@ -410,8 +408,8 @@ As for why I bought a &lt;strong>GT 1030&lt;/strong> in 2022, it’s because I i
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
-&lt;p>After having assembled a PC by myself, I can confirm that it is simpler than it sounds; still, I did mess up once, which led to a series of unfortunate events.&lt;/p>
-&lt;p>It started with the way I inserted the AMD heatsink; they have this projection for the logo on one side which blocked a RAM slot. As one would expect, I tried removing it, but the thermal paste adhesion was way too strong. I could have looked up the internet for answers, but for some reason, I was wholeheartedly focused on removing it by force. As a result, the CPU came off with it even though the motherboard’s CPU lock was intact. Thankfully, neither the CPU pins nor the motherboard were damaged. And again, it was a case of &lt;em>all’s well that ends well&lt;/em>.&lt;/p>
+&lt;p>As it turns out, building a PC is simpler than it sounds. That said, I still managed to have my “oops” moment. Here’s what happened:&lt;/p>
+&lt;p>I installed the AMD heatsink, but didn’t notice that the logo projection on one side was blocking a RAM slot. When I tried to remove the heatsink, the thermal paste had basically turned into superglue. Did I look up a solution online? Of course not. I went full Hulk and tried to muscle it off. The result? The CPU came out stuck to the heatsink—even though the motherboard’s CPU lock was still engaged. Miraculously, neither the CPU pins nor the motherboard were damaged. In the end, disaster was narrowly averted, and I lived to tell the tale—with all components intact!&lt;/p>
 &lt;p>
 &lt;figure>
 &lt;img src="/images/build.webp" alt="The Build">
@@ -419,7 +417,9 @@ As for why I bought a &lt;strong>GT 1030&lt;/strong> in 2022, it’s because I i
 &lt;/figure>
 &lt;/p>
 &lt;h3 id="final-thoughts">Final Thoughts&lt;/h3>
-&lt;p>I recommend building your own PC if you get the chance. It takes a little research and time, but it’s incredibly rewarding. As a final note, I am glad I decided to embark on this journey.&lt;/p></content></item><item><title>Overengineering "Hello, World!"</title><link>/blog/hello-world/</link><pubDate>Thu, 16 Jun 2022 12:30:21 +0530</pubDate><guid>/blog/hello-world/</guid><content>&lt;p>A word of warning, this article is not for the faint of heart.&lt;/p>
+&lt;p>If you ever get the chance, I highly recommend building your own PC. It takes a bit of research and patience, but the sense of accomplishment is absolutely worth it. I’m glad I took the plunge—and my new PC agrees.&lt;/p></content></item><item><title>Overengineering "Hello, World!"</title><link>/blog/hello-world/</link><pubDate>Thu, 16 Jun 2022 12:30:21 +0530</pubDate><guid>/blog/hello-world/</guid><content>&lt;blockquote>
+&lt;p>&lt;strong>A word of warning:&lt;/strong> This article is not for the faint of heart—or for those who believe “Hello, World!” should ever be simple.&lt;/p>&lt;/blockquote>
+&lt;p>You might be wondering, “Why start with ‘Hello, World!’?” Well, as this is my very first blog post, I wanted to pay homage to the time-honored tradition of beginning every programming journey with this iconic phrase. “Hello, World!” is simple, universal, and instantly recognizable—making it the perfect canvas for a little creative overengineering. If you thought printing a string was straightforward, prepare to have your expectations delightfully complicated.&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-cpp" data-lang="cpp">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">#include&lt;/span> &lt;span style="color:#75715e">&amp;lt;iostream&amp;gt;&lt;/span>&lt;span style="color:#75715e">
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">using&lt;/span> &lt;span style="color:#66d9ef">namespace&lt;/span> std;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
@@ -429,20 +429,21 @@ As for why I bought a &lt;strong>GT 1030&lt;/strong> in 2022, it’s because I i
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> cout &lt;span style="color:#f92672">&amp;lt;&amp;lt;&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#ae81ff">\x48\x65\x6C\x6C\x6F\x2C\x20\x57\x6F\x72\x6C\x64\x21&lt;/span>&lt;span style="color:#e6db74">\xA&amp;#34;&lt;/span>;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>All three &lt;code>cout&lt;/code> statements will print the same thing i.e., &lt;code>Hello, World!&lt;/code>.&lt;/p>
-&lt;p>Now coming to the &amp;ldquo;how&amp;rdquo; part; in a nutshell, it has to do with &lt;strong>escape sequences&lt;/strong>. Basically, they are used to represent characters which have special meaning in the language. For example, if we want to have a double quotation mark (&lt;code>&amp;quot;&lt;/code>) within some string literal we can&amp;rsquo;t have it directly, instead first we need to have a backslash (&lt;code>\&lt;/code>) precede it. Also, there many &lt;strong>escape sequences&lt;/strong> like &lt;code>\n&lt;/code>, &lt;code>\t&lt;/code>, etc. which are predefined by the language.&lt;/p>
-&lt;p>But that is not all there is to them, we can have &lt;strong>escape sequences&lt;/strong> of &lt;strong>octal&lt;/strong> and &lt;strong>hexadecimal&lt;/strong> digits as well. Below is a list of two such obscure sequences:&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>All three &lt;code>cout&lt;/code> statements will print the same thing—that is, &lt;code>Hello, World!&lt;/code> (with a newline for good measure).&lt;/p>
+&lt;p>Now, let’s talk about the “how.” In a nutshell, it’s all thanks to &lt;strong>escape sequences&lt;/strong>. These are special codes that let you represent characters that would otherwise be tricky (or downright impossible) to include directly in a string. For example, if you want to sneak a double quotation mark (&lt;code>&amp;quot;&lt;/code>) inside a string literal, you can’t just plop it in there—you need to precede it with a backslash (&lt;code>\&lt;/code>). There are also classic escape sequences like &lt;code>\n&lt;/code> for a newline or &lt;code>\t&lt;/code> for a tab, all predefined by the language.&lt;/p>
+&lt;p>But wait—there’s more! Escape sequences aren’t limited to just the usual suspects. You can also use &lt;strong>octal&lt;/strong> and &lt;strong>hexadecimal&lt;/strong> escape sequences to represent characters by their numeric values. Below are the “obscure” forms:&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>\&lt;/code> followed by &lt;em>one&lt;/em>, &lt;em>two&lt;/em> or &lt;em>three&lt;/em> &lt;strong>octal&lt;/strong> digits&lt;/li>
 &lt;li>&lt;code>\x&lt;/code> followed by &lt;em>one&lt;/em> or more &lt;strong>hexadecimal&lt;/strong> digits&lt;/li>
 &lt;/ul>
-&lt;p>The value that follows &lt;code>\&lt;/code> and &lt;code>\x&lt;/code> represents the numerical value of the character. To keep it simple, let&amp;rsquo;s assume the language uses &lt;a href="https://en.wikipedia.org/wiki/ASCII" target="_blank">ASCII character encoding&lt;/a>. In simple terms, it means every character that is used in the language is associated with a predefined numercial value as per the &lt;strong>ASCII specification&lt;/strong>. The second and third &lt;code>cout&lt;/code> statements use nothing but those values in &lt;strong>octal&lt;/strong> and &lt;strong>hexadecimal&lt;/strong> format respectively, to represent the corresponding characters.&lt;/p>
+&lt;p>The numbers following &lt;code>\&lt;/code> and &lt;code>\x&lt;/code> represent the character’s value. For simplicity, let’s assume we’re using &lt;a href="https://en.wikipedia.org/wiki/ASCII" target="_blank">ASCII character encoding&lt;/a>. In plain English, every character in the language is mapped to a predefined numeric value, as per the &lt;strong>ASCII specification&lt;/strong>. The second and third &lt;code>cout&lt;/code> statements above use these values in octal and hexadecimal format, respectively, to conjure up the same familiar message.&lt;/p>
 &lt;blockquote>
+&lt;p>A few notes (so you don’t lose your sanity while experimenting):&lt;/p>
 &lt;ul>
-&lt;li>If there are more than three octal digits after &lt;code>\&lt;/code>, then only the first three are considered, the remaining are considered as simple characters in a string.&lt;/li>
-&lt;li>The hexadecimal digits are not case sensitive, &lt;code>\x6C&lt;/code> is same as &lt;code>\x6c&lt;/code>.&lt;/li>
+&lt;li>If there are more than three octal digits after &lt;code>\&lt;/code>, only the first three are interpreted as part of the escape sequence; the rest are treated as regular characters.&lt;/li>
+&lt;li>Hexadecimal digits are not case-sensitive, &lt;code>\x6C&lt;/code> is same as &lt;code>\x6c&lt;/code>.&lt;/li>
 &lt;/ul>&lt;/blockquote>
-&lt;p>The table below summarizes all the characters in &lt;code>&amp;quot;Hello, World!\n&amp;quot;&lt;/code>, but it can be generalized to any string.&lt;/p>
+&lt;p>The table below breaks down each character in &lt;code>&amp;quot;Hello, World!\n&amp;quot;&lt;/code>—but you can generalize this approach to any string, should you wish to thoroughly confuse your future self (or your colleagues).&lt;/p>
 &lt;table class="table table-sm table-borderless table-hover">
 &lt;thead>
 &lt;tr>
@@ -539,7 +540,7 @@ As for why I bought a &lt;strong>GT 1030&lt;/strong> in 2022, it’s because I i
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
-&lt;p>Hope you enjoyed this article. See you next time.&lt;/p></content></item><item><title>Projects</title><link>/projects/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/projects/</guid><content>&lt;h2 id="projects">Projects&lt;/h2>
+&lt;p>Hope you enjoyed this deep dive into the unnecessarily complex world of escape sequences. Remember: just because you &lt;em>can&lt;/em> overengineer “Hello, World!” doesn’t mean you &lt;em>should&lt;/em>—but it sure is fun.&lt;/p></content></item><item><title>Projects</title><link>/projects/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/projects/</guid><content>&lt;h2 id="projects">Projects&lt;/h2>
 &lt;p>&lt;div class="repo-card" data-repo="priyavrat-misra/xrays-and-gradcam">&lt;/div>&lt;br>
 &lt;div class="repo-card" data-repo="priyavrat-misra/computime">&lt;/div>&lt;br>
 &lt;div class="repo-card" data-repo="priyavrat-misra/image-colorization">&lt;/div>&lt;br>

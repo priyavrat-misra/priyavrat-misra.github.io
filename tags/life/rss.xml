@@ -1,10 +1,8 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Priyavrat Misra's Life</title><link>/tags/life/</link><description>Recent content in Priyavrat Misra's Life</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&amp;copy; 2022-{year} Priyavrat Misra. All rights reserved.</copyright><lastBuildDate>Wed, 20 Jul 2022 12:12:12 +0530</lastBuildDate><atom:link href="/tags/life/rss.xml" rel="self" type="application/rss+xml"/><item><title>Building a PC</title><link>/blog/first-pc-build-journey/</link><pubDate>Wed, 20 Jul 2022 12:12:12 +0530</pubDate><guid>/blog/first-pc-build-journey/</guid><content>&lt;p>A couple of weeks ago, I learned that my laptop’s processor and the motherboard had fried. It might have sounded like a surprise to someone in my place, but to me it didn’t.&lt;/p>
-&lt;p>I have been using that laptop for over four years, spending extended hours on it every day. I knew I had it coming. As a result, it was about time I built a PC.&lt;/p>
-&lt;p>After spending a few exhausting days researching the hardware, comparing various benchmarks, choosing the components, looking for compatibility issues, and on and on, I finally placed the orders. It took me a lot of work to get through this step, but like they say:&lt;/p>
-&lt;blockquote>
-&lt;p>&lt;em>All&amp;rsquo;s well that ends well.&lt;/em>&lt;/p>&lt;/blockquote>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Priyavrat Misra's Life</title><link>/tags/life/</link><description>Recent content in Priyavrat Misra's Life</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&amp;copy; 2022-{year} Priyavrat Misra. All rights reserved.</copyright><lastBuildDate>Wed, 20 Jul 2022 12:12:12 +0530</lastBuildDate><atom:link href="/tags/life/rss.xml" rel="self" type="application/rss+xml"/><item><title>Building a PC</title><link>/blog/first-pc-build-journey/</link><pubDate>Wed, 20 Jul 2022 12:12:12 +0530</pubDate><guid>/blog/first-pc-build-journey/</guid><content>&lt;p>A couple of weeks ago, I learned that my laptop’s processor and motherboard had fried. While this might have come as a shock to some, I can’t say I was surprised.&lt;/p>
+&lt;p>After all, I’d been using that laptop for over four years, subjecting it to marathon sessions almost every day. Frankly, it was more of a “when” than an “if.” So, when the inevitable happened, I decided it was finally time to build myself a PC.&lt;/p>
+&lt;p>I spent several exhausting days researching hardware, poring over benchmarks, hunting for compatibility issues, and generally falling down the rabbit hole of PC building. Eventually, after much deliberation, I placed my orders. It was a ton of work, but hey—if it ends with a working PC, I’ll call that a win.&lt;/p>
 &lt;h3 id="parts">Parts&lt;/h3>
-&lt;p>When choosing the parts, my goal was to get better performance while staying within the budget of an average laptop. I was able to accomplish that with the following components.&lt;/p>
+&lt;p>My goal was to get significantly better performance than my old laptop, but without blowing my budget. Mission accomplished—with these parts:&lt;/p>
 &lt;p>
 &lt;img src="/images/parts.webp" alt="The Parts">
 &lt;/p>
@@ -55,8 +53,8 @@
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
-As for why I bought a &lt;strong>GT 1030&lt;/strong> in 2022, it’s because I intend to replace it once the &lt;a href="https://en.wikipedia.org/wiki/2020%E2%80%93present_global_chip_shortage" target="_blank">global chip shortage&lt;/a> boils down. Until then, it’ll do.&lt;/p>
-&lt;p>&lt;strong>&lt;em>UPDATE:&lt;/em>&lt;/strong> Within an year or so, I replaced it with a &lt;strong>RTX 3060 Ti&lt;/strong> along with a few more additions.
+Now, you might be wondering: “Why on earth did you buy a &lt;strong>GT 1030&lt;/strong> in 2022?” Excellent question! The short answer: &lt;a href="https://en.wikipedia.org/wiki/2020%E2%80%93present_global_chip_shortage" target="_blank">global chip shortage&lt;/a>. My plan was to use it as a placeholder until the GPU market cooled off. Until then, it was the little graphics card that could.&lt;/p>
+&lt;p>&lt;strong>&lt;em>UPDATE:&lt;/em>&lt;/strong> About a year later, I finally upgraded to an &lt;strong>RTX 3060 Ti&lt;/strong>, along with a couple of other improvements:
 &lt;table class="table table-sm table-borderless table-hover">
 &lt;thead>
 &lt;tr>
@@ -85,8 +83,8 @@ As for why I bought a &lt;strong>GT 1030&lt;/strong> in 2022, it’s because I i
 &lt;/table>
 &lt;/p>
 &lt;h3 id="assemblage">Assemblage&lt;/h3>
-&lt;p>After a whole week of anxious waiting, I finally received the orders. Since this was my first time putting together a computer, I made sure I had everything ready before I began. Surprisingly, that “everything” included only a &lt;a href="https://en.wikipedia.org/wiki/List_of_screw_drives#Phillips" target="_blank">Phillips #1 screwdriver&lt;/a>, that’s all. That’s all one needs to assemble a PC. Also, another thing that goes without saying is “a great deal of concentration.”&lt;/p>
-&lt;p>I took my sweet time going through the manuals in the boxes, and then everything started to come together (pun intended).&lt;/p>
+&lt;p>After a week of impatiently tracking shipping updates, my parts finally arrived. This was my first time assembling a PC, so I made sure I was prepared. Surprisingly, all I really needed was a &lt;a href="https://en.wikipedia.org/wiki/List_of_screw_drives#Phillips" target="_blank">Phillips #1 screwdriver&lt;/a>. That, and a healthy dose of concentration (and maybe a little prayer).&lt;/p>
+&lt;p>I took my time reading through the manuals—yes, I actually read the manuals—and soon enough, everything started coming together (pun absolutely intended).&lt;/p>
 &lt;table>
 &lt;thead>
 &lt;tr>
@@ -111,8 +109,8 @@ As for why I bought a &lt;strong>GT 1030&lt;/strong> in 2022, it’s because I i
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
-&lt;p>After having assembled a PC by myself, I can confirm that it is simpler than it sounds; still, I did mess up once, which led to a series of unfortunate events.&lt;/p>
-&lt;p>It started with the way I inserted the AMD heatsink; they have this projection for the logo on one side which blocked a RAM slot. As one would expect, I tried removing it, but the thermal paste adhesion was way too strong. I could have looked up the internet for answers, but for some reason, I was wholeheartedly focused on removing it by force. As a result, the CPU came off with it even though the motherboard’s CPU lock was intact. Thankfully, neither the CPU pins nor the motherboard were damaged. And again, it was a case of &lt;em>all’s well that ends well&lt;/em>.&lt;/p>
+&lt;p>As it turns out, building a PC is simpler than it sounds. That said, I still managed to have my “oops” moment. Here’s what happened:&lt;/p>
+&lt;p>I installed the AMD heatsink, but didn’t notice that the logo projection on one side was blocking a RAM slot. When I tried to remove the heatsink, the thermal paste had basically turned into superglue. Did I look up a solution online? Of course not. I went full Hulk and tried to muscle it off. The result? The CPU came out stuck to the heatsink—even though the motherboard’s CPU lock was still engaged. Miraculously, neither the CPU pins nor the motherboard were damaged. In the end, disaster was narrowly averted, and I lived to tell the tale—with all components intact!&lt;/p>
 &lt;p>
 &lt;figure>
 &lt;img src="/images/build.webp" alt="The Build">
@@ -120,4 +118,4 @@ As for why I bought a &lt;strong>GT 1030&lt;/strong> in 2022, it’s because I i
 &lt;/figure>
 &lt;/p>
 &lt;h3 id="final-thoughts">Final Thoughts&lt;/h3>
-&lt;p>I recommend building your own PC if you get the chance. It takes a little research and time, but it’s incredibly rewarding. As a final note, I am glad I decided to embark on this journey.&lt;/p></content></item></channel></rss>
+&lt;p>If you ever get the chance, I highly recommend building your own PC. It takes a bit of research and patience, but the sense of accomplishment is absolutely worth it. I’m glad I took the plunge—and my new PC agrees.&lt;/p></content></item></channel></rss>
