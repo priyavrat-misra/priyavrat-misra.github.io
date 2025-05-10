@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Priyavrat Misra's Life</title><link>/tags/life/</link><description>Recent content in Priyavrat Misra's Life</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&amp;copy; 2022-{year} Priyavrat Misra. All rights reserved.</copyright><lastBuildDate>Wed, 20 Jul 2022 12:12:12 +0530</lastBuildDate><atom:link href="/tags/life/rss.xml" rel="self" type="application/rss+xml"/><item><title>Building a PC</title><link>/blog/first-pc-build-journey/</link><pubDate>Wed, 20 Jul 2022 12:12:12 +0530</pubDate><guid>/blog/first-pc-build-journey/</guid><content>&lt;p>A couple of weeks ago, I learned that my laptop’s processor and motherboard had fried. While this might have come as a shock to some, I can’t say I was surprised.&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Priyavrat Misra's Life</title><link>https://priyavr.at/tags/life/</link><description>Recent content in Priyavrat Misra's Life</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&amp;copy; 2022-{year} Priyavrat Misra. All rights reserved.</copyright><lastBuildDate>Wed, 20 Jul 2022 12:12:12 +0530</lastBuildDate><atom:link href="https://priyavr.at/tags/life/rss.xml" rel="self" type="application/rss+xml"/><item><title>Building a PC</title><link>https://priyavr.at/blog/first-pc-build-journey/</link><pubDate>Wed, 20 Jul 2022 12:12:12 +0530</pubDate><guid>https://priyavr.at/blog/first-pc-build-journey/</guid><content>&lt;p>A couple of weeks ago, I learned that my laptop’s processor and motherboard had fried. While this might have come as a shock to some, I can’t say I was surprised.&lt;/p>
 &lt;p>After all, I’d been using that laptop for over four years, subjecting it to marathon sessions almost every day. Frankly, it was more of a “when” than an “if.” So, when the inevitable happened, I decided it was finally time to build myself a PC.&lt;/p>
 &lt;p>I spent several exhausting days researching hardware, poring over benchmarks, hunting for compatibility issues, and generally falling down the rabbit hole of PC building. Eventually, after much deliberation, I placed my orders. It was a ton of work, but hey—if it ends with a working PC, I’ll call that a win.&lt;/p>
 &lt;h3 id="parts">Parts&lt;/h3>
 &lt;p>My goal was to get significantly better performance than my old laptop, but without blowing my budget. Mission accomplished—with these parts:&lt;/p>
 &lt;p>
-&lt;img src="/images/parts.webp" alt="The Parts">
+&lt;img src="https://priyavr.at/images/parts.webp" alt="The Parts">
 &lt;/p>
 &lt;p>
 &lt;table class="table table-sm table-borderless table-hover">
@@ -96,13 +96,13 @@ Now, you might be wondering: “Why on earth did you buy a &lt;strong>GT 1030&lt
 &lt;tr>
 &lt;td style="text-align: center">
 &lt;figure>
-&lt;img src="/images/assembled.webp" alt="Assembled">
+&lt;img src="https://priyavr.at/images/assembled.webp" alt="Assembled">
 &lt;figcaption class="text-center figure-caption">Version 1.0&lt;/figcaption>
 &lt;/figure>
 &lt;/td>
 &lt;td style="text-align: center">
 &lt;figure>
-&lt;img src="/images/assembledV2.webp" alt="Assembled V2">
+&lt;img src="https://priyavr.at/images/assembledV2.webp" alt="Assembled V2">
 &lt;figcaption class="text-center figure-caption">Version 2.0&lt;/figcaption>
 &lt;/figure>
 &lt;/td>
@@ -113,7 +113,7 @@ Now, you might be wondering: “Why on earth did you buy a &lt;strong>GT 1030&lt
 &lt;p>I installed the AMD heatsink, but didn’t notice that the logo projection on one side was blocking a RAM slot. When I tried to remove the heatsink, the thermal paste had basically turned into superglue. Did I look up a solution online? Of course not. I went full Hulk and tried to muscle it off. The result? The CPU came out stuck to the heatsink—even though the motherboard’s CPU lock was still engaged. Miraculously, neither the CPU pins nor the motherboard were damaged. In the end, disaster was narrowly averted, and I lived to tell the tale—with all components intact!&lt;/p>
 &lt;p>
 &lt;figure>
-&lt;img src="/images/build.webp" alt="The Build">
+&lt;img src="https://priyavr.at/images/build.webp" alt="The Build">
 &lt;figcaption class="text-center figure-caption">Translation: &amp;#34;Hello, World!&amp;#34;&lt;/figcaption>
 &lt;/figure>
 &lt;/p>
