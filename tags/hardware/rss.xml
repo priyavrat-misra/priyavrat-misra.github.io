@@ -4,7 +4,7 @@
 &lt;h3 id="parts"&gt;Parts&lt;/h3&gt;
 &lt;p&gt;My goal was to get significantly better performance than my old laptop, but without blowing my budget. Mission accomplished—with these parts:&lt;/p&gt;
 &lt;p&gt;
-&lt;img src="https://priyavr.at/images/parts.webp" alt="The Parts"&gt;
+&lt;img src="https://priyavr.at/images/first-pc-build-journey/parts.webp" alt="The Parts" loading="lazy"&gt;
 &lt;/p&gt;
 &lt;p&gt;
 &lt;table class="table table-sm table-borderless table-hover"&gt;
@@ -96,13 +96,13 @@ Now, you might be wondering: “Why on earth did you buy a &lt;strong&gt;GT 1030
 &lt;tr&gt;
 &lt;td style="text-align: center"&gt;
 &lt;figure&gt;
-&lt;img src="https://priyavr.at/images/assembled.webp" alt="Assembled"&gt;
+&lt;img src="https://priyavr.at/images/first-pc-build-journey/assembled.webp" alt="Assembled" loading="lazy"&gt;
 &lt;figcaption class="text-center figure-caption"&gt;Version 1.0&lt;/figcaption&gt;
 &lt;/figure&gt;
 &lt;/td&gt;
 &lt;td style="text-align: center"&gt;
 &lt;figure&gt;
-&lt;img src="https://priyavr.at/images/assembledV2.webp" alt="Assembled V2"&gt;
+&lt;img src="https://priyavr.at/images/first-pc-build-journey/assembledV2.webp" alt="Assembled V2" loading="lazy"&gt;
 &lt;figcaption class="text-center figure-caption"&gt;Version 2.0&lt;/figcaption&gt;
 &lt;/figure&gt;
 &lt;/td&gt;
@@ -113,7 +113,7 @@ Now, you might be wondering: “Why on earth did you buy a &lt;strong&gt;GT 1030
 &lt;p&gt;I installed the AMD heatsink, but didn’t notice that the logo projection on one side was blocking a RAM slot. When I tried to remove the heatsink, the thermal paste had basically turned into superglue. Did I look up a solution online? Of course not. I went full Hulk and tried to muscle it off. The result? The CPU came out stuck to the heatsink—even though the motherboard’s CPU lock was still engaged. Miraculously, neither the CPU pins nor the motherboard were damaged. In the end, disaster was narrowly averted, and I lived to tell the tale—with all components intact!&lt;/p&gt;
 &lt;p&gt;
 &lt;figure&gt;
-&lt;img src="https://priyavr.at/images/build.webp" alt="The Build"&gt;
+&lt;img src="https://priyavr.at/images/first-pc-build-journey/build.webp" alt="The Build" loading="lazy"&gt;
 &lt;figcaption class="text-center figure-caption"&gt;Translation: &amp;#34;Hello, World!&amp;#34;&lt;/figcaption&gt;
 &lt;/figure&gt;
 &lt;/p&gt;
