@@ -1,121 +1,121 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Priyavrat Misra's Life</title><link>https://priyavr.at/tags/life/</link><description>Recent content in Priyavrat Misra's Life</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&amp;copy; 2022-{year} Priyavrat Misra. All rights reserved.</copyright><lastBuildDate>Wed, 20 Jul 2022 12:12:12 +0530</lastBuildDate><atom:link href="https://priyavr.at/tags/life/rss.xml" rel="self" type="application/rss+xml"/><item><title>Building a PC</title><link>https://priyavr.at/blog/first-pc-build-journey/</link><pubDate>Wed, 20 Jul 2022 12:12:12 +0530</pubDate><guid>https://priyavr.at/blog/first-pc-build-journey/</guid><content>&lt;p>A couple of weeks ago, I learned that my laptop’s processor and motherboard had fried. While this might have come as a shock to some, I can’t say I was surprised.&lt;/p>
-&lt;p>After all, I’d been using that laptop for over four years, subjecting it to marathon sessions almost every day. Frankly, it was more of a “when” than an “if.” So, when the inevitable happened, I decided it was finally time to build myself a PC.&lt;/p>
-&lt;p>I spent several exhausting days researching hardware, poring over benchmarks, hunting for compatibility issues, and generally falling down the rabbit hole of PC building. Eventually, after much deliberation, I placed my orders. It was a ton of work, but hey—if it ends with a working PC, I’ll call that a win.&lt;/p>
-&lt;h3 id="parts">Parts&lt;/h3>
-&lt;p>My goal was to get significantly better performance than my old laptop, but without blowing my budget. Mission accomplished—with these parts:&lt;/p>
-&lt;p>
-&lt;img src="https://priyavr.at/images/parts.webp" alt="The Parts">
-&lt;/p>
-&lt;p>
-&lt;table class="table table-sm table-borderless table-hover">
-&lt;thead>
-&lt;tr>
-&lt;th style="text-align: left">&lt;/th>
-&lt;th style="text-align: left">&lt;/th>
-&lt;th style="text-align: right">&lt;/th>
-&lt;/tr>
-&lt;/thead>
-&lt;tbody>
-&lt;tr>
-&lt;td style="text-align: left">&lt;strong>CPU&lt;/strong>&lt;/td>
-&lt;td style="text-align: left">&lt;strong>:&lt;/strong>&lt;/td>
-&lt;td style="text-align: right">&lt;a href="https://www.amd.com/en/products/cpu/amd-ryzen-5-5600x">AMD Ryzen 5 5600X 3.7 GHz 6-Core&lt;/a>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td style="text-align: left">&lt;strong>GPU&lt;/strong>&lt;/td>
-&lt;td style="text-align: left">&lt;strong>:&lt;/strong>&lt;/td>
-&lt;td style="text-align: right">&lt;a href="https://www.zotac.com/us/product/graphics_card/zotac-geforce-gt-1030-2gb-gddr5-hdmi-vga-low-profile">ZOTAC GeForce® GT 1030 2GB GDDR5&lt;/a>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td style="text-align: left">&lt;strong>Motherboard&lt;/strong>&lt;/td>
-&lt;td style="text-align: left">&lt;strong>:&lt;/strong>&lt;/td>
-&lt;td style="text-align: right">&lt;a href="https://www.asus.com/Motherboards-Components/Motherboards/PRIME/PRIME-B450M-K-II/">Asus PRIME B450M-K II Micro ATX AM4&lt;/a>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td style="text-align: left">&lt;strong>Memory&lt;/strong>&lt;/td>
-&lt;td style="text-align: left">&lt;strong>:&lt;/strong>&lt;/td>
-&lt;td style="text-align: right">&lt;a href="https://www.corsair.com/eu/en/Categories/Products/Memory/VENGEANCE-LPX/p/CMK8GX4M1Z3200C16">Corsair VENGEANCE® LPX 8GB DDR4 3200MHz C16&lt;/a> (×2)&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td style="text-align: left">&lt;strong>Storage&lt;/strong>&lt;/td>
-&lt;td style="text-align: left">&lt;strong>:&lt;/strong>&lt;/td>
-&lt;td style="text-align: right">&lt;a href="https://www.crucial.in/ssd/p2/CT500P2SSD8">Crucial P2 500GB PCIe 3D NAND NVMe M.2 2280&lt;/a>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td style="text-align: left">&lt;strong>PSU&lt;/strong>&lt;/td>
-&lt;td style="text-align: left">&lt;strong>:&lt;/strong>&lt;/td>
-&lt;td style="text-align: right">&lt;a href="https://www.corsair.com/us/en/Categories/Products/Power-Supply-Units/Power-Supply-Units-General-Purpose/CV-Series/p/CP-9020211-NA">Corsair CV 650 Watt 80+ Bronze Certified&lt;/a>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td style="text-align: left">&lt;strong>Case&lt;/strong>&lt;/td>
-&lt;td style="text-align: left">&lt;strong>:&lt;/strong>&lt;/td>
-&lt;td style="text-align: right">&lt;a href="https://www.corsair.com/ww/en/Categories/Products/Cases/Mid-Tower-ATX-Cases/Carbide-Series-SPEC-05-Mid-Tower-Gaming-Case-%E2%80%94-Black/p/CC-9011138-WW">Corsair SPEC-05 ATX Mid Tower Case&lt;/a>&lt;/td>
-&lt;/tr>
-&lt;/tbody>
-&lt;/table>
-Now, you might be wondering: “Why on earth did you buy a &lt;strong>GT 1030&lt;/strong> in 2022?” Excellent question! The short answer: &lt;a href="https://en.wikipedia.org/wiki/2020%E2%80%93present_global_chip_shortage" target="_blank">global chip shortage&lt;/a>. My plan was to use it as a placeholder until the GPU market cooled off. Until then, it was the little graphics card that could.&lt;/p>
-&lt;p>&lt;strong>&lt;em>UPDATE:&lt;/em>&lt;/strong> About a year later, I finally upgraded to an &lt;strong>RTX 3060 Ti&lt;/strong>, along with a couple of other improvements:
-&lt;table class="table table-sm table-borderless table-hover">
-&lt;thead>
-&lt;tr>
-&lt;th style="text-align: left">&lt;/th>
-&lt;th style="text-align: left">&lt;/th>
-&lt;th style="text-align: right">&lt;/th>
-&lt;/tr>
-&lt;/thead>
-&lt;tbody>
-&lt;tr>
-&lt;td style="text-align: left">&lt;strong>GPU&lt;/strong>&lt;/td>
-&lt;td style="text-align: left">&lt;strong>:&lt;/strong>&lt;/td>
-&lt;td style="text-align: right">&lt;a href="https://www.zotac.com/us/product/graphics_card/zotac-gaming-geforce-rtx-3060-ti-twin-edge-oc">ZOTAC GAMING GeForce RTX 3060 Ti Twin Edge OC&lt;/a>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td style="text-align: left">&lt;strong>CPU Cooler&lt;/strong>&lt;/td>
-&lt;td style="text-align: left">&lt;strong>:&lt;/strong>&lt;/td>
-&lt;td style="text-align: right">&lt;a href="https://www.deepcool.com/products/Cooling/cpuaircoolers/AK400-Performance-CPU-Cooler-1700-AM5/2021/15222.shtml">DeepCool AK400&lt;/a>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td style="text-align: left">&lt;strong>Monitor&lt;/strong>&lt;/td>
-&lt;td style="text-align: left">&lt;strong>:&lt;/strong>&lt;/td>
-&lt;td style="text-align: right">&lt;a href="https://www.gigabyte.com/Monitor/G24F-2/">Gigabyte G24F 2&lt;/a>&lt;/td>
-&lt;/tr>
-&lt;/tbody>
-&lt;/table>
-&lt;/p>
-&lt;h3 id="assemblage">Assemblage&lt;/h3>
-&lt;p>After a week of impatiently tracking shipping updates, my parts finally arrived. This was my first time assembling a PC, so I made sure I was prepared. Surprisingly, all I really needed was a &lt;a href="https://en.wikipedia.org/wiki/List_of_screw_drives#Phillips" target="_blank">Phillips #1 screwdriver&lt;/a>. That, and a healthy dose of concentration (and maybe a little prayer).&lt;/p>
-&lt;p>I took my time reading through the manuals—yes, I actually read the manuals—and soon enough, everything started coming together (pun absolutely intended).&lt;/p>
-&lt;table>
-&lt;thead>
-&lt;tr>
-&lt;th style="text-align: center">&lt;/th>
-&lt;th style="text-align: center">&lt;/th>
-&lt;/tr>
-&lt;/thead>
-&lt;tbody>
-&lt;tr>
-&lt;td style="text-align: center">
-&lt;figure>
-&lt;img src="https://priyavr.at/images/assembled.webp" alt="Assembled">
-&lt;figcaption class="text-center figure-caption">Version 1.0&lt;/figcaption>
-&lt;/figure>
-&lt;/td>
-&lt;td style="text-align: center">
-&lt;figure>
-&lt;img src="https://priyavr.at/images/assembledV2.webp" alt="Assembled V2">
-&lt;figcaption class="text-center figure-caption">Version 2.0&lt;/figcaption>
-&lt;/figure>
-&lt;/td>
-&lt;/tr>
-&lt;/tbody>
-&lt;/table>
-&lt;p>As it turns out, building a PC is simpler than it sounds. That said, I still managed to have my “oops” moment. Here’s what happened:&lt;/p>
-&lt;p>I installed the AMD heatsink, but didn’t notice that the logo projection on one side was blocking a RAM slot. When I tried to remove the heatsink, the thermal paste had basically turned into superglue. Did I look up a solution online? Of course not. I went full Hulk and tried to muscle it off. The result? The CPU came out stuck to the heatsink—even though the motherboard’s CPU lock was still engaged. Miraculously, neither the CPU pins nor the motherboard were damaged. In the end, disaster was narrowly averted, and I lived to tell the tale—with all components intact!&lt;/p>
-&lt;p>
-&lt;figure>
-&lt;img src="https://priyavr.at/images/build.webp" alt="The Build">
-&lt;figcaption class="text-center figure-caption">Translation: &amp;#34;Hello, World!&amp;#34;&lt;/figcaption>
-&lt;/figure>
-&lt;/p>
-&lt;h3 id="final-thoughts">Final Thoughts&lt;/h3>
-&lt;p>If you ever get the chance, I highly recommend building your own PC. It takes a bit of research and patience, but the sense of accomplishment is absolutely worth it. I’m glad I took the plunge—and my new PC agrees.&lt;/p></content></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Priyavrat Misra's Life</title><link>https://priyavr.at/tags/life/</link><description>Recent content in Priyavrat Misra's Life</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&amp;copy; 2022-{year} Priyavrat Misra. All rights reserved.</copyright><lastBuildDate>Wed, 20 Jul 2022 12:12:12 +0530</lastBuildDate><atom:link href="https://priyavr.at/tags/life/rss.xml" rel="self" type="application/rss+xml"/><item><title>Building a PC</title><link>https://priyavr.at/blog/first-pc-build-journey/</link><pubDate>Wed, 20 Jul 2022 12:12:12 +0530</pubDate><guid>https://priyavr.at/blog/first-pc-build-journey/</guid><content>&lt;p&gt;A couple of weeks ago, I learned that my laptop’s processor and motherboard had fried. While this might have come as a shock to some, I can’t say I was surprised.&lt;/p&gt;
+&lt;p&gt;After all, I’d been using that laptop for over four years, subjecting it to marathon sessions almost every day. Frankly, it was more of a “when” than an “if.” So, when the inevitable happened, I decided it was finally time to build myself a PC.&lt;/p&gt;
+&lt;p&gt;I spent several exhausting days researching hardware, poring over benchmarks, hunting for compatibility issues, and generally falling down the rabbit hole of PC building. Eventually, after much deliberation, I placed my orders. It was a ton of work, but hey—if it ends with a working PC, I’ll call that a win.&lt;/p&gt;
+&lt;h3 id="parts"&gt;Parts&lt;/h3&gt;
+&lt;p&gt;My goal was to get significantly better performance than my old laptop, but without blowing my budget. Mission accomplished—with these parts:&lt;/p&gt;
+&lt;p&gt;
+&lt;img src="https://priyavr.at/images/parts.webp" alt="The Parts"&gt;
+&lt;/p&gt;
+&lt;p&gt;
+&lt;table class="table table-sm table-borderless table-hover"&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style="text-align: left"&gt;&lt;/th&gt;
+&lt;th style="text-align: left"&gt;&lt;/th&gt;
+&lt;th style="text-align: right"&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style="text-align: left"&gt;&lt;strong&gt;CPU&lt;/strong&gt;&lt;/td&gt;
+&lt;td style="text-align: left"&gt;&lt;strong&gt;:&lt;/strong&gt;&lt;/td&gt;
+&lt;td style="text-align: right"&gt;&lt;a href="https://www.amd.com/en/products/cpu/amd-ryzen-5-5600x"&gt;AMD Ryzen 5 5600X 3.7 GHz 6-Core&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: left"&gt;&lt;strong&gt;GPU&lt;/strong&gt;&lt;/td&gt;
+&lt;td style="text-align: left"&gt;&lt;strong&gt;:&lt;/strong&gt;&lt;/td&gt;
+&lt;td style="text-align: right"&gt;&lt;a href="https://www.zotac.com/us/product/graphics_card/zotac-geforce-gt-1030-2gb-gddr5-hdmi-vga-low-profile"&gt;ZOTAC GeForce® GT 1030 2GB GDDR5&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: left"&gt;&lt;strong&gt;Motherboard&lt;/strong&gt;&lt;/td&gt;
+&lt;td style="text-align: left"&gt;&lt;strong&gt;:&lt;/strong&gt;&lt;/td&gt;
+&lt;td style="text-align: right"&gt;&lt;a href="https://www.asus.com/Motherboards-Components/Motherboards/PRIME/PRIME-B450M-K-II/"&gt;Asus PRIME B450M-K II Micro ATX AM4&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: left"&gt;&lt;strong&gt;Memory&lt;/strong&gt;&lt;/td&gt;
+&lt;td style="text-align: left"&gt;&lt;strong&gt;:&lt;/strong&gt;&lt;/td&gt;
+&lt;td style="text-align: right"&gt;&lt;a href="https://www.corsair.com/eu/en/Categories/Products/Memory/VENGEANCE-LPX/p/CMK8GX4M1Z3200C16"&gt;Corsair VENGEANCE® LPX 8GB DDR4 3200MHz C16&lt;/a&gt; (×2)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: left"&gt;&lt;strong&gt;Storage&lt;/strong&gt;&lt;/td&gt;
+&lt;td style="text-align: left"&gt;&lt;strong&gt;:&lt;/strong&gt;&lt;/td&gt;
+&lt;td style="text-align: right"&gt;&lt;a href="https://www.crucial.in/ssd/p2/CT500P2SSD8"&gt;Crucial P2 500GB PCIe 3D NAND NVMe M.2 2280&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: left"&gt;&lt;strong&gt;PSU&lt;/strong&gt;&lt;/td&gt;
+&lt;td style="text-align: left"&gt;&lt;strong&gt;:&lt;/strong&gt;&lt;/td&gt;
+&lt;td style="text-align: right"&gt;&lt;a href="https://www.corsair.com/us/en/Categories/Products/Power-Supply-Units/Power-Supply-Units-General-Purpose/CV-Series/p/CP-9020211-NA"&gt;Corsair CV 650 Watt 80+ Bronze Certified&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: left"&gt;&lt;strong&gt;Case&lt;/strong&gt;&lt;/td&gt;
+&lt;td style="text-align: left"&gt;&lt;strong&gt;:&lt;/strong&gt;&lt;/td&gt;
+&lt;td style="text-align: right"&gt;&lt;a href="https://www.corsair.com/ww/en/Categories/Products/Cases/Mid-Tower-ATX-Cases/Carbide-Series-SPEC-05-Mid-Tower-Gaming-Case-%E2%80%94-Black/p/CC-9011138-WW"&gt;Corsair SPEC-05 ATX Mid Tower Case&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+Now, you might be wondering: “Why on earth did you buy a &lt;strong&gt;GT 1030&lt;/strong&gt; in 2022?” Excellent question! The short answer: &lt;a href="https://en.wikipedia.org/wiki/2020%E2%80%93present_global_chip_shortage" target="_blank"&gt;global chip shortage&lt;/a&gt;. My plan was to use it as a placeholder until the GPU market cooled off. Until then, it was the little graphics card that could.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;UPDATE:&lt;/em&gt;&lt;/strong&gt; About a year later, I finally upgraded to an &lt;strong&gt;RTX 3060 Ti&lt;/strong&gt;, along with a couple of other improvements:
+&lt;table class="table table-sm table-borderless table-hover"&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style="text-align: left"&gt;&lt;/th&gt;
+&lt;th style="text-align: left"&gt;&lt;/th&gt;
+&lt;th style="text-align: right"&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style="text-align: left"&gt;&lt;strong&gt;GPU&lt;/strong&gt;&lt;/td&gt;
+&lt;td style="text-align: left"&gt;&lt;strong&gt;:&lt;/strong&gt;&lt;/td&gt;
+&lt;td style="text-align: right"&gt;&lt;a href="https://www.zotac.com/us/product/graphics_card/zotac-gaming-geforce-rtx-3060-ti-twin-edge-oc"&gt;ZOTAC GAMING GeForce RTX 3060 Ti Twin Edge OC&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: left"&gt;&lt;strong&gt;CPU Cooler&lt;/strong&gt;&lt;/td&gt;
+&lt;td style="text-align: left"&gt;&lt;strong&gt;:&lt;/strong&gt;&lt;/td&gt;
+&lt;td style="text-align: right"&gt;&lt;a href="https://www.deepcool.com/products/Cooling/cpuaircoolers/AK400-Performance-CPU-Cooler-1700-AM5/2021/15222.shtml"&gt;DeepCool AK400&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: left"&gt;&lt;strong&gt;Monitor&lt;/strong&gt;&lt;/td&gt;
+&lt;td style="text-align: left"&gt;&lt;strong&gt;:&lt;/strong&gt;&lt;/td&gt;
+&lt;td style="text-align: right"&gt;&lt;a href="https://www.gigabyte.com/Monitor/G24F-2/"&gt;Gigabyte G24F 2&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/p&gt;
+&lt;h3 id="assemblage"&gt;Assemblage&lt;/h3&gt;
+&lt;p&gt;After a week of impatiently tracking shipping updates, my parts finally arrived. This was my first time assembling a PC, so I made sure I was prepared. Surprisingly, all I really needed was a &lt;a href="https://en.wikipedia.org/wiki/List_of_screw_drives#Phillips" target="_blank"&gt;Phillips #1 screwdriver&lt;/a&gt;. That, and a healthy dose of concentration (and maybe a little prayer).&lt;/p&gt;
+&lt;p&gt;I took my time reading through the manuals—yes, I actually read the manuals—and soon enough, everything started coming together (pun absolutely intended).&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style="text-align: center"&gt;&lt;/th&gt;
+&lt;th style="text-align: center"&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style="text-align: center"&gt;
+&lt;figure&gt;
+&lt;img src="https://priyavr.at/images/assembled.webp" alt="Assembled"&gt;
+&lt;figcaption class="text-center figure-caption"&gt;Version 1.0&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/td&gt;
+&lt;td style="text-align: center"&gt;
+&lt;figure&gt;
+&lt;img src="https://priyavr.at/images/assembledV2.webp" alt="Assembled V2"&gt;
+&lt;figcaption class="text-center figure-caption"&gt;Version 2.0&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;As it turns out, building a PC is simpler than it sounds. That said, I still managed to have my “oops” moment. Here’s what happened:&lt;/p&gt;
+&lt;p&gt;I installed the AMD heatsink, but didn’t notice that the logo projection on one side was blocking a RAM slot. When I tried to remove the heatsink, the thermal paste had basically turned into superglue. Did I look up a solution online? Of course not. I went full Hulk and tried to muscle it off. The result? The CPU came out stuck to the heatsink—even though the motherboard’s CPU lock was still engaged. Miraculously, neither the CPU pins nor the motherboard were damaged. In the end, disaster was narrowly averted, and I lived to tell the tale—with all components intact!&lt;/p&gt;
+&lt;p&gt;
+&lt;figure&gt;
+&lt;img src="https://priyavr.at/images/build.webp" alt="The Build"&gt;
+&lt;figcaption class="text-center figure-caption"&gt;Translation: &amp;#34;Hello, World!&amp;#34;&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;h3 id="final-thoughts"&gt;Final Thoughts&lt;/h3&gt;
+&lt;p&gt;If you ever get the chance, I highly recommend building your own PC. It takes a bit of research and patience, but the sense of accomplishment is absolutely worth it. I’m glad I took the plunge—and my new PC agrees.&lt;/p&gt;</content></item></channel></rss>

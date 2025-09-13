@@ -1,423 +1,423 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Priyavrat Misra's Programming</title><link>https://priyavr.at/tags/programming/</link><description>Recent content in Priyavrat Misra's Programming</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&amp;copy; 2022-{year} Priyavrat Misra. All rights reserved.</copyright><lastBuildDate>Wed, 12 Feb 2025 08:55:00 +0530</lastBuildDate><atom:link href="https://priyavr.at/tags/programming/rss.xml" rel="self" type="application/rss+xml"/><item><title>A Voyage to Structs</title><link>https://priyavr.at/blog/structs-i/</link><pubDate>Wed, 12 Feb 2025 08:55:00 +0530</pubDate><guid>https://priyavr.at/blog/structs-i/</guid><content>&lt;h3 id="motivation">Motivation&lt;/h3>
-&lt;p>I’m back, folks! Though I must admit, I’m a little rusty. It’s been a while since I’ve written anything. Life, as it tends to do, got in the way—new job, new priorities, you know the drill. I’m not entirely sure what inspired me to dust off my portfolio today. Perhaps it was the domain renewal email or perhaps it was the realization that two years have passed since I started writing an article that&amp;rsquo;s still lingering in draft form, waiting for its chance to shine (or, more likely, to be completely rewritten). But today I&amp;rsquo;m dusting myself off and diving back in, ready to share some fresh thoughts. Join me, if you will, on &lt;em>A Voyage to Structs&lt;/em>.&lt;/p>
-&lt;blockquote>
-&lt;p>A quick note: this article focuses exclusively on structs in C++, though most of the concepts here are applicable to C, and some might even apply to other &lt;a href="https://en.wikipedia.org/wiki/List_of_C-family_programming_languages" target="_blank">C-family languages&lt;/a>. But hey, no promises.&lt;/p>&lt;/blockquote>
-&lt;h3 id="introduction">Introduction&lt;/h3>
-&lt;p>Let’s kick things off with a definition from &lt;em>cppreference&lt;/em>:&lt;/p>
-&lt;blockquote>
-&lt;p>A struct is a type consisting of a sequence of members whose storage is allocated in an ordered sequence.&lt;/p>&lt;/blockquote>
-&lt;p>Now, if you’re paying attention, that might sound a lot like arrays. But here’s the catch: it doesn’t say anything about the data type of the members. This means we can have members of different types—whether fundamental or compound. This flexibility makes structs more complex in memory layout compared to arrays (&lt;em>spoiler: this will be the subject of a future article&lt;/em>).&lt;/p>
-&lt;p>So, what does &amp;ldquo;type&amp;rdquo; mean in this context? Well, here’s a quick breakdown:&lt;/p>
-&lt;ul>
-&lt;li>&lt;strong>A user-defined type&lt;/strong>: You create it. You define it. It’s yours.&lt;/li>
-&lt;li>&lt;strong>A compound type&lt;/strong>: These are types made up of other types (basically the &amp;ldquo;Frankenstein&amp;rdquo; of types).&lt;/li>
-&lt;li>&lt;strong>A class type&lt;/strong>: This could be a &lt;code>struct&lt;/code>, &lt;code>class&lt;/code>, or &lt;code>union&lt;/code>.&lt;/li>
-&lt;li>&lt;strong>A program-defined type&lt;/strong>: In C++20, this refers to class and enum types &lt;em>we&lt;/em> define, not those that come with the standard library or the core language.&lt;/li>
-&lt;/ul>
-&lt;h3 id="defining-structs">Defining Structs&lt;/h3>
-&lt;p>Since structs are program-defined types, we need to describe them to the compiler before we use them. Structs can either have a name (a &lt;em>type tag&lt;/em>) or not. If there’s no name, we call them anonymous structs—pretty self-explanatory. Anonymous structs are useful in special contexts, like inside a &lt;code>typedef&lt;/code> or &lt;code>union&lt;/code>.&lt;/p>
-&lt;p>Let’s start with how structs are defined in C, and then we’ll dive into some C++ additions.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-c" data-lang="c">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">struct&lt;/span> Direction {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">int&lt;/span> dx;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">int&lt;/span> dy;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>};
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// initialization
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">struct&lt;/span> Direction north;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>north.dx &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>north.dy &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span>;
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Notice during initialization how we had to mention &lt;code>struct&lt;/code> again. This is because &lt;code>Direction&lt;/code> is defined in the &lt;em>tag name space&lt;/em>, not mentioning &lt;code>struct&lt;/code> would lead the compiler to search for it in the &lt;em>ordinary identifier name space&lt;/em> and lead to a compiler error.&lt;/p>
-&lt;blockquote>
-&lt;p>The C language standard (&lt;a href="http://port70.net/~nsz/c/c89/c89-draft.txt" target="_blank">C89&lt;/a>, &lt;a href="http://port70.net/~nsz/c/c99/n1256.html#6.2.3" target="_blank">C99&lt;/a>, and &lt;a href="http://port70.net/~nsz/c/c11/n1570.html#6.2.3" target="_blank">C11&lt;/a>) mandates separate name spaces for different categories of identifiers, including tag identifiers (for &lt;code>struct&lt;/code>/&lt;code>union&lt;/code>/&lt;code>enum&lt;/code>) and ordinary identifiers (for &lt;code>typedef&lt;/code> and other identifiers).&lt;/p>&lt;/blockquote>
-&lt;p>The following example declares an anonymous struct and creates a &lt;code>typedef&lt;/code> for it. Thus, with this construct, it doesn&amp;rsquo;t have a name in the &lt;em>tag name space&lt;/em>. Hence no need to prefix &lt;code>struct&lt;/code> everytime it is referenced.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-c" data-lang="c">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">typedef&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">int&lt;/span> dx;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">int&lt;/span> dy;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>} Direction;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Direction north;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>north.dx &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>north.dy &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span>;
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>This approach saves us from typing &lt;code>struct&lt;/code> every time we reference &lt;code>Direction&lt;/code>. However, it’s considered bad practice by some, including the &lt;a href="https://www.kernel.org/doc/html/latest/process/coding-style.html#typedefs" target="_blank">Linux kernel coding style guidelines&lt;/a>.&lt;/p>
-&lt;p>And here&amp;rsquo;s the kicker: with anonymous structs, you can&amp;rsquo;t do this:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-c" data-lang="c">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">struct&lt;/span> Node {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">int&lt;/span> val;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">struct&lt;/span> Node&lt;span style="color:#f92672">*&lt;/span> next; &lt;span style="color:#75715e">// recursively refers to `struct Node`
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>};
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>In C++, the &lt;em>tag name space&lt;/em> still exists, but all names are automatically added to both the &lt;em>tag name space&lt;/em> and the &lt;em>ordinary identifier name space&lt;/em>, which means we no longer need to type &lt;code>struct&lt;/code> everywhere. Sweet, right?&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-cpp" data-lang="cpp">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">struct&lt;/span> &lt;span style="color:#a6e22e">Direction&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">int&lt;/span> dx;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">int&lt;/span> dy;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>};
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Direction north; &lt;span style="color:#75715e">// no need for `struct`
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>north.dx &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>north.dy &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span>;
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-c" data-lang="c">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">struct&lt;/span> Node {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">int&lt;/span> val;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Node&lt;span style="color:#f92672">*&lt;/span> next; &lt;span style="color:#75715e">// no need for `struct`
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>};
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="initializing-structs">Initializing Structs&lt;/h3>
-&lt;p>In the previous section, to keep the examples simple, I have instantiated the structs and assigned the values one by one. It may be considered as one form of initialization but it is not a good practice to do so. In a way it violates the &lt;em>always initialize&lt;/em> rule from the &lt;a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#es20-always-initialize-an-object" target="_blank">C&amp;#43;&amp;#43; Core Guidelines&lt;/a>. It can be a bit error-prone, especially since some members might slip through the cracks and be left uninitialized—leading to undefined behavior or garbage values. To avoid this, we need to properly initialize our structs.&lt;/p>
-&lt;p>To correctly initialize a struct, we first have to get familiar with &lt;em>aggregates&lt;/em>.&lt;/p>
-&lt;h4 id="what-is-an-aggregate">What is an &lt;em>aggregate&lt;/em>?&lt;/h4>
-&lt;p>The formal definition of an aggregate has changed throughout the C++ standards. There have been few rules added and few removed, however the following stayed consistent throughout all the standards.&lt;/p>
-&lt;blockquote>
-&lt;p>An &lt;em>aggregate&lt;/em> is any data type with multiple members, it can either be an array type or a class type with:&lt;/p>
-&lt;ul>
-&lt;li>no private or protected non-static data members&lt;/li>
-&lt;li>no virtual member functions&lt;/li>
-&lt;/ul>
-&lt;p>&lt;em>An up-to-date and precise definition can be found &lt;a href="https://en.cppreference.com/w/cpp/language/aggregate_initialization" target="_blank">here&lt;/a>.&lt;/em>&lt;/p>&lt;/blockquote>
-&lt;p>You might be tempted to think that structs are always aggregates, but that’s not true. In C++, classes and struct are the same except for their default behaviour with regards to inheritance and access levels of members. For classes both are private whereas for struct both are public. Because of this classes and structs can be used interchangeably, and so there is a possibility of a &lt;em>non-aggregate&lt;/em> struct. But for our purposes, we’ll stick with the assumption that structs with only data members are aggregates.&lt;/p>
-&lt;p>Before delving into &lt;em>aggregate-initialization&lt;/em>, let&amp;rsquo;s take a short detour.&lt;/p>
-&lt;h4 id="value-initialization">Value-initialization&lt;/h4>
-&lt;p>In C++11 and beyond, &lt;em>value-initialization&lt;/em> occurs when a variable is initialized using an empty brace-enclosed initializer list.&lt;/p>
-&lt;p>If a scalar type (&lt;code>bool&lt;/code>, &lt;code>int&lt;/code>, &lt;code>char&lt;/code>, &lt;code>double&lt;/code>, pointers, etc.) is initialized this way then they are zero-initialized.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-cpp" data-lang="cpp">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">double&lt;/span> d {}; &lt;span style="color:#75715e">// value-initialized to 0.0
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">*&lt;/span> p {}; &lt;span style="color:#75715e">// value-initialized to NULL
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Whereas, for aggregate types if this form of initialization is used then &lt;em>aggregate-initialization&lt;/em> is performed instead.&lt;/p>
-&lt;h4 id="aggregate-initialization">Aggregate-initialization&lt;/h4>
-&lt;p>There are four ways to initialize an aggregate, all of which are various forms of &lt;a href="https://en.cppreference.com/w/cpp/language/list_initialization" target="_blank">list-initialization&lt;/a>.&lt;/p>
-&lt;ul>
-&lt;li>Initializing an aggregate with an ordinary initializer list.&lt;/li>
-&lt;/ul>
-&lt;ol>
-&lt;li>&lt;code>T object = { arg1, arg2, ... };&lt;/code>&lt;/li>
-&lt;li>&lt;code>T object { arg1, arg2, ... };&lt;/code> (since &lt;em>C++11&lt;/em>)&lt;/li>
-&lt;/ol>
-&lt;ul>
-&lt;li>Initializing an aggregate with designated initializers (applicable only to class types).&lt;/li>
-&lt;/ul>
-&lt;ol start="3">
-&lt;li>&lt;code>T object = { .des1 = arg1 , .des2 { arg2 } ... };&lt;/code> (since &lt;em>C++20&lt;/em>)&lt;/li>
-&lt;li>&lt;code>T object { .des1 = arg1 , .des2 { arg2 } ... };&lt;/code> (since &lt;em>C++20&lt;/em>)&lt;/li>
-&lt;/ol>
-&lt;p>Here, 2 and 4 are termed &lt;em>direct list initialization&lt;/em> and, 1 and 3 are termed &lt;em>copy list initialization&lt;/em>.&lt;/p>
-&lt;h5 id="initializing-with-ordinary-initializer-lists">initializing with ordinary initializer lists&lt;/h5>
-&lt;p>This syntax (&lt;em>1, 2&lt;/em>) is commonly used when initializing arrays, which can be generalized to aggregates.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-cpp" data-lang="cpp">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">int&lt;/span> oneDigitPrimes[]{&lt;span style="color:#ae81ff">2&lt;/span>, &lt;span style="color:#ae81ff">3&lt;/span>, &lt;span style="color:#ae81ff">5&lt;/span>, &lt;span style="color:#ae81ff">7&lt;/span>}; &lt;span style="color:#75715e">// or oneDigitPrimes[] = {2, 3, 5, 7}
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">*&lt;/span> oneDigitPrimesHeap &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>[]{&lt;span style="color:#ae81ff">2&lt;/span>, &lt;span style="color:#ae81ff">3&lt;/span>, &lt;span style="color:#ae81ff">5&lt;/span>, &lt;span style="color:#ae81ff">7&lt;/span>};
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>is equivalent to,&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-cpp" data-lang="cpp">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">int&lt;/span> oneDigitPrimes[&lt;span style="color:#ae81ff">4&lt;/span>]{&lt;span style="color:#ae81ff">2&lt;/span>, &lt;span style="color:#ae81ff">3&lt;/span>, &lt;span style="color:#ae81ff">5&lt;/span>, &lt;span style="color:#ae81ff">7&lt;/span>}; &lt;span style="color:#75715e">// or oneDigitPrimes[4] = {2, 3, 5, 7}
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">*&lt;/span> oneDigitPrimesHeap &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>[&lt;span style="color:#ae81ff">4&lt;/span>]{&lt;span style="color:#ae81ff">2&lt;/span>, &lt;span style="color:#ae81ff">3&lt;/span>, &lt;span style="color:#ae81ff">5&lt;/span>, &lt;span style="color:#ae81ff">7&lt;/span>};
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>In the above example, there wasn&amp;rsquo;t a need of mentioning the size, as it can be deduced by the compiler from the brace-enclosed initializer list. However, it can be explicitly mentioned as well, resulting in following three scenarios:&lt;/p>
-&lt;ol>
-&lt;li>the array size is equal to the initializer list size (size can be omitted, like the above example)&lt;/li>
-&lt;li>the array size is less than the initializer list size (this will lead to a compiler error)&lt;/li>
-&lt;li>the array size is greater than the initializer list size (each array element is initialized in the order of declaration and the others are initialized from an empty initializer list)&lt;/li>
-&lt;/ol>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-cpp" data-lang="cpp">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">int&lt;/span> f[&lt;span style="color:#ae81ff">26&lt;/span>]{&lt;span style="color:#ae81ff">0&lt;/span>}; &lt;span style="color:#75715e">// 1st element is assigned 0, others are value-initialized (to 0)
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> m[&lt;span style="color:#ae81ff">26&lt;/span>]{}; &lt;span style="color:#75715e">// all the elements are value-initialized (to 0)
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> z[] &lt;span style="color:#f92672">=&lt;/span> {}; &lt;span style="color:#75715e">// Error: cannot declare an array without any element
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>These points hold true even for structs but with a slightly modified point 3,&lt;/p>
-&lt;ul>
-&lt;li>all the members without any initializer in the initializer list having a default value are assigned that value. And the other members are initialized from an empty initializer list i.e., value-initialized.&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-cpp" data-lang="cpp">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">struct&lt;/span> &lt;span style="color:#a6e22e">Person&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> std&lt;span style="color:#f92672">::&lt;/span>string name;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">int&lt;/span> age {&lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span>};
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">double&lt;/span> height;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>};
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Person person1; &lt;span style="color:#75715e">// name = &amp;#34;&amp;#34;, age = -1, height = undefined behavior
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>Person person2 {}; &lt;span style="color:#75715e">// name = &amp;#34;&amp;#34;, age = -1, height = 0.0
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>Person jane {&lt;span style="color:#e6db74">&amp;#34;Jane Doe&amp;#34;&lt;/span>}; &lt;span style="color:#75715e">// age = -1, height = 0.0
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>Person john {&lt;span style="color:#e6db74">&amp;#34;John Doe&amp;#34;&lt;/span>, &lt;span style="color:#ae81ff">22&lt;/span>}; &lt;span style="color:#75715e">// height = 0.0
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Did you notice &lt;code>person1.name&lt;/code> was initialized with empty string but not garbage? This is so because &lt;code>name&lt;/code> is a class type, and for a class type if there are no braces, they are implicitly initialized with an empty initializer list, which in turn invokes the default constructor. Here in this case, the default constructor for &lt;code>std::string&lt;/code> initializes &lt;code>name&lt;/code> to an empty string.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-cpp" data-lang="cpp">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">struct&lt;/span> &lt;span style="color:#a6e22e">Address&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> std&lt;span style="color:#f92672">::&lt;/span>string city;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> std&lt;span style="color:#f92672">::&lt;/span>string state &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;CA&amp;#34;&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">int&lt;/span> zip &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">90001&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>};
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">struct&lt;/span> &lt;span style="color:#a6e22e">Person&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> std&lt;span style="color:#f92672">::&lt;/span>string name;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">int&lt;/span> age {&lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span>};
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">double&lt;/span> height;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Address address;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>};
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Person person1 {}; &lt;span style="color:#75715e">// address will be initialized like so `Address address {};`
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>Person person2 {&lt;span style="color:#e6db74">&amp;#34;Jane&amp;#34;&lt;/span>, &lt;span style="color:#ae81ff">21&lt;/span>, &lt;span style="color:#ae81ff">180&lt;/span>, {&lt;span style="color:#e6db74">&amp;#34;LA&amp;#34;&lt;/span>}}; &lt;span style="color:#75715e">// or `{&amp;#34;Jane&amp;#34;, 21, 180, &amp;#34;LA&amp;#34;}`
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Above &lt;code>person2&lt;/code> was initialized in a nested form, usually seen if the members are aggregates. The inner braces can be omitted provided the sequence of values match that of an aggregate flattened.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-cpp" data-lang="cpp">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">int&lt;/span> a[&lt;span style="color:#ae81ff">2&lt;/span>][&lt;span style="color:#ae81ff">3&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> {{&lt;span style="color:#ae81ff">1&lt;/span>, &lt;span style="color:#ae81ff">2&lt;/span>, &lt;span style="color:#ae81ff">3&lt;/span>}, {&lt;span style="color:#ae81ff">4&lt;/span>, &lt;span style="color:#ae81ff">5&lt;/span>, &lt;span style="color:#ae81ff">6&lt;/span>}}; &lt;span style="color:#75715e">// same as `{1, 2, 3, 4, 5, 6}`
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-cpp" data-lang="cpp">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">struct&lt;/span> &lt;span style="color:#a6e22e">Student&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">int&lt;/span> id {&lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span>};
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">char&lt;/span> name[&lt;span style="color:#ae81ff">20&lt;/span>];
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">int&lt;/span> marks[&lt;span style="color:#ae81ff">3&lt;/span>];
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>};
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">struct&lt;/span> &lt;span style="color:#a6e22e">Course&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Student student; &lt;span style="color:#75715e">// Nested structure
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">double&lt;/span> grade;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>};
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Course c1 &lt;span style="color:#f92672">=&lt;/span> {{&lt;span style="color:#ae81ff">1234&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;Alice&amp;#34;&lt;/span>, {&lt;span style="color:#ae81ff">85&lt;/span>, &lt;span style="color:#ae81ff">90&lt;/span>, &lt;span style="color:#ae81ff">88&lt;/span>}}, &lt;span style="color:#ae81ff">90.5&lt;/span>};
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// same as `{1234, &amp;#34;Alice&amp;#34;, 85, 90, 88, 90.5}`
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// if `marks[2]` is unknown
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>Course c2 &lt;span style="color:#f92672">=&lt;/span> {&lt;span style="color:#ae81ff">1111&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;Bob&amp;#34;&lt;/span>, {&lt;span style="color:#ae81ff">90&lt;/span>, &lt;span style="color:#ae81ff">95&lt;/span>}, &lt;span style="color:#ae81ff">91&lt;/span>};
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// omitting the braces will lead `91` getting assigned to `marks[2]`
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>See how ambigious and error prone it becomes just by omitting the braces? When used correctly, it might save you a few keystrokes, but you would be shooting yourself in the foot in the long run!&lt;/p>
-&lt;p>Below is &lt;a href="https://en.cppreference.com/w/cpp/language/aggregate_initialization#Explicitly_initialized_elements" target="_blank">an example from cppreference&lt;/a> summarizing various scenarios,&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-cpp" data-lang="cpp">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">struct&lt;/span> &lt;span style="color:#a6e22e">base1&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">int&lt;/span> b1, b2 &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">42&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>};
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">struct&lt;/span> &lt;span style="color:#a6e22e">base2&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">int&lt;/span> b3;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> base2() { b3 &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">42&lt;/span>; }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>};
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">struct&lt;/span> &lt;span style="color:#a6e22e">derived&lt;/span> &lt;span style="color:#f92672">:&lt;/span> base1, base2 {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">int&lt;/span> d;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>};
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>derived d1{{&lt;span style="color:#ae81ff">1&lt;/span>, &lt;span style="color:#ae81ff">2&lt;/span>}, {}, &lt;span style="color:#ae81ff">4&lt;/span>}; &lt;span style="color:#75715e">// initializes d1.b1 with 1, d1.b2 with 2,
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">// d1.b3 with 42, d1.d with 4
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>derived d2{{}, {}, &lt;span style="color:#ae81ff">4&lt;/span>}; &lt;span style="color:#75715e">// initializes d2.b1 with 0, d2.b2 with 42,
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">// d2.b3 with 42, d2.d with 4
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Note that if there is a user declared default constructor (like in &lt;code>base2&lt;/code>), then value-initialization will invoke it instead of value initializing the members.&lt;/p>
-&lt;h5 id="initializing-with-designated-initializers">initializing with designated initializers&lt;/h5>
-&lt;p>A designated initializer, or designator, points out a particular element to be initialized. A designator list is a comma-separated list of one or more designators. They must appear in the same order as the order of declaration. All the members without a designator having a default value are assigned that value. And the other members are initialized from an empty initializer list, similar to the above section.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-cpp" data-lang="cpp">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">struct&lt;/span> &lt;span style="color:#a6e22e">Person&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> std&lt;span style="color:#f92672">::&lt;/span>string name;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">int&lt;/span> age {&lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span>};
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">double&lt;/span> height;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>};
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Person person { .name &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Jane&amp;#34;&lt;/span>, .height &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">180.0&lt;/span> }; &lt;span style="color:#75715e">// age = -1
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Though this syntax (&lt;em>3, 4&lt;/em>) has been around since &lt;em>C99&lt;/em>, it made its debut (only for class types) in &lt;em>C++20&lt;/em> with subtle differences.&lt;/p>
-&lt;p>Out-of-order designated initialization, nested designated initialization, mixing of designated initializers and regular initializers, and designated initialization of arrays are all supported in C, but are not allowed in C++.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-cpp" data-lang="cpp">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">struct&lt;/span> &lt;span style="color:#a6e22e">A&lt;/span> { &lt;span style="color:#66d9ef">int&lt;/span> x, y; };
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">struct&lt;/span> &lt;span style="color:#a6e22e">B&lt;/span> { &lt;span style="color:#66d9ef">struct&lt;/span> &lt;span style="color:#a6e22e">A&lt;/span> a; };
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">struct&lt;/span> &lt;span style="color:#a6e22e">A&lt;/span> a &lt;span style="color:#f92672">=&lt;/span> {.y &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>, .x &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">2&lt;/span>}; &lt;span style="color:#75715e">// valid C, invalid C++ (out of order)
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> arr[&lt;span style="color:#ae81ff">3&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> {[&lt;span style="color:#ae81ff">1&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">5&lt;/span>}; &lt;span style="color:#75715e">// valid C, invalid C++ (array)
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">struct&lt;/span> &lt;span style="color:#a6e22e">B&lt;/span> b &lt;span style="color:#f92672">=&lt;/span> {.a.x &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>}; &lt;span style="color:#75715e">// valid C, invalid C++ (nested)
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">struct&lt;/span> &lt;span style="color:#a6e22e">A&lt;/span> a &lt;span style="color:#f92672">=&lt;/span> {.x &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>, &lt;span style="color:#ae81ff">2&lt;/span>}; &lt;span style="color:#75715e">// valid C, invalid C++ (mixed)
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>This form of initialization is sometimes helpful when new members are added to the definition.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-cpp" data-lang="cpp">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">struct&lt;/span> &lt;span style="color:#a6e22e">S&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">int&lt;/span> a;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">int&lt;/span> c;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>};
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>S s1 {.a &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>, .c &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">2&lt;/span>};
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>S s2 {&lt;span style="color:#ae81ff">1&lt;/span>, &lt;span style="color:#ae81ff">2&lt;/span>}; &lt;span style="color:#75715e">// a = 1, c = 2
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>In the example below, another member is added in between, the list initialization will need changes, but no changes are required for the designated initialization.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-cpp" data-lang="cpp">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">struct&lt;/span> &lt;span style="color:#a6e22e">S&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">int&lt;/span> a;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">int&lt;/span> b;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">int&lt;/span> c;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>};
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>S s1 {.a &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>, .c &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">2&lt;/span>}; &lt;span style="color:#75715e">// no change here
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>S s2 {&lt;span style="color:#ae81ff">1&lt;/span>, &lt;span style="color:#ae81ff">2&lt;/span>}; &lt;span style="color:#75715e">// b will get assigned 2 here
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Note that the above scenario is only useful if and only if in all initialization/assignment occurances designated initializers are used, which is never really the case. That is why it is good practice to add any new members at the bottom so that the other members don&amp;rsquo;t shift.&lt;/p>
-&lt;p>Last but not least, we can have a combination of both list and designated initialization when initializing a nested aggregate.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-cpp" data-lang="cpp">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">struct&lt;/span> &lt;span style="color:#a6e22e">Student&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">int&lt;/span> id {&lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span>};
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">char&lt;/span> name[&lt;span style="color:#ae81ff">20&lt;/span>];
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">int&lt;/span> marks[&lt;span style="color:#ae81ff">3&lt;/span>];
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>};
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">struct&lt;/span> &lt;span style="color:#a6e22e">Course&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Student student; &lt;span style="color:#75715e">// Nested structure
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">double&lt;/span> grade;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>};
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Course c &lt;span style="color:#f92672">=&lt;/span> {{.name &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Alice&amp;#34;&lt;/span>, .marks &lt;span style="color:#f92672">=&lt;/span> {&lt;span style="color:#ae81ff">85&lt;/span>, &lt;span style="color:#ae81ff">90&lt;/span>, &lt;span style="color:#ae81ff">88&lt;/span>}}, &lt;span style="color:#ae81ff">90.5&lt;/span>};
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="initializing-from-a-struct">Initializing from a Struct&lt;/h4>
-&lt;p>Let&amp;rsquo;s say we have a struct, and we want to initialize another struct with the same values. Lucky for us, C++ makes it pretty intuitive to do so without manually initializing each member. All it takes is &lt;code>operator=&lt;/code>, also known as &lt;em>copy initialization&lt;/em>.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-cpp" data-lang="cpp">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">struct&lt;/span> &lt;span style="color:#a6e22e">Node&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">int&lt;/span> val;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">struct&lt;/span> &lt;span style="color:#a6e22e">Node&lt;/span>&lt;span style="color:#f92672">*&lt;/span> next;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>};
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Node last &lt;span style="color:#f92672">=&lt;/span> { &lt;span style="color:#ae81ff">2&lt;/span> };
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Node first &lt;span style="color:#f92672">=&lt;/span> { &lt;span style="color:#ae81ff">1&lt;/span>, &lt;span style="color:#f92672">&amp;amp;&lt;/span>second };
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Node middle &lt;span style="color:#f92672">=&lt;/span> first; &lt;span style="color:#75715e">// copy initialization
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>first &lt;span style="color:#f92672">=&lt;/span> { .val &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>, .next &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#f92672">&amp;amp;&lt;/span>middle };
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>In addition to this type of initialization, there are two other syntax forms called &lt;em>direct initialization&lt;/em> and &lt;em>direct-list initialization&lt;/em>.&lt;/p>
-&lt;ol>
-&lt;li>&lt;code>T object2 = object1; // copy initialization&lt;/code>&lt;/li>
-&lt;li>&lt;code>T object2(object1); // direct initialization&lt;/code>&lt;/li>
-&lt;li>&lt;code>T object2 { object1 }; // direct-list initialization&lt;/code>&lt;/li>
-&lt;/ol>
-&lt;p>You might be thinking, &amp;ldquo;But how does this work when we haven’t defined a constructor or overloaded &lt;code>operator=&lt;/code>?&amp;rdquo; Well, fret not. The compiler automatically generates a copy constructor when it’s missing, and all these syntax forms simply call it.&lt;/p>
-&lt;p>Let’s take a look at an example where we explicitly define two constructors: &lt;em>default&lt;/em> and &lt;em>copy&lt;/em>. This will help show how each syntax form calls the &lt;em>copy constructor&lt;/em>.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-cpp" data-lang="cpp">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">struct&lt;/span> &lt;span style="color:#a6e22e">Node&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">int&lt;/span> val;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">struct&lt;/span> &lt;span style="color:#a6e22e">Node&lt;/span>&lt;span style="color:#f92672">*&lt;/span> next;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Node() { std&lt;span style="color:#f92672">::&lt;/span>cout &lt;span style="color:#f92672">&amp;lt;&amp;lt;&lt;/span> &lt;span style="color:#e6db74">&amp;#34;default ctor invoked&lt;/span>&lt;span style="color:#ae81ff">\n&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>; }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Node(&lt;span style="color:#66d9ef">const&lt;/span> Node&lt;span style="color:#f92672">&amp;amp;&lt;/span> other) { std&lt;span style="color:#f92672">::&lt;/span>cout &lt;span style="color:#f92672">&amp;lt;&amp;lt;&lt;/span> &lt;span style="color:#e6db74">&amp;#34;copy ctor invoked&lt;/span>&lt;span style="color:#ae81ff">\n&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>; }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>};
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Node d; &lt;span style="color:#75715e">// default ctor invoked
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>Node a &lt;span style="color:#f92672">=&lt;/span> d; &lt;span style="color:#75715e">// copy ctor invoked
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>Node &lt;span style="color:#a6e22e">b&lt;/span>(a); &lt;span style="color:#75715e">// copy ctor invoked
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>Node c{b}; &lt;span style="color:#75715e">// copy ctor invoked
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="assigning-structs">Assigning Structs&lt;/h3>
-&lt;p>There will be times when not all the values of struct members are known at initialization. Later on, when the values become known, one option is to assign individually but there is always a chance of overlooking a few.&lt;/p>
-&lt;p>So, what are the best ways to assign values to structs correctly? Let’s explore a couple of approaches.&lt;/p>
-&lt;h4 id="assigning-with-initializer-lists">assigning with initializer lists&lt;/h4>
-&lt;p>Out of the four list-initialization forms discussed earlier, two of them &lt;em>(1, 3)&lt;/em> can be used for assignments. To refresh your memory, these two forms of initialization are called &lt;em>copy list initialization&lt;/em>.&lt;/p>
-&lt;ol>
-&lt;li>&lt;code>object = { arg1, arg2, ... };&lt;/code>&lt;/li>
-&lt;li>&lt;code>object = { .des1 = arg1 , .des2 { arg2 } ... };&lt;/code> (since C++20)&lt;/li>
-&lt;/ol>
-&lt;p>Let&amp;rsquo;s revisit an earlier example,&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-cpp" data-lang="cpp">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">struct&lt;/span> &lt;span style="color:#a6e22e">Person&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> std&lt;span style="color:#f92672">::&lt;/span>string name;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">int&lt;/span> age {&lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span>};
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">double&lt;/span> height;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>};
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Person person { .name &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Jane&amp;#34;&lt;/span>, .height &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">180.0&lt;/span> };
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>std&lt;span style="color:#f92672">::&lt;/span>cout &lt;span style="color:#f92672">&amp;lt;&amp;lt;&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Enter date of birth: &amp;#34;&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>std&lt;span style="color:#f92672">::&lt;/span>string dob;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>std&lt;span style="color:#f92672">::&lt;/span>cin &lt;span style="color:#f92672">&amp;gt;&amp;gt;&lt;/span> dob;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>person &lt;span style="color:#f92672">=&lt;/span> { .name &lt;span style="color:#f92672">=&lt;/span> person.name, .age &lt;span style="color:#f92672">=&lt;/span> calc_age(dob) };
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>In this example, &lt;code>age&lt;/code> was value-initialized to &lt;code>-1&lt;/code> at first. Later, it gets recalculated and assigned. Since &lt;code>name&lt;/code> didn&amp;rsquo;t need to change, we just reused the previous value. However, here’s where things can trip you up: &lt;code>height&lt;/code> was left out of the assignment and gets value-initialized to &lt;code>0.0&lt;/code>, overwriting the original height value. Oops!&lt;/p>
-&lt;h4 id="assigning-another-struct-using-operator">assigning another struct using &lt;code>operator=&lt;/code>&lt;/h4>
-&lt;p>The syntax is similar to that of initializing from a struct using &lt;code>operator=&lt;/code>.&lt;/p>
-&lt;ul>
-&lt;li>&lt;code>object2 = object1;&lt;/code>&lt;/li>
-&lt;/ul>
-&lt;p>But here&amp;rsquo;s the difference: this time, it doesn&amp;rsquo;t invoke the copy constructor. Instead, the compiler generates an overloaded assignment operator (if you don’t provide one), and this operator simply replaces the existing values in the left-hand struct with the ones from the right-hand struct.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-cpp" data-lang="cpp">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">struct&lt;/span> &lt;span style="color:#a6e22e">A&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> A() { std&lt;span style="color:#f92672">::&lt;/span>cout &lt;span style="color:#f92672">&amp;lt;&amp;lt;&lt;/span> &lt;span style="color:#e6db74">&amp;#34;default ctor invoked&lt;/span>&lt;span style="color:#ae81ff">\n&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>; }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> A(&lt;span style="color:#66d9ef">const&lt;/span> A&lt;span style="color:#f92672">&amp;amp;&lt;/span> other) { std&lt;span style="color:#f92672">::&lt;/span>cout &lt;span style="color:#f92672">&amp;lt;&amp;lt;&lt;/span> &lt;span style="color:#e6db74">&amp;#34;copy ctor invoked&lt;/span>&lt;span style="color:#ae81ff">\n&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>; }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> A&lt;span style="color:#f92672">&amp;amp;&lt;/span> &lt;span style="color:#66d9ef">operator&lt;/span>&lt;span style="color:#f92672">=&lt;/span>(&lt;span style="color:#66d9ef">const&lt;/span> A&lt;span style="color:#f92672">&amp;amp;&lt;/span> other) { std&lt;span style="color:#f92672">::&lt;/span>cout &lt;span style="color:#f92672">&amp;lt;&amp;lt;&lt;/span> &lt;span style="color:#e6db74">&amp;#34;operator= invoked&lt;/span>&lt;span style="color:#ae81ff">\n&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>; }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>};
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>A a; &lt;span style="color:#75715e">// default ctor invoked
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>A b &lt;span style="color:#f92672">=&lt;/span> a; &lt;span style="color:#75715e">// copy ctor invoked
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>a &lt;span style="color:#f92672">=&lt;/span> b; &lt;span style="color:#75715e">// operator= invoked
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="to-be-continued">To Be Continued&amp;hellip;&lt;/h3>
-&lt;p>At first, I had big dreams of covering everything there is to know about structs in a single article. But, let&amp;rsquo;s be real—it was turning into a novel. So, I’ve decided to break it up into a trilogy (think &lt;em>Lord of the Rings&lt;/em>, but with fewer swords and more code). Stay tuned for the next part, where I’ll dive deeper into how structs really shine in C++!&lt;/p></content></item><item><title>Overengineering "Hello, World!"</title><link>https://priyavr.at/blog/hello-world/</link><pubDate>Thu, 16 Jun 2022 12:30:21 +0530</pubDate><guid>https://priyavr.at/blog/hello-world/</guid><content>&lt;blockquote>
-&lt;p>&lt;strong>A word of warning:&lt;/strong> This article is not for the faint of heart—or for those who believe “Hello, World!” should ever be simple.&lt;/p>&lt;/blockquote>
-&lt;p>You might be wondering, “Why start with ‘Hello, World!’?” Well, as this is my very first blog post, I wanted to pay homage to the time-honored tradition of beginning every programming journey with this iconic phrase. “Hello, World!” is simple, universal, and instantly recognizable—making it the perfect canvas for a little creative overengineering. If you thought printing a string was straightforward, prepare to have your expectations delightfully complicated.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-cpp" data-lang="cpp">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">#include&lt;/span> &lt;span style="color:#75715e">&amp;lt;iostream&amp;gt;&lt;/span>&lt;span style="color:#75715e">
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">using&lt;/span> &lt;span style="color:#66d9ef">namespace&lt;/span> std;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> argc, &lt;span style="color:#66d9ef">char&lt;/span> &lt;span style="color:#f92672">*&lt;/span>argv[]) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> cout &lt;span style="color:#f92672">&amp;lt;&amp;lt;&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Hello, World!&lt;/span>&lt;span style="color:#ae81ff">\n&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>; &lt;span style="color:#75715e">// about time we make it a little interesting
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> cout &lt;span style="color:#f92672">&amp;lt;&amp;lt;&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#ae81ff">\110\145\154\154\157\54\40\127\157\162\154\144\41\12&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> cout &lt;span style="color:#f92672">&amp;lt;&amp;lt;&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#ae81ff">\x48\x65\x6C\x6C\x6F\x2C\x20\x57\x6F\x72\x6C\x64\x21&lt;/span>&lt;span style="color:#e6db74">\xA&amp;#34;&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>All three &lt;code>cout&lt;/code> statements will print the same thing—that is, &lt;code>Hello, World!&lt;/code> (with a newline for good measure).&lt;/p>
-&lt;p>Now, let’s talk about the “how.” In a nutshell, it’s all thanks to &lt;strong>escape sequences&lt;/strong>. These are special codes that let you represent characters that would otherwise be tricky (or downright impossible) to include directly in a string. For example, if you want to sneak a double quotation mark (&lt;code>&amp;quot;&lt;/code>) inside a string literal, you can’t just plop it in there—you need to precede it with a backslash (&lt;code>\&lt;/code>). There are also classic escape sequences like &lt;code>\n&lt;/code> for a newline or &lt;code>\t&lt;/code> for a tab, all predefined by the language.&lt;/p>
-&lt;p>But wait—there’s more! Escape sequences aren’t limited to just the usual suspects. You can also use &lt;strong>octal&lt;/strong> and &lt;strong>hexadecimal&lt;/strong> escape sequences to represent characters by their numeric values. Below are the “obscure” forms:&lt;/p>
-&lt;ul>
-&lt;li>&lt;code>\&lt;/code> followed by &lt;em>one&lt;/em>, &lt;em>two&lt;/em> or &lt;em>three&lt;/em> &lt;strong>octal&lt;/strong> digits&lt;/li>
-&lt;li>&lt;code>\x&lt;/code> followed by &lt;em>one&lt;/em> or more &lt;strong>hexadecimal&lt;/strong> digits&lt;/li>
-&lt;/ul>
-&lt;p>The numbers following &lt;code>\&lt;/code> and &lt;code>\x&lt;/code> represent the character’s value. For simplicity, let’s assume we’re using &lt;a href="https://en.wikipedia.org/wiki/ASCII" target="_blank">ASCII character encoding&lt;/a>. In plain English, every character in the language is mapped to a predefined numeric value, as per the &lt;strong>ASCII specification&lt;/strong>. The second and third &lt;code>cout&lt;/code> statements above use these values in octal and hexadecimal format, respectively, to conjure up the same familiar message.&lt;/p>
-&lt;blockquote>
-&lt;p>A few notes (so you don’t lose your sanity while experimenting):&lt;/p>
-&lt;ul>
-&lt;li>If there are more than three octal digits after &lt;code>\&lt;/code>, only the first three are interpreted as part of the escape sequence; the rest are treated as regular characters.&lt;/li>
-&lt;li>Hexadecimal digits are not case-sensitive, &lt;code>\x6C&lt;/code> is same as &lt;code>\x6c&lt;/code>.&lt;/li>
-&lt;/ul>&lt;/blockquote>
-&lt;p>The table below breaks down each character in &lt;code>&amp;quot;Hello, World!\n&amp;quot;&lt;/code>—but you can generalize this approach to any string, should you wish to thoroughly confuse your future self (or your colleagues).&lt;/p>
-&lt;table class="table table-sm table-borderless table-hover">
-&lt;thead>
-&lt;tr>
-&lt;th style="text-align: center">Character&lt;/th>
-&lt;th style="text-align: center">ASCII Value&lt;/th>
-&lt;th style="text-align: center">Octal&lt;/th>
-&lt;th style="text-align: center">Hexadecimal&lt;/th>
-&lt;/tr>
-&lt;/thead>
-&lt;tbody>
-&lt;tr>
-&lt;td style="text-align: center">&lt;code>H&lt;/code>&lt;/td>
-&lt;td style="text-align: center">72&lt;/td>
-&lt;td style="text-align: center">&lt;code>\110&lt;/code>&lt;/td>
-&lt;td style="text-align: center">&lt;code>\x48&lt;/code>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td style="text-align: center">&lt;code>e&lt;/code>&lt;/td>
-&lt;td style="text-align: center">101&lt;/td>
-&lt;td style="text-align: center">&lt;code>\145&lt;/code>&lt;/td>
-&lt;td style="text-align: center">&lt;code>\x65&lt;/code>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td style="text-align: center">&lt;code>l&lt;/code>&lt;/td>
-&lt;td style="text-align: center">108&lt;/td>
-&lt;td style="text-align: center">&lt;code>\154&lt;/code>&lt;/td>
-&lt;td style="text-align: center">&lt;code>\x6C&lt;/code>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td style="text-align: center">&lt;code>l&lt;/code>&lt;/td>
-&lt;td style="text-align: center">108&lt;/td>
-&lt;td style="text-align: center">&lt;code>\154&lt;/code>&lt;/td>
-&lt;td style="text-align: center">&lt;code>\x6C&lt;/code>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td style="text-align: center">&lt;code>o&lt;/code>&lt;/td>
-&lt;td style="text-align: center">111&lt;/td>
-&lt;td style="text-align: center">&lt;code>\157&lt;/code>&lt;/td>
-&lt;td style="text-align: center">&lt;code>\x6F&lt;/code>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td style="text-align: center">&lt;code>,&lt;/code>&lt;/td>
-&lt;td style="text-align: center">44&lt;/td>
-&lt;td style="text-align: center">&lt;code>\54&lt;/code>&lt;/td>
-&lt;td style="text-align: center">&lt;code>\x2C&lt;/code>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td style="text-align: center">&lt;code>SPACE&lt;/code>&lt;/td>
-&lt;td style="text-align: center">32&lt;/td>
-&lt;td style="text-align: center">&lt;code>\40&lt;/code>&lt;/td>
-&lt;td style="text-align: center">&lt;code>\x20&lt;/code>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td style="text-align: center">&lt;code>W&lt;/code>&lt;/td>
-&lt;td style="text-align: center">87&lt;/td>
-&lt;td style="text-align: center">&lt;code>\127&lt;/code>&lt;/td>
-&lt;td style="text-align: center">&lt;code>\x57&lt;/code>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td style="text-align: center">&lt;code>o&lt;/code>&lt;/td>
-&lt;td style="text-align: center">111&lt;/td>
-&lt;td style="text-align: center">&lt;code>\157&lt;/code>&lt;/td>
-&lt;td style="text-align: center">&lt;code>\x6F&lt;/code>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td style="text-align: center">&lt;code>r&lt;/code>&lt;/td>
-&lt;td style="text-align: center">114&lt;/td>
-&lt;td style="text-align: center">&lt;code>\162&lt;/code>&lt;/td>
-&lt;td style="text-align: center">&lt;code>\x72&lt;/code>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td style="text-align: center">&lt;code>l&lt;/code>&lt;/td>
-&lt;td style="text-align: center">108&lt;/td>
-&lt;td style="text-align: center">&lt;code>\154&lt;/code>&lt;/td>
-&lt;td style="text-align: center">&lt;code>\x6C&lt;/code>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td style="text-align: center">&lt;code>d&lt;/code>&lt;/td>
-&lt;td style="text-align: center">100&lt;/td>
-&lt;td style="text-align: center">&lt;code>\144&lt;/code>&lt;/td>
-&lt;td style="text-align: center">&lt;code>\x64&lt;/code>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td style="text-align: center">&lt;code>!&lt;/code>&lt;/td>
-&lt;td style="text-align: center">33&lt;/td>
-&lt;td style="text-align: center">&lt;code>\41&lt;/code>&lt;/td>
-&lt;td style="text-align: center">&lt;code>\x21&lt;/code>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td style="text-align: center">&lt;code>\n&lt;/code>&lt;/td>
-&lt;td style="text-align: center">10&lt;/td>
-&lt;td style="text-align: center">&lt;code>\12&lt;/code>&lt;/td>
-&lt;td style="text-align: center">&lt;code>\xA&lt;/code>&lt;/td>
-&lt;/tr>
-&lt;/tbody>
-&lt;/table>
-&lt;p>Hope you enjoyed this deep dive into the unnecessarily complex world of escape sequences. Remember: just because you &lt;em>can&lt;/em> overengineer “Hello, World!” doesn’t mean you &lt;em>should&lt;/em>—but it sure is fun.&lt;/p></content></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Priyavrat Misra's Programming</title><link>https://priyavr.at/tags/programming/</link><description>Recent content in Priyavrat Misra's Programming</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&amp;copy; 2022-{year} Priyavrat Misra. All rights reserved.</copyright><lastBuildDate>Wed, 12 Feb 2025 08:55:00 +0530</lastBuildDate><atom:link href="https://priyavr.at/tags/programming/rss.xml" rel="self" type="application/rss+xml"/><item><title>A Voyage to Structs</title><link>https://priyavr.at/blog/structs-i/</link><pubDate>Wed, 12 Feb 2025 08:55:00 +0530</pubDate><guid>https://priyavr.at/blog/structs-i/</guid><content>&lt;h3 id="motivation"&gt;Motivation&lt;/h3&gt;
+&lt;p&gt;I’m back, folks! Though I must admit, I’m a little rusty. It’s been a while since I’ve written anything. Life, as it tends to do, got in the way—new job, new priorities, you know the drill. I’m not entirely sure what inspired me to dust off my portfolio today. Perhaps it was the domain renewal email or perhaps it was the realization that two years have passed since I started writing an article that&amp;rsquo;s still lingering in draft form, waiting for its chance to shine (or, more likely, to be completely rewritten). But today I&amp;rsquo;m dusting myself off and diving back in, ready to share some fresh thoughts. Join me, if you will, on &lt;em&gt;A Voyage to Structs&lt;/em&gt;.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;A quick note: this article focuses exclusively on structs in C++, though most of the concepts here are applicable to C, and some might even apply to other &lt;a href="https://en.wikipedia.org/wiki/List_of_C-family_programming_languages" target="_blank"&gt;C-family languages&lt;/a&gt;. But hey, no promises.&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h3 id="introduction"&gt;Introduction&lt;/h3&gt;
+&lt;p&gt;Let’s kick things off with a definition from &lt;em&gt;cppreference&lt;/em&gt;:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;A struct is a type consisting of a sequence of members whose storage is allocated in an ordered sequence.&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;Now, if you’re paying attention, that might sound a lot like arrays. But here’s the catch: it doesn’t say anything about the data type of the members. This means we can have members of different types—whether fundamental or compound. This flexibility makes structs more complex in memory layout compared to arrays (&lt;em&gt;spoiler: this will be the subject of a future article&lt;/em&gt;).&lt;/p&gt;
+&lt;p&gt;So, what does &amp;ldquo;type&amp;rdquo; mean in this context? Well, here’s a quick breakdown:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;A user-defined type&lt;/strong&gt;: You create it. You define it. It’s yours.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;A compound type&lt;/strong&gt;: These are types made up of other types (basically the &amp;ldquo;Frankenstein&amp;rdquo; of types).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;A class type&lt;/strong&gt;: This could be a &lt;code&gt;struct&lt;/code&gt;, &lt;code&gt;class&lt;/code&gt;, or &lt;code&gt;union&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;A program-defined type&lt;/strong&gt;: In C++20, this refers to class and enum types &lt;em&gt;we&lt;/em&gt; define, not those that come with the standard library or the core language.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="defining-structs"&gt;Defining Structs&lt;/h3&gt;
+&lt;p&gt;Since structs are program-defined types, we need to describe them to the compiler before we use them. Structs can either have a name (a &lt;em&gt;type tag&lt;/em&gt;) or not. If there’s no name, we call them anonymous structs—pretty self-explanatory. Anonymous structs are useful in special contexts, like inside a &lt;code&gt;typedef&lt;/code&gt; or &lt;code&gt;union&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Let’s start with how structs are defined in C, and then we’ll dive into some C++ additions.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-c" data-lang="c"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; Direction {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; dx;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; dy;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// initialization
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; Direction north;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;north.dx &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;north.dy &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#f92672"&gt;-&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Notice during initialization how we had to mention &lt;code&gt;struct&lt;/code&gt; again. This is because &lt;code&gt;Direction&lt;/code&gt; is defined in the &lt;em&gt;tag name space&lt;/em&gt;, not mentioning &lt;code&gt;struct&lt;/code&gt; would lead the compiler to search for it in the &lt;em&gt;ordinary identifier name space&lt;/em&gt; and lead to a compiler error.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The C language standard (&lt;a href="http://port70.net/~nsz/c/c89/c89-draft.txt" target="_blank"&gt;C89&lt;/a&gt;, &lt;a href="http://port70.net/~nsz/c/c99/n1256.html#6.2.3" target="_blank"&gt;C99&lt;/a&gt;, and &lt;a href="http://port70.net/~nsz/c/c11/n1570.html#6.2.3" target="_blank"&gt;C11&lt;/a&gt;) mandates separate name spaces for different categories of identifiers, including tag identifiers (for &lt;code&gt;struct&lt;/code&gt;/&lt;code&gt;union&lt;/code&gt;/&lt;code&gt;enum&lt;/code&gt;) and ordinary identifiers (for &lt;code&gt;typedef&lt;/code&gt; and other identifiers).&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;The following example declares an anonymous struct and creates a &lt;code&gt;typedef&lt;/code&gt; for it. Thus, with this construct, it doesn&amp;rsquo;t have a name in the &lt;em&gt;tag name space&lt;/em&gt;. Hence no need to prefix &lt;code&gt;struct&lt;/code&gt; everytime it is referenced.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-c" data-lang="c"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;typedef&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; dx;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; dy;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;} Direction;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Direction north;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;north.dx &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;north.dy &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#f92672"&gt;-&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This approach saves us from typing &lt;code&gt;struct&lt;/code&gt; every time we reference &lt;code&gt;Direction&lt;/code&gt;. However, it’s considered bad practice by some, including the &lt;a href="https://www.kernel.org/doc/html/latest/process/coding-style.html#typedefs" target="_blank"&gt;Linux kernel coding style guidelines&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;And here&amp;rsquo;s the kicker: with anonymous structs, you can&amp;rsquo;t do this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-c" data-lang="c"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; Node {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; val;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; Node&lt;span style="color:#f92672"&gt;*&lt;/span&gt; next; &lt;span style="color:#75715e"&gt;// recursively refers to `struct Node`
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In C++, the &lt;em&gt;tag name space&lt;/em&gt; still exists, but all names are automatically added to both the &lt;em&gt;tag name space&lt;/em&gt; and the &lt;em&gt;ordinary identifier name space&lt;/em&gt;, which means we no longer need to type &lt;code&gt;struct&lt;/code&gt; everywhere. Sweet, right?&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cpp" data-lang="cpp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;Direction&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; dx;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; dy;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Direction north; &lt;span style="color:#75715e"&gt;// no need for `struct`
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;north.dx &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;north.dy &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#f92672"&gt;-&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-c" data-lang="c"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; Node {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; val;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Node&lt;span style="color:#f92672"&gt;*&lt;/span&gt; next; &lt;span style="color:#75715e"&gt;// no need for `struct`
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="initializing-structs"&gt;Initializing Structs&lt;/h3&gt;
+&lt;p&gt;In the previous section, to keep the examples simple, I have instantiated the structs and assigned the values one by one. It may be considered as one form of initialization but it is not a good practice to do so. In a way it violates the &lt;em&gt;always initialize&lt;/em&gt; rule from the &lt;a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#es20-always-initialize-an-object" target="_blank"&gt;C&amp;#43;&amp;#43; Core Guidelines&lt;/a&gt;. It can be a bit error-prone, especially since some members might slip through the cracks and be left uninitialized—leading to undefined behavior or garbage values. To avoid this, we need to properly initialize our structs.&lt;/p&gt;
+&lt;p&gt;To correctly initialize a struct, we first have to get familiar with &lt;em&gt;aggregates&lt;/em&gt;.&lt;/p&gt;
+&lt;h4 id="what-is-an-aggregate"&gt;What is an &lt;em&gt;aggregate&lt;/em&gt;?&lt;/h4&gt;
+&lt;p&gt;The formal definition of an aggregate has changed throughout the C++ standards. There have been few rules added and few removed, however the following stayed consistent throughout all the standards.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;An &lt;em&gt;aggregate&lt;/em&gt; is any data type with multiple members, it can either be an array type or a class type with:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;no private or protected non-static data members&lt;/li&gt;
+&lt;li&gt;no virtual member functions&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;em&gt;An up-to-date and precise definition can be found &lt;a href="https://en.cppreference.com/w/cpp/language/aggregate_initialization" target="_blank"&gt;here&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;You might be tempted to think that structs are always aggregates, but that’s not true. In C++, classes and struct are the same except for their default behaviour with regards to inheritance and access levels of members. For classes both are private whereas for struct both are public. Because of this classes and structs can be used interchangeably, and so there is a possibility of a &lt;em&gt;non-aggregate&lt;/em&gt; struct. But for our purposes, we’ll stick with the assumption that structs with only data members are aggregates.&lt;/p&gt;
+&lt;p&gt;Before delving into &lt;em&gt;aggregate-initialization&lt;/em&gt;, let&amp;rsquo;s take a short detour.&lt;/p&gt;
+&lt;h4 id="value-initialization"&gt;Value-initialization&lt;/h4&gt;
+&lt;p&gt;In C++11 and beyond, &lt;em&gt;value-initialization&lt;/em&gt; occurs when a variable is initialized using an empty brace-enclosed initializer list.&lt;/p&gt;
+&lt;p&gt;If a scalar type (&lt;code&gt;bool&lt;/code&gt;, &lt;code&gt;int&lt;/code&gt;, &lt;code&gt;char&lt;/code&gt;, &lt;code&gt;double&lt;/code&gt;, pointers, etc.) is initialized this way then they are zero-initialized.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cpp" data-lang="cpp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;double&lt;/span&gt; d {}; &lt;span style="color:#75715e"&gt;// value-initialized to 0.0
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;int&lt;/span&gt;&lt;span style="color:#f92672"&gt;*&lt;/span&gt; p {}; &lt;span style="color:#75715e"&gt;// value-initialized to NULL
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Whereas, for aggregate types if this form of initialization is used then &lt;em&gt;aggregate-initialization&lt;/em&gt; is performed instead.&lt;/p&gt;
+&lt;h4 id="aggregate-initialization"&gt;Aggregate-initialization&lt;/h4&gt;
+&lt;p&gt;There are four ways to initialize an aggregate, all of which are various forms of &lt;a href="https://en.cppreference.com/w/cpp/language/list_initialization" target="_blank"&gt;list-initialization&lt;/a&gt;.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Initializing an aggregate with an ordinary initializer list.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;T object = { arg1, arg2, ... };&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;T object { arg1, arg2, ... };&lt;/code&gt; (since &lt;em&gt;C++11&lt;/em&gt;)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;Initializing an aggregate with designated initializers (applicable only to class types).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol start="3"&gt;
+&lt;li&gt;&lt;code&gt;T object = { .des1 = arg1 , .des2 { arg2 } ... };&lt;/code&gt; (since &lt;em&gt;C++20&lt;/em&gt;)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;T object { .des1 = arg1 , .des2 { arg2 } ... };&lt;/code&gt; (since &lt;em&gt;C++20&lt;/em&gt;)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Here, 2 and 4 are termed &lt;em&gt;direct list initialization&lt;/em&gt; and, 1 and 3 are termed &lt;em&gt;copy list initialization&lt;/em&gt;.&lt;/p&gt;
+&lt;h5 id="initializing-with-ordinary-initializer-lists"&gt;initializing with ordinary initializer lists&lt;/h5&gt;
+&lt;p&gt;This syntax (&lt;em&gt;1, 2&lt;/em&gt;) is commonly used when initializing arrays, which can be generalized to aggregates.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cpp" data-lang="cpp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; oneDigitPrimes[]{&lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;3&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;5&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;7&lt;/span&gt;}; &lt;span style="color:#75715e"&gt;// or oneDigitPrimes[] = {2, 3, 5, 7}
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;int&lt;/span&gt;&lt;span style="color:#f92672"&gt;*&lt;/span&gt; oneDigitPrimesHeap &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt;[]{&lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;3&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;5&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;7&lt;/span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;is equivalent to,&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cpp" data-lang="cpp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; oneDigitPrimes[&lt;span style="color:#ae81ff"&gt;4&lt;/span&gt;]{&lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;3&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;5&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;7&lt;/span&gt;}; &lt;span style="color:#75715e"&gt;// or oneDigitPrimes[4] = {2, 3, 5, 7}
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;int&lt;/span&gt;&lt;span style="color:#f92672"&gt;*&lt;/span&gt; oneDigitPrimesHeap &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt;[&lt;span style="color:#ae81ff"&gt;4&lt;/span&gt;]{&lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;3&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;5&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;7&lt;/span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In the above example, there wasn&amp;rsquo;t a need of mentioning the size, as it can be deduced by the compiler from the brace-enclosed initializer list. However, it can be explicitly mentioned as well, resulting in following three scenarios:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;the array size is equal to the initializer list size (size can be omitted, like the above example)&lt;/li&gt;
+&lt;li&gt;the array size is less than the initializer list size (this will lead to a compiler error)&lt;/li&gt;
+&lt;li&gt;the array size is greater than the initializer list size (each array element is initialized in the order of declaration and the others are initialized from an empty initializer list)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cpp" data-lang="cpp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; f[&lt;span style="color:#ae81ff"&gt;26&lt;/span&gt;]{&lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;}; &lt;span style="color:#75715e"&gt;// 1st element is assigned 0, others are value-initialized (to 0)
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; m[&lt;span style="color:#ae81ff"&gt;26&lt;/span&gt;]{}; &lt;span style="color:#75715e"&gt;// all the elements are value-initialized (to 0)
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; z[] &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {}; &lt;span style="color:#75715e"&gt;// Error: cannot declare an array without any element
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;These points hold true even for structs but with a slightly modified point 3,&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;all the members without any initializer in the initializer list having a default value are assigned that value. And the other members are initialized from an empty initializer list i.e., value-initialized.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cpp" data-lang="cpp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;Person&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; std&lt;span style="color:#f92672"&gt;::&lt;/span&gt;string name;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; age {&lt;span style="color:#f92672"&gt;-&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;double&lt;/span&gt; height;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Person person1; &lt;span style="color:#75715e"&gt;// name = &amp;#34;&amp;#34;, age = -1, height = undefined behavior
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;Person person2 {}; &lt;span style="color:#75715e"&gt;// name = &amp;#34;&amp;#34;, age = -1, height = 0.0
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;Person jane {&lt;span style="color:#e6db74"&gt;&amp;#34;Jane Doe&amp;#34;&lt;/span&gt;}; &lt;span style="color:#75715e"&gt;// age = -1, height = 0.0
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;Person john {&lt;span style="color:#e6db74"&gt;&amp;#34;John Doe&amp;#34;&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;22&lt;/span&gt;}; &lt;span style="color:#75715e"&gt;// height = 0.0
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Did you notice &lt;code&gt;person1.name&lt;/code&gt; was initialized with empty string but not garbage? This is so because &lt;code&gt;name&lt;/code&gt; is a class type, and for a class type if there are no braces, they are implicitly initialized with an empty initializer list, which in turn invokes the default constructor. Here in this case, the default constructor for &lt;code&gt;std::string&lt;/code&gt; initializes &lt;code&gt;name&lt;/code&gt; to an empty string.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cpp" data-lang="cpp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;Address&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; std&lt;span style="color:#f92672"&gt;::&lt;/span&gt;string city;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; std&lt;span style="color:#f92672"&gt;::&lt;/span&gt;string state &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;CA&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; zip &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;90001&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;Person&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; std&lt;span style="color:#f92672"&gt;::&lt;/span&gt;string name;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; age {&lt;span style="color:#f92672"&gt;-&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;double&lt;/span&gt; height;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Address address;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Person person1 {}; &lt;span style="color:#75715e"&gt;// address will be initialized like so `Address address {};`
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;Person person2 {&lt;span style="color:#e6db74"&gt;&amp;#34;Jane&amp;#34;&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;21&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;180&lt;/span&gt;, {&lt;span style="color:#e6db74"&gt;&amp;#34;LA&amp;#34;&lt;/span&gt;}}; &lt;span style="color:#75715e"&gt;// or `{&amp;#34;Jane&amp;#34;, 21, 180, &amp;#34;LA&amp;#34;}`
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Above &lt;code&gt;person2&lt;/code&gt; was initialized in a nested form, usually seen if the members are aggregates. The inner braces can be omitted provided the sequence of values match that of an aggregate flattened.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cpp" data-lang="cpp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; a[&lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;][&lt;span style="color:#ae81ff"&gt;3&lt;/span&gt;] &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {{&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;3&lt;/span&gt;}, {&lt;span style="color:#ae81ff"&gt;4&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;5&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;6&lt;/span&gt;}}; &lt;span style="color:#75715e"&gt;// same as `{1, 2, 3, 4, 5, 6}`
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cpp" data-lang="cpp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;Student&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; id {&lt;span style="color:#f92672"&gt;-&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;char&lt;/span&gt; name[&lt;span style="color:#ae81ff"&gt;20&lt;/span&gt;];
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; marks[&lt;span style="color:#ae81ff"&gt;3&lt;/span&gt;];
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;Course&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Student student; &lt;span style="color:#75715e"&gt;// Nested structure
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;double&lt;/span&gt; grade;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Course c1 &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {{&lt;span style="color:#ae81ff"&gt;1234&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#34;Alice&amp;#34;&lt;/span&gt;, {&lt;span style="color:#ae81ff"&gt;85&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;90&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;88&lt;/span&gt;}}, &lt;span style="color:#ae81ff"&gt;90.5&lt;/span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// same as `{1234, &amp;#34;Alice&amp;#34;, 85, 90, 88, 90.5}`
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// if `marks[2]` is unknown
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;Course c2 &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {&lt;span style="color:#ae81ff"&gt;1111&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#34;Bob&amp;#34;&lt;/span&gt;, {&lt;span style="color:#ae81ff"&gt;90&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;95&lt;/span&gt;}, &lt;span style="color:#ae81ff"&gt;91&lt;/span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// omitting the braces will lead `91` getting assigned to `marks[2]`
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;See how ambigious and error prone it becomes just by omitting the braces? When used correctly, it might save you a few keystrokes, but you would be shooting yourself in the foot in the long run!&lt;/p&gt;
+&lt;p&gt;Below is &lt;a href="https://en.cppreference.com/w/cpp/language/aggregate_initialization#Explicitly_initialized_elements" target="_blank"&gt;an example from cppreference&lt;/a&gt; summarizing various scenarios,&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cpp" data-lang="cpp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;base1&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; b1, b2 &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;42&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;base2&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; b3;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; base2() { b3 &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;42&lt;/span&gt;; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;derived&lt;/span&gt; &lt;span style="color:#f92672"&gt;:&lt;/span&gt; base1, base2 {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; d;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;derived d1{{&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;}, {}, &lt;span style="color:#ae81ff"&gt;4&lt;/span&gt;}; &lt;span style="color:#75715e"&gt;// initializes d1.b1 with 1, d1.b2 with 2,
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt; &lt;span style="color:#75715e"&gt;// d1.b3 with 42, d1.d with 4
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;derived d2{{}, {}, &lt;span style="color:#ae81ff"&gt;4&lt;/span&gt;}; &lt;span style="color:#75715e"&gt;// initializes d2.b1 with 0, d2.b2 with 42,
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt; &lt;span style="color:#75715e"&gt;// d2.b3 with 42, d2.d with 4
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Note that if there is a user declared default constructor (like in &lt;code&gt;base2&lt;/code&gt;), then value-initialization will invoke it instead of value initializing the members.&lt;/p&gt;
+&lt;h5 id="initializing-with-designated-initializers"&gt;initializing with designated initializers&lt;/h5&gt;
+&lt;p&gt;A designated initializer, or designator, points out a particular element to be initialized. A designator list is a comma-separated list of one or more designators. They must appear in the same order as the order of declaration. All the members without a designator having a default value are assigned that value. And the other members are initialized from an empty initializer list, similar to the above section.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cpp" data-lang="cpp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;Person&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; std&lt;span style="color:#f92672"&gt;::&lt;/span&gt;string name;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; age {&lt;span style="color:#f92672"&gt;-&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;double&lt;/span&gt; height;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Person person { .name &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Jane&amp;#34;&lt;/span&gt;, .height &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;180.0&lt;/span&gt; }; &lt;span style="color:#75715e"&gt;// age = -1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Though this syntax (&lt;em&gt;3, 4&lt;/em&gt;) has been around since &lt;em&gt;C99&lt;/em&gt;, it made its debut (only for class types) in &lt;em&gt;C++20&lt;/em&gt; with subtle differences.&lt;/p&gt;
+&lt;p&gt;Out-of-order designated initialization, nested designated initialization, mixing of designated initializers and regular initializers, and designated initialization of arrays are all supported in C, but are not allowed in C++.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cpp" data-lang="cpp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;A&lt;/span&gt; { &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; x, y; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;B&lt;/span&gt; { &lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;A&lt;/span&gt; a; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;A&lt;/span&gt; a &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {.y &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;, .x &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;}; &lt;span style="color:#75715e"&gt;// valid C, invalid C++ (out of order)
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; arr[&lt;span style="color:#ae81ff"&gt;3&lt;/span&gt;] &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {[&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;] &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;5&lt;/span&gt;}; &lt;span style="color:#75715e"&gt;// valid C, invalid C++ (array)
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;B&lt;/span&gt; b &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {.a.x &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;}; &lt;span style="color:#75715e"&gt;// valid C, invalid C++ (nested)
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;A&lt;/span&gt; a &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {.x &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;}; &lt;span style="color:#75715e"&gt;// valid C, invalid C++ (mixed)
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This form of initialization is sometimes helpful when new members are added to the definition.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cpp" data-lang="cpp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;S&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; a;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; c;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;S s1 {.a &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;, .c &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;S s2 {&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;}; &lt;span style="color:#75715e"&gt;// a = 1, c = 2
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In the example below, another member is added in between, the list initialization will need changes, but no changes are required for the designated initialization.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cpp" data-lang="cpp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;S&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; a;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; b;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; c;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;S s1 {.a &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;, .c &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;}; &lt;span style="color:#75715e"&gt;// no change here
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;S s2 {&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;}; &lt;span style="color:#75715e"&gt;// b will get assigned 2 here
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Note that the above scenario is only useful if and only if in all initialization/assignment occurances designated initializers are used, which is never really the case. That is why it is good practice to add any new members at the bottom so that the other members don&amp;rsquo;t shift.&lt;/p&gt;
+&lt;p&gt;Last but not least, we can have a combination of both list and designated initialization when initializing a nested aggregate.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cpp" data-lang="cpp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;Student&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; id {&lt;span style="color:#f92672"&gt;-&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;char&lt;/span&gt; name[&lt;span style="color:#ae81ff"&gt;20&lt;/span&gt;];
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; marks[&lt;span style="color:#ae81ff"&gt;3&lt;/span&gt;];
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;Course&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Student student; &lt;span style="color:#75715e"&gt;// Nested structure
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;double&lt;/span&gt; grade;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Course c &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {{.name &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Alice&amp;#34;&lt;/span&gt;, .marks &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {&lt;span style="color:#ae81ff"&gt;85&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;90&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;88&lt;/span&gt;}}, &lt;span style="color:#ae81ff"&gt;90.5&lt;/span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="initializing-from-a-struct"&gt;Initializing from a Struct&lt;/h4&gt;
+&lt;p&gt;Let&amp;rsquo;s say we have a struct, and we want to initialize another struct with the same values. Lucky for us, C++ makes it pretty intuitive to do so without manually initializing each member. All it takes is &lt;code&gt;operator=&lt;/code&gt;, also known as &lt;em&gt;copy initialization&lt;/em&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cpp" data-lang="cpp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;Node&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; val;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;Node&lt;/span&gt;&lt;span style="color:#f92672"&gt;*&lt;/span&gt; next;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Node last &lt;span style="color:#f92672"&gt;=&lt;/span&gt; { &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Node first &lt;span style="color:#f92672"&gt;=&lt;/span&gt; { &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;, &lt;span style="color:#f92672"&gt;&amp;amp;&lt;/span&gt;second };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Node middle &lt;span style="color:#f92672"&gt;=&lt;/span&gt; first; &lt;span style="color:#75715e"&gt;// copy initialization
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;first &lt;span style="color:#f92672"&gt;=&lt;/span&gt; { .val &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;, .next &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#f92672"&gt;&amp;amp;&lt;/span&gt;middle };
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In addition to this type of initialization, there are two other syntax forms called &lt;em&gt;direct initialization&lt;/em&gt; and &lt;em&gt;direct-list initialization&lt;/em&gt;.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;T object2 = object1; // copy initialization&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;T object2(object1); // direct initialization&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;T object2 { object1 }; // direct-list initialization&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;You might be thinking, &amp;ldquo;But how does this work when we haven’t defined a constructor or overloaded &lt;code&gt;operator=&lt;/code&gt;?&amp;rdquo; Well, fret not. The compiler automatically generates a copy constructor when it’s missing, and all these syntax forms simply call it.&lt;/p&gt;
+&lt;p&gt;Let’s take a look at an example where we explicitly define two constructors: &lt;em&gt;default&lt;/em&gt; and &lt;em&gt;copy&lt;/em&gt;. This will help show how each syntax form calls the &lt;em&gt;copy constructor&lt;/em&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cpp" data-lang="cpp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;Node&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; val;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;Node&lt;/span&gt;&lt;span style="color:#f92672"&gt;*&lt;/span&gt; next;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Node() { std&lt;span style="color:#f92672"&gt;::&lt;/span&gt;cout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;default ctor invoked&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;\n&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Node(&lt;span style="color:#66d9ef"&gt;const&lt;/span&gt; Node&lt;span style="color:#f92672"&gt;&amp;amp;&lt;/span&gt; other) { std&lt;span style="color:#f92672"&gt;::&lt;/span&gt;cout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;copy ctor invoked&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;\n&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Node d; &lt;span style="color:#75715e"&gt;// default ctor invoked
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;Node a &lt;span style="color:#f92672"&gt;=&lt;/span&gt; d; &lt;span style="color:#75715e"&gt;// copy ctor invoked
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;Node &lt;span style="color:#a6e22e"&gt;b&lt;/span&gt;(a); &lt;span style="color:#75715e"&gt;// copy ctor invoked
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;Node c{b}; &lt;span style="color:#75715e"&gt;// copy ctor invoked
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="assigning-structs"&gt;Assigning Structs&lt;/h3&gt;
+&lt;p&gt;There will be times when not all the values of struct members are known at initialization. Later on, when the values become known, one option is to assign individually but there is always a chance of overlooking a few.&lt;/p&gt;
+&lt;p&gt;So, what are the best ways to assign values to structs correctly? Let’s explore a couple of approaches.&lt;/p&gt;
+&lt;h4 id="assigning-with-initializer-lists"&gt;assigning with initializer lists&lt;/h4&gt;
+&lt;p&gt;Out of the four list-initialization forms discussed earlier, two of them &lt;em&gt;(1, 3)&lt;/em&gt; can be used for assignments. To refresh your memory, these two forms of initialization are called &lt;em&gt;copy list initialization&lt;/em&gt;.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;object = { arg1, arg2, ... };&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;object = { .des1 = arg1 , .des2 { arg2 } ... };&lt;/code&gt; (since C++20)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Let&amp;rsquo;s revisit an earlier example,&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cpp" data-lang="cpp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;Person&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; std&lt;span style="color:#f92672"&gt;::&lt;/span&gt;string name;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; age {&lt;span style="color:#f92672"&gt;-&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;double&lt;/span&gt; height;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Person person { .name &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Jane&amp;#34;&lt;/span&gt;, .height &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;180.0&lt;/span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;std&lt;span style="color:#f92672"&gt;::&lt;/span&gt;cout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Enter date of birth: &amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;std&lt;span style="color:#f92672"&gt;::&lt;/span&gt;string dob;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;std&lt;span style="color:#f92672"&gt;::&lt;/span&gt;cin &lt;span style="color:#f92672"&gt;&amp;gt;&amp;gt;&lt;/span&gt; dob;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;person &lt;span style="color:#f92672"&gt;=&lt;/span&gt; { .name &lt;span style="color:#f92672"&gt;=&lt;/span&gt; person.name, .age &lt;span style="color:#f92672"&gt;=&lt;/span&gt; calc_age(dob) };
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In this example, &lt;code&gt;age&lt;/code&gt; was value-initialized to &lt;code&gt;-1&lt;/code&gt; at first. Later, it gets recalculated and assigned. Since &lt;code&gt;name&lt;/code&gt; didn&amp;rsquo;t need to change, we just reused the previous value. However, here’s where things can trip you up: &lt;code&gt;height&lt;/code&gt; was left out of the assignment and gets value-initialized to &lt;code&gt;0.0&lt;/code&gt;, overwriting the original height value. Oops!&lt;/p&gt;
+&lt;h4 id="assigning-another-struct-using-operator"&gt;assigning another struct using &lt;code&gt;operator=&lt;/code&gt;&lt;/h4&gt;
+&lt;p&gt;The syntax is similar to that of initializing from a struct using &lt;code&gt;operator=&lt;/code&gt;.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;object2 = object1;&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;But here&amp;rsquo;s the difference: this time, it doesn&amp;rsquo;t invoke the copy constructor. Instead, the compiler generates an overloaded assignment operator (if you don’t provide one), and this operator simply replaces the existing values in the left-hand struct with the ones from the right-hand struct.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cpp" data-lang="cpp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;A&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; A() { std&lt;span style="color:#f92672"&gt;::&lt;/span&gt;cout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;default ctor invoked&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;\n&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; A(&lt;span style="color:#66d9ef"&gt;const&lt;/span&gt; A&lt;span style="color:#f92672"&gt;&amp;amp;&lt;/span&gt; other) { std&lt;span style="color:#f92672"&gt;::&lt;/span&gt;cout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;copy ctor invoked&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;\n&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; A&lt;span style="color:#f92672"&gt;&amp;amp;&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;operator&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;(&lt;span style="color:#66d9ef"&gt;const&lt;/span&gt; A&lt;span style="color:#f92672"&gt;&amp;amp;&lt;/span&gt; other) { std&lt;span style="color:#f92672"&gt;::&lt;/span&gt;cout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;operator= invoked&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;\n&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;A a; &lt;span style="color:#75715e"&gt;// default ctor invoked
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;A b &lt;span style="color:#f92672"&gt;=&lt;/span&gt; a; &lt;span style="color:#75715e"&gt;// copy ctor invoked
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;a &lt;span style="color:#f92672"&gt;=&lt;/span&gt; b; &lt;span style="color:#75715e"&gt;// operator= invoked
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="to-be-continued"&gt;To Be Continued&amp;hellip;&lt;/h3&gt;
+&lt;p&gt;At first, I had big dreams of covering everything there is to know about structs in a single article. But, let&amp;rsquo;s be real—it was turning into a novel. So, I’ve decided to break it up into a trilogy (think &lt;em&gt;Lord of the Rings&lt;/em&gt;, but with fewer swords and more code). Stay tuned for the next part, where I’ll dive deeper into how structs really shine in C++!&lt;/p&gt;</content></item><item><title>Overengineering "Hello, World!"</title><link>https://priyavr.at/blog/hello-world/</link><pubDate>Thu, 16 Jun 2022 12:30:21 +0530</pubDate><guid>https://priyavr.at/blog/hello-world/</guid><content>&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;A word of warning:&lt;/strong&gt; This article is not for the faint of heart—or for those who believe “Hello, World!” should ever be simple.&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;You might be wondering, “Why start with ‘Hello, World!’?” Well, as this is my very first blog post, I wanted to pay homage to the time-honored tradition of beginning every programming journey with this iconic phrase. “Hello, World!” is simple, universal, and instantly recognizable—making it the perfect canvas for a little creative overengineering. If you thought printing a string was straightforward, prepare to have your expectations delightfully complicated.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cpp" data-lang="cpp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#include&lt;/span&gt; &lt;span style="color:#75715e"&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span style="color:#75715e"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;using&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;namespace&lt;/span&gt; std;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;main&lt;/span&gt;(&lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; argc, &lt;span style="color:#66d9ef"&gt;char&lt;/span&gt; &lt;span style="color:#f92672"&gt;*&lt;/span&gt;argv[]) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Hello, World!&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;\n&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;; &lt;span style="color:#75715e"&gt;// about time we make it a little interesting
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt; cout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;\110\145\154\154\157\54\40\127\157\162\154\144\41\12&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cout &lt;span style="color:#f92672"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;\x48\x65\x6C\x6C\x6F\x2C\x20\x57\x6F\x72\x6C\x64\x21&lt;/span&gt;&lt;span style="color:#e6db74"&gt;\xA&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;return&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;All three &lt;code&gt;cout&lt;/code&gt; statements will print the same thing—that is, &lt;code&gt;Hello, World!&lt;/code&gt; (with a newline for good measure).&lt;/p&gt;
+&lt;p&gt;Now, let’s talk about the “how.” In a nutshell, it’s all thanks to &lt;strong&gt;escape sequences&lt;/strong&gt;. These are special codes that let you represent characters that would otherwise be tricky (or downright impossible) to include directly in a string. For example, if you want to sneak a double quotation mark (&lt;code&gt;&amp;quot;&lt;/code&gt;) inside a string literal, you can’t just plop it in there—you need to precede it with a backslash (&lt;code&gt;\&lt;/code&gt;). There are also classic escape sequences like &lt;code&gt;\n&lt;/code&gt; for a newline or &lt;code&gt;\t&lt;/code&gt; for a tab, all predefined by the language.&lt;/p&gt;
+&lt;p&gt;But wait—there’s more! Escape sequences aren’t limited to just the usual suspects. You can also use &lt;strong&gt;octal&lt;/strong&gt; and &lt;strong&gt;hexadecimal&lt;/strong&gt; escape sequences to represent characters by their numeric values. Below are the “obscure” forms:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;\&lt;/code&gt; followed by &lt;em&gt;one&lt;/em&gt;, &lt;em&gt;two&lt;/em&gt; or &lt;em&gt;three&lt;/em&gt; &lt;strong&gt;octal&lt;/strong&gt; digits&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;\x&lt;/code&gt; followed by &lt;em&gt;one&lt;/em&gt; or more &lt;strong&gt;hexadecimal&lt;/strong&gt; digits&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The numbers following &lt;code&gt;\&lt;/code&gt; and &lt;code&gt;\x&lt;/code&gt; represent the character’s value. For simplicity, let’s assume we’re using &lt;a href="https://en.wikipedia.org/wiki/ASCII" target="_blank"&gt;ASCII character encoding&lt;/a&gt;. In plain English, every character in the language is mapped to a predefined numeric value, as per the &lt;strong&gt;ASCII specification&lt;/strong&gt;. The second and third &lt;code&gt;cout&lt;/code&gt; statements above use these values in octal and hexadecimal format, respectively, to conjure up the same familiar message.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;A few notes (so you don’t lose your sanity while experimenting):&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;If there are more than three octal digits after &lt;code&gt;\&lt;/code&gt;, only the first three are interpreted as part of the escape sequence; the rest are treated as regular characters.&lt;/li&gt;
+&lt;li&gt;Hexadecimal digits are not case-sensitive, &lt;code&gt;\x6C&lt;/code&gt; is same as &lt;code&gt;\x6c&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;&lt;/blockquote&gt;
+&lt;p&gt;The table below breaks down each character in &lt;code&gt;&amp;quot;Hello, World!\n&amp;quot;&lt;/code&gt;—but you can generalize this approach to any string, should you wish to thoroughly confuse your future self (or your colleagues).&lt;/p&gt;
+&lt;table class="table table-sm table-borderless table-hover"&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style="text-align: center"&gt;Character&lt;/th&gt;
+&lt;th style="text-align: center"&gt;ASCII Value&lt;/th&gt;
+&lt;th style="text-align: center"&gt;Octal&lt;/th&gt;
+&lt;th style="text-align: center"&gt;Hexadecimal&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;H&lt;/code&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;72&lt;/td&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;\110&lt;/code&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;\x48&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;e&lt;/code&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;101&lt;/td&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;\145&lt;/code&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;\x65&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;l&lt;/code&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;108&lt;/td&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;\154&lt;/code&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;\x6C&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;l&lt;/code&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;108&lt;/td&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;\154&lt;/code&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;\x6C&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;o&lt;/code&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;111&lt;/td&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;\157&lt;/code&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;\x6F&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;,&lt;/code&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;44&lt;/td&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;\54&lt;/code&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;\x2C&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;SPACE&lt;/code&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;32&lt;/td&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;\40&lt;/code&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;\x20&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;W&lt;/code&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;87&lt;/td&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;\127&lt;/code&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;\x57&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;o&lt;/code&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;111&lt;/td&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;\157&lt;/code&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;\x6F&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;r&lt;/code&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;114&lt;/td&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;\162&lt;/code&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;\x72&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;l&lt;/code&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;108&lt;/td&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;\154&lt;/code&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;\x6C&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;d&lt;/code&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;100&lt;/td&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;\144&lt;/code&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;\x64&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;!&lt;/code&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;33&lt;/td&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;\41&lt;/code&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;\x21&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;\n&lt;/code&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;10&lt;/td&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;\12&lt;/code&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;&lt;code&gt;\xA&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Hope you enjoyed this deep dive into the unnecessarily complex world of escape sequences. Remember: just because you &lt;em&gt;can&lt;/em&gt; overengineer “Hello, World!” doesn’t mean you &lt;em&gt;should&lt;/em&gt;—but it sure is fun.&lt;/p&gt;</content></item></channel></rss>
