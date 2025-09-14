@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Priyavrat Misra's Hardware</title><link>https://priyavr.at/tags/hardware/</link><description>Recent content in Priyavrat Misra's Hardware</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&amp;copy; 2022-{year} Priyavrat Misra. All rights reserved.</copyright><lastBuildDate>Wed, 20 Jul 2022 12:12:12 +0530</lastBuildDate><atom:link href="https://priyavr.at/tags/hardware/rss.xml" rel="self" type="application/rss+xml"/><item><title>Building a PC</title><link>https://priyavr.at/blog/first-pc-build-journey/</link><pubDate>Wed, 20 Jul 2022 12:12:12 +0530</pubDate><guid>https://priyavr.at/blog/first-pc-build-journey/</guid><content>&lt;p&gt;A couple of weeks ago, I learned that my laptop’s processor and motherboard had fried. While this might have come as a shock to some, I can’t say I was surprised.&lt;/p&gt;
 &lt;p&gt;After all, I’d been using that laptop for over four years, subjecting it to marathon sessions almost every day. Frankly, it was more of a “when” than an “if.” So, when the inevitable happened, I decided it was finally time to build myself a PC.&lt;/p&gt;
 &lt;p&gt;I spent several exhausting days researching hardware, poring over benchmarks, hunting for compatibility issues, and generally falling down the rabbit hole of PC building. Eventually, after much deliberation, I placed my orders. It was a ton of work, but hey—if it ends with a working PC, I’ll call that a win.&lt;/p&gt;
-&lt;h3 id="parts"&gt;Parts&lt;/h3&gt;
+&lt;h2 id="parts"&gt;Parts&lt;/h2&gt;
 &lt;p&gt;My goal was to get significantly better performance than my old laptop, but without blowing my budget. Mission accomplished—with these parts:&lt;/p&gt;
 &lt;p&gt;
 &lt;img src="https://priyavr.at/images/first-pc-build-journey/parts.webp" alt="The Parts" loading="lazy"&gt;
@@ -82,7 +82,7 @@ Now, you might be wondering: “Why on earth did you buy a &lt;strong&gt;GT 1030
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;/p&gt;
-&lt;h3 id="assemblage"&gt;Assemblage&lt;/h3&gt;
+&lt;h2 id="assemblage"&gt;Assemblage&lt;/h2&gt;
 &lt;p&gt;After a week of impatiently tracking shipping updates, my parts finally arrived. This was my first time assembling a PC, so I made sure I was prepared. Surprisingly, all I really needed was a &lt;a href="https://en.wikipedia.org/wiki/List_of_screw_drives#Phillips" target="_blank"&gt;Phillips #1 screwdriver&lt;/a&gt;. That, and a healthy dose of concentration (and maybe a little prayer).&lt;/p&gt;
 &lt;p&gt;I took my time reading through the manuals—yes, I actually read the manuals—and soon enough, everything started coming together (pun absolutely intended).&lt;/p&gt;
 &lt;table&gt;
@@ -117,5 +117,5 @@ Now, you might be wondering: “Why on earth did you buy a &lt;strong&gt;GT 1030
 &lt;figcaption class="text-center figure-caption"&gt;Translation: &amp;#34;Hello, World!&amp;#34;&lt;/figcaption&gt;
 &lt;/figure&gt;
 &lt;/p&gt;
-&lt;h3 id="final-thoughts"&gt;Final Thoughts&lt;/h3&gt;
+&lt;h2 id="final-thoughts"&gt;Final Thoughts&lt;/h2&gt;
 &lt;p&gt;If you ever get the chance, I highly recommend building your own PC. It takes a bit of research and patience, but the sense of accomplishment is absolutely worth it. I’m glad I took the plunge—and my new PC agrees.&lt;/p&gt;</content></item></channel></rss>

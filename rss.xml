@@ -1,20 +1,20 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Priyavrat Misra</title><link>https://priyavr.at/</link><description>Recent content in Priyavrat Misra's Website</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&amp;copy; 2022-{year} Priyavrat Misra. All rights reserved.</copyright><atom:link href="https://priyavr.at/rss.xml" rel="self" type="application/rss+xml"/><item><title>Counting at Scale</title><link>https://priyavr.at/blog/hyperloglog/</link><pubDate>Thu, 03 Jul 2025 20:48:00 +0530</pubDate><guid>https://priyavr.at/blog/hyperloglog/</guid><content>&lt;h3 id="motivation"&gt;Motivation&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Priyavrat Misra</title><link>https://priyavr.at/</link><description>Recent content in Priyavrat Misra's Website</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&amp;copy; 2022-{year} Priyavrat Misra. All rights reserved.</copyright><atom:link href="https://priyavr.at/rss.xml" rel="self" type="application/rss+xml"/><item><title>Counting at Scale</title><link>https://priyavr.at/blog/hyperloglog/</link><pubDate>Thu, 03 Jul 2025 20:48:00 +0530</pubDate><guid>https://priyavr.at/blog/hyperloglog/</guid><content>&lt;h2 id="motivation"&gt;Motivation&lt;/h2&gt;
 &lt;p&gt;Last weekend, I decided to delve deeper into the world of databases and stumbled upon the fantastic &lt;a href="https://15445.courses.cs.cmu.edu/" target="_blank"&gt;CMU 15-445/645&lt;/a&gt; course. After the introduction lecture, I jumped straight into the assignments. The first one, aptly named &lt;a href="https://15445.courses.cs.cmu.edu/fall2024/project0/" target="_blank"&gt;C&amp;#43;&amp;#43; Primer&lt;/a&gt;, is a straightforward programming task designed to assess your grasp of basic C++ features.&lt;/p&gt;
-&lt;h3 id="the-problem"&gt;The Problem&lt;/h3&gt;
+&lt;h2 id="the-problem"&gt;The Problem&lt;/h2&gt;
 &lt;p&gt;The problem? Track the number of &lt;strong&gt;unique&lt;/strong&gt; users accessing a website in a single day. If this were a LeetCode problem, it would be a breeze—just toss all the users into an &lt;code&gt;unordered_set&lt;/code&gt; and return its size. Easy, right? But, as with most things in life, real-world problems are rarely so simple—or so memory-friendly.&lt;/p&gt;
 &lt;p&gt;Let’s break down the “LeetCode way.” Imagine we’re working at Facebook, say about one billion unique users log in daily, and each user ID is around 8 bytes. Using an &lt;code&gt;unordered_set&lt;/code&gt;, that’s 8 billion bytes of memory—about 7.7 GB—just to count users! All we really want is a single number. It’s like renting an entire stadium just to host a two-person meeting.&lt;/p&gt;
-&lt;h3 id="data-streams-vs-accumulated-data"&gt;Data Streams vs. Accumulated Data&lt;/h3&gt;
+&lt;h2 id="data-streams-vs-accumulated-data"&gt;Data Streams vs. Accumulated Data&lt;/h2&gt;
 &lt;p&gt;But there’s another subtlety here: in real-world systems, we’re often dealing with a data stream, not a static, accumulated dataset. Users are constantly logging in, and we want to process each event as it happens—potentially across distributed servers—without storing the entire history of who has logged in so far.&lt;/p&gt;
 &lt;p&gt;The &lt;code&gt;unordered_set&lt;/code&gt; solution works if we have all the data in memory and can afford to keep it there, but that’s rarely feasible at scale. In practice, we don’t want to keep every user ID we’ve ever seen—especially when the list can be massive and ever-growing. Instead, we need a way to estimate the number of unique users “on the fly,” using minimal memory, and without revisiting or accumulating all previous data.&lt;/p&gt;
-&lt;h3 id="practical-approaches-and-their-pitfalls"&gt;Practical Approaches and their Pitfalls&lt;/h3&gt;
+&lt;h2 id="practical-approaches-and-their-pitfalls"&gt;Practical Approaches and their Pitfalls&lt;/h2&gt;
 &lt;p&gt;Let’s get practical. Suppose there’s a “last seen” metadata field associated with each user. We could increment a counter whenever “last seen” is updated from a timestamp that isn’t from the current day. Sounds simple, right? But in reality, every time a user opens the app, we’re hitting the database for a lookup—hardly efficient.&lt;/p&gt;
 &lt;p&gt;You might argue, “But we’re fetching user data anyway to show in the chat window, so why not cache and reuse it?” That’s true—&lt;em&gt;if&lt;/em&gt; the user visits the chat window. If not, the lookup is only for the counter, which feels wasteful. Plus, we’re assuming the existence of a “last seen” field, which isn’t always available.&lt;/p&gt;
 &lt;p&gt;Now, consider a different question: “How many unique users have liked posts in the last month?” Here, we’re dealing with a different set of actions and data. Often, we have no choice but to perform full table scans, which can put serious strain on the database—much like asking your laptop to run Crysis on integrated graphics.&lt;/p&gt;
-&lt;h3 id="enter-hyperloglog-a-probabilistic-solution"&gt;Enter HyperLogLog: A Probabilistic Solution&lt;/h3&gt;
+&lt;h2 id="enter-hyperloglog-a-probabilistic-solution"&gt;Enter HyperLogLog: A Probabilistic Solution&lt;/h2&gt;
 &lt;p&gt;The problem statement then brings us to HyperLogLog—a probabilistic algorithm designed to estimate the number of unique elements (the “cardinality”) in a data stream without explicitly storing every item. The key idea? The more unique elements we see, the more likely we are to encounter a hash with many contiguous zeroes.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;According to &lt;a href="https://algo.inria.fr/flajolet/Publications/FlFuGaMe07.pdf" target="_blank"&gt;HyperLogLog: The analysis of a near-optimal cardinality estimation algorithm&lt;/a&gt;, the HyperLogLog algorithm is able to estimate cardinalities of \(&gt;10^{9}\) with a typical accuracy (standard error) of \(2\%\), using \(1.5 kB\) of memory.&lt;/p&gt;&lt;/blockquote&gt;
-&lt;h4 id="how-hyperloglog-works"&gt;How HyperLogLog works?&lt;/h4&gt;
+&lt;h3 id="how-hyperloglog-works"&gt;How HyperLogLog works?&lt;/h3&gt;
 &lt;p&gt;HyperLogLog uses a hash function—ideally, one that produces uniformly distributed values. We take the user ID (or any suitable identifier), hash it to a numerical value, and use its binary representation. Some implementations consider the maximum number of trailing zeroes, others look at the maximum leftmost position of \(1\) (i.e., the maximum number of leading zeroes plus one). For our discussion, we’ll stick with the latter, as in the problem statement.&lt;/p&gt;
 &lt;p&gt;Assuming no hash collisions, our problem reduces to finding the number of unique binary strings. If you remember your high school math, for a random binary string, the probability of getting \(k\) leading zeroes followed by a one is \(1 / 2^{k+1}\).&lt;/p&gt;
 &lt;p&gt;
@@ -31,7 +31,7 @@
 &lt;p&gt;Note that, \(HHH\) isn&amp;rsquo;t valid here because we considered the maximum leading heads to be 2, so technically it should be one less, but to keep things simple, we can round it off.&lt;/p&gt;
 &lt;p&gt;Try to solve for a maximum run of 10 heads—notice how quickly the probability drops!&lt;/p&gt;
 &lt;p&gt;The chance of seeing a hash with many leading zeroes is very low, and the more unique elements we see, the higher the chance we’ll encounter such a hash. However, it’s still possible—thanks to uniform hashing—to get unlucky and see a binary string with many leading zeroes after just a few tries. These are outliers, and HyperLogLog has a clever way of handling them.&lt;/p&gt;
-&lt;h4 id="bucketing-and-mergeability"&gt;Bucketing and Mergeability&lt;/h4&gt;
+&lt;h3 id="bucketing-and-mergeability"&gt;Bucketing and Mergeability&lt;/h3&gt;
 &lt;p&gt;To manage outliers, HyperLogLog distributes the hash values into different buckets based on the initial \(b\) bits of the hash. This gives us a total of \(2^b\) buckets, each tracking its own maximum. Even though we’re distributing values, the maximum among them remains the same, so our problem is &lt;em&gt;mergeable&lt;/em&gt;—we don’t have to worry about double-counting.&lt;/p&gt;
 &lt;p&gt;
 &lt;div class="embedded-svg" role="img" aria-label="Bucketing in HyperLogLog illustrated"&gt;
@@ -44,25 +44,25 @@
 &lt;/div&gt;
 &lt;/p&gt;
 &lt;p&gt;This property is incredibly useful for questions like, “How many unique users have liked posts in the last month?” We can easily combine the buckets for each day and calculate the result. To do this, we persist each day’s serialized HyperLogLog structure (typically just a few kilobytes—no big deal). The mergeability of HyperLogLog is also a boon in distributed systems: each server can maintain its own buckets, which can later be aggregated.&lt;/p&gt;
-&lt;h4 id="why-not-just-use-the-mean"&gt;Why not just use the mean?&lt;/h4&gt;
+&lt;h3 id="why-not-just-use-the-mean"&gt;Why not just use the mean?&lt;/h3&gt;
 &lt;p&gt;So, what if we take the average of all the maximums across the buckets? Does it solve the outlier problem? Unfortunately, no. The average is still affected by outliers. Instead, HyperLogLog uses the &lt;em&gt;harmonic mean&lt;/em&gt;, which is less sensitive to large outliers.&lt;/p&gt;
 &lt;p&gt;Let \(b\) be the number of bits chosen to identify a bucket, giving us \(m = 2^b\) buckets. Let \(p_i\) be the maximum leftmost position of \(1\) seen so far for bucket \(i\). The cardinality estimate is calculated as:&lt;/p&gt;
 \[0.79402 * m * \frac{m}{\sum_{i=0}^{m-1} 2^{-p_i}}\]&lt;p&gt;Notice that outliers appear in the denominator as \(p_i\), contributing only slightly to the cardinality. Also, the more buckets we have, the more outliers we can handle, and the more accurate the cardinality estimate becomes (although this does require more memory).&lt;/p&gt;
-&lt;h3 id="real-world-impact"&gt;Real-World Impact&lt;/h3&gt;
+&lt;h2 id="real-world-impact"&gt;Real-World Impact&lt;/h2&gt;
 &lt;p&gt;The efficiency and scalability of HyperLogLog have cemented its place as an industry standard for large-scale unique counting. For instance, Redis offers built-in HyperLogLog support, enabling developers to track unique website visitors or event occurrences with just a few kilobytes of memory. Likewise, Google Analytics relies on similar probabilistic algorithms to deliver fast, accurate unique user counts across billions of events, powering real-time analytics on a global scale. Beyond these high-profile examples, HyperLogLog is widely used in streaming analytics dashboards, traffic heatmaps, and any scenario where massive data volumes demand both accuracy and minimal memory usage.&lt;/p&gt;
-&lt;h3 id="conclusion"&gt;Conclusion&lt;/h3&gt;
+&lt;h2 id="conclusion"&gt;Conclusion&lt;/h2&gt;
 &lt;p&gt;I hope you found this exploration as engaging to read as I did to put together! Thanks for joining me on this deep dive.&lt;/p&gt;
-&lt;h4 id="further-reading"&gt;Further Reading&lt;/h4&gt;
+&lt;h3 id="further-reading"&gt;Further Reading&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://algo.inria.fr/flajolet/Publications/FlFuGaMe07.pdf" target="_blank"&gt;Original HyperLogLog Paper (PDF)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://engineering.fb.com/2018/12/13/data-infrastructure/hyperloglog/" target="_blank"&gt;A blog on Meta&amp;#39;s implementation of HLL&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://redis.io/docs/latest/develop/data-types/probabilistic/hyperloglogs/" target="_blank"&gt;HyperLogLog in Redis&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://cloud.google.com/bigquery/docs/reference/standard-sql/approximate_aggregate_functions#approx_count_distinct" target="_blank"&gt;BigQuery’s Approximate Count Distinct&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content></item><item><title>A Voyage to Structs</title><link>https://priyavr.at/blog/structs-i/</link><pubDate>Wed, 12 Feb 2025 08:55:00 +0530</pubDate><guid>https://priyavr.at/blog/structs-i/</guid><content>&lt;h3 id="motivation"&gt;Motivation&lt;/h3&gt;
+&lt;/ul&gt;</content></item><item><title>A Voyage to Structs</title><link>https://priyavr.at/blog/structs-i/</link><pubDate>Wed, 12 Feb 2025 08:55:00 +0530</pubDate><guid>https://priyavr.at/blog/structs-i/</guid><content>&lt;h2 id="motivation"&gt;Motivation&lt;/h2&gt;
 &lt;p&gt;I’m back, folks! Though I must admit, I’m a little rusty. It’s been a while since I’ve written anything. Life, as it tends to do, got in the way—new job, new priorities, you know the drill. I’m not entirely sure what inspired me to dust off my portfolio today. Perhaps it was the domain renewal email or perhaps it was the realization that two years have passed since I started writing an article that&amp;rsquo;s still lingering in draft form, waiting for its chance to shine (or, more likely, to be completely rewritten). But today I&amp;rsquo;m dusting myself off and diving back in, ready to share some fresh thoughts. Join me, if you will, on &lt;em&gt;A Voyage to Structs&lt;/em&gt;.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;A quick note: this article focuses exclusively on structs in C++, though most of the concepts here are applicable to C, and some might even apply to other &lt;a href="https://en.wikipedia.org/wiki/List_of_C-family_programming_languages" target="_blank"&gt;C-family languages&lt;/a&gt;. But hey, no promises.&lt;/p&gt;&lt;/blockquote&gt;
-&lt;h3 id="introduction"&gt;Introduction&lt;/h3&gt;
+&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;Let’s kick things off with a definition from &lt;em&gt;cppreference&lt;/em&gt;:&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;A struct is a type consisting of a sequence of members whose storage is allocated in an ordered sequence.&lt;/p&gt;&lt;/blockquote&gt;
@@ -74,7 +74,7 @@
 &lt;li&gt;&lt;strong&gt;A class type&lt;/strong&gt;: This could be a &lt;code&gt;struct&lt;/code&gt;, &lt;code&gt;class&lt;/code&gt;, or &lt;code&gt;union&lt;/code&gt;.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;A program-defined type&lt;/strong&gt;: In C++20, this refers to class and enum types &lt;em&gt;we&lt;/em&gt; define, not those that come with the standard library or the core language.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id="defining-structs"&gt;Defining Structs&lt;/h3&gt;
+&lt;h2 id="defining-structs"&gt;Defining Structs&lt;/h2&gt;
 &lt;p&gt;Since structs are program-defined types, we need to describe them to the compiler before we use them. Structs can either have a name (a &lt;em&gt;type tag&lt;/em&gt;) or not. If there’s no name, we call them anonymous structs—pretty self-explanatory. Anonymous structs are useful in special contexts, like inside a &lt;code&gt;typedef&lt;/code&gt; or &lt;code&gt;union&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Let’s start with how structs are defined in C, and then we’ll dive into some C++ additions.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-c" data-lang="c"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; Direction {
@@ -117,10 +117,10 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; val;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Node&lt;span style="color:#f92672"&gt;*&lt;/span&gt; next; &lt;span style="color:#75715e"&gt;// no need for `struct`
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;};
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="initializing-structs"&gt;Initializing Structs&lt;/h3&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="initializing-structs"&gt;Initializing Structs&lt;/h2&gt;
 &lt;p&gt;In the previous section, to keep the examples simple, I have instantiated the structs and assigned the values one by one. It may be considered as one form of initialization but it is not a good practice to do so. In a way it violates the &lt;em&gt;always initialize&lt;/em&gt; rule from the &lt;a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#es20-always-initialize-an-object" target="_blank"&gt;C&amp;#43;&amp;#43; Core Guidelines&lt;/a&gt;. It can be a bit error-prone, especially since some members might slip through the cracks and be left uninitialized—leading to undefined behavior or garbage values. To avoid this, we need to properly initialize our structs.&lt;/p&gt;
 &lt;p&gt;To correctly initialize a struct, we first have to get familiar with &lt;em&gt;aggregates&lt;/em&gt;.&lt;/p&gt;
-&lt;h4 id="what-is-an-aggregate"&gt;What is an &lt;em&gt;aggregate&lt;/em&gt;?&lt;/h4&gt;
+&lt;h3 id="what-is-an-aggregate"&gt;What is an &lt;em&gt;aggregate&lt;/em&gt;?&lt;/h3&gt;
 &lt;p&gt;The formal definition of an aggregate has changed throughout the C++ standards. There have been few rules added and few removed, however the following stayed consistent throughout all the standards.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;An &lt;em&gt;aggregate&lt;/em&gt; is any data type with multiple members, it can either be an array type or a class type with:&lt;/p&gt;
@@ -131,13 +131,13 @@
 &lt;p&gt;&lt;em&gt;An up-to-date and precise definition can be found &lt;a href="https://en.cppreference.com/w/cpp/language/aggregate_initialization" target="_blank"&gt;here&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;You might be tempted to think that structs are always aggregates, but that’s not true. In C++, classes and struct are the same except for their default behaviour with regards to inheritance and access levels of members. For classes both are private whereas for struct both are public. Because of this classes and structs can be used interchangeably, and so there is a possibility of a &lt;em&gt;non-aggregate&lt;/em&gt; struct. But for our purposes, we’ll stick with the assumption that structs with only data members are aggregates.&lt;/p&gt;
 &lt;p&gt;Before delving into &lt;em&gt;aggregate-initialization&lt;/em&gt;, let&amp;rsquo;s take a short detour.&lt;/p&gt;
-&lt;h4 id="value-initialization"&gt;Value-initialization&lt;/h4&gt;
+&lt;h3 id="value-initialization"&gt;Value-initialization&lt;/h3&gt;
 &lt;p&gt;In C++11 and beyond, &lt;em&gt;value-initialization&lt;/em&gt; occurs when a variable is initialized using an empty brace-enclosed initializer list.&lt;/p&gt;
 &lt;p&gt;If a scalar type (&lt;code&gt;bool&lt;/code&gt;, &lt;code&gt;int&lt;/code&gt;, &lt;code&gt;char&lt;/code&gt;, &lt;code&gt;double&lt;/code&gt;, pointers, etc.) is initialized this way then they are zero-initialized.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cpp" data-lang="cpp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;double&lt;/span&gt; d {}; &lt;span style="color:#75715e"&gt;// value-initialized to 0.0
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;int&lt;/span&gt;&lt;span style="color:#f92672"&gt;*&lt;/span&gt; p {}; &lt;span style="color:#75715e"&gt;// value-initialized to NULL
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Whereas, for aggregate types if this form of initialization is used then &lt;em&gt;aggregate-initialization&lt;/em&gt; is performed instead.&lt;/p&gt;
-&lt;h4 id="aggregate-initialization"&gt;Aggregate-initialization&lt;/h4&gt;
+&lt;h3 id="aggregate-initialization"&gt;Aggregate-initialization&lt;/h3&gt;
 &lt;p&gt;There are four ways to initialize an aggregate, all of which are various forms of &lt;a href="https://en.cppreference.com/w/cpp/language/list_initialization" target="_blank"&gt;list-initialization&lt;/a&gt;.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Initializing an aggregate with an ordinary initializer list.&lt;/li&gt;
@@ -154,7 +154,7 @@
 &lt;li&gt;&lt;code&gt;T object { .des1 = arg1 , .des2 { arg2 } ... };&lt;/code&gt; (since &lt;em&gt;C++20&lt;/em&gt;)&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;Here, 2 and 4 are termed &lt;em&gt;direct list initialization&lt;/em&gt; and, 1 and 3 are termed &lt;em&gt;copy list initialization&lt;/em&gt;.&lt;/p&gt;
-&lt;h5 id="initializing-with-ordinary-initializer-lists"&gt;initializing with ordinary initializer lists&lt;/h5&gt;
+&lt;h4 id="initializing-with-ordinary-initializer-lists"&gt;initializing with ordinary initializer lists&lt;/h4&gt;
 &lt;p&gt;This syntax (&lt;em&gt;1, 2&lt;/em&gt;) is commonly used when initializing arrays, which can be generalized to aggregates.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cpp" data-lang="cpp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; oneDigitPrimes[]{&lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;3&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;5&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;7&lt;/span&gt;}; &lt;span style="color:#75715e"&gt;// or oneDigitPrimes[] = {2, 3, 5, 7}
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;int&lt;/span&gt;&lt;span style="color:#f92672"&gt;*&lt;/span&gt; oneDigitPrimesHeap &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt;[]{&lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;3&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;5&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;7&lt;/span&gt;};
@@ -239,7 +239,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;derived d2{{}, {}, &lt;span style="color:#ae81ff"&gt;4&lt;/span&gt;}; &lt;span style="color:#75715e"&gt;// initializes d2.b1 with 0, d2.b2 with 42,
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt; &lt;span style="color:#75715e"&gt;// d2.b3 with 42, d2.d with 4
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Note that if there is a user declared default constructor (like in &lt;code&gt;base2&lt;/code&gt;), then value-initialization will invoke it instead of value initializing the members.&lt;/p&gt;
-&lt;h5 id="initializing-with-designated-initializers"&gt;initializing with designated initializers&lt;/h5&gt;
+&lt;h4 id="initializing-with-designated-initializers"&gt;initializing with designated initializers&lt;/h4&gt;
 &lt;p&gt;A designated initializer, or designator, points out a particular element to be initialized. A designator list is a comma-separated list of one or more designators. They must appear in the same order as the order of declaration. All the members without a designator having a default value are assigned that value. And the other members are initialized from an empty initializer list, similar to the above section.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cpp" data-lang="cpp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;Person&lt;/span&gt; {
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; std&lt;span style="color:#f92672"&gt;::&lt;/span&gt;string name;
@@ -288,7 +288,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;};
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Course c &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {{.name &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Alice&amp;#34;&lt;/span&gt;, .marks &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {&lt;span style="color:#ae81ff"&gt;85&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;90&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;88&lt;/span&gt;}}, &lt;span style="color:#ae81ff"&gt;90.5&lt;/span&gt;};
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="initializing-from-a-struct"&gt;Initializing from a Struct&lt;/h4&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="initializing-from-a-struct"&gt;Initializing from a Struct&lt;/h3&gt;
 &lt;p&gt;Let&amp;rsquo;s say we have a struct, and we want to initialize another struct with the same values. Lucky for us, C++ makes it pretty intuitive to do so without manually initializing each member. All it takes is &lt;code&gt;operator=&lt;/code&gt;, also known as &lt;em&gt;copy initialization&lt;/em&gt;.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-cpp" data-lang="cpp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;struct&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;Node&lt;/span&gt; {
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;int&lt;/span&gt; val;
@@ -319,10 +319,10 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;Node a &lt;span style="color:#f92672"&gt;=&lt;/span&gt; d; &lt;span style="color:#75715e"&gt;// copy ctor invoked
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;Node &lt;span style="color:#a6e22e"&gt;b&lt;/span&gt;(a); &lt;span style="color:#75715e"&gt;// copy ctor invoked
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;Node c{b}; &lt;span style="color:#75715e"&gt;// copy ctor invoked
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="assigning-structs"&gt;Assigning Structs&lt;/h3&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="assigning-structs"&gt;Assigning Structs&lt;/h2&gt;
 &lt;p&gt;There will be times when not all the values of struct members are known at initialization. Later on, when the values become known, one option is to assign individually but there is always a chance of overlooking a few.&lt;/p&gt;
 &lt;p&gt;So, what are the best ways to assign values to structs correctly? Let’s explore a couple of approaches.&lt;/p&gt;
-&lt;h4 id="assigning-with-initializer-lists"&gt;assigning with initializer lists&lt;/h4&gt;
+&lt;h3 id="assigning-with-initializer-lists"&gt;assigning with initializer lists&lt;/h3&gt;
 &lt;p&gt;Out of the four list-initialization forms discussed earlier, two of them &lt;em&gt;(1, 3)&lt;/em&gt; can be used for assignments. To refresh your memory, these two forms of initialization are called &lt;em&gt;copy list initialization&lt;/em&gt;.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;code&gt;object = { arg1, arg2, ... };&lt;/code&gt;&lt;/li&gt;
@@ -341,7 +341,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;std&lt;span style="color:#f92672"&gt;::&lt;/span&gt;cin &lt;span style="color:#f92672"&gt;&amp;gt;&amp;gt;&lt;/span&gt; dob;
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;person &lt;span style="color:#f92672"&gt;=&lt;/span&gt; { .name &lt;span style="color:#f92672"&gt;=&lt;/span&gt; person.name, .age &lt;span style="color:#f92672"&gt;=&lt;/span&gt; calc_age(dob) };
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In this example, &lt;code&gt;age&lt;/code&gt; was value-initialized to &lt;code&gt;-1&lt;/code&gt; at first. Later, it gets recalculated and assigned. Since &lt;code&gt;name&lt;/code&gt; didn&amp;rsquo;t need to change, we just reused the previous value. However, here’s where things can trip you up: &lt;code&gt;height&lt;/code&gt; was left out of the assignment and gets value-initialized to &lt;code&gt;0.0&lt;/code&gt;, overwriting the original height value. Oops!&lt;/p&gt;
-&lt;h4 id="assigning-another-struct-using-operator"&gt;assigning another struct using &lt;code&gt;operator=&lt;/code&gt;&lt;/h4&gt;
+&lt;h3 id="assigning-another-struct-using-operator"&gt;assigning another struct using &lt;code&gt;operator=&lt;/code&gt;&lt;/h3&gt;
 &lt;p&gt;The syntax is similar to that of initializing from a struct using &lt;code&gt;operator=&lt;/code&gt;.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;object2 = object1;&lt;/code&gt;&lt;/li&gt;
@@ -356,11 +356,11 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;A a; &lt;span style="color:#75715e"&gt;// default ctor invoked
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;A b &lt;span style="color:#f92672"&gt;=&lt;/span&gt; a; &lt;span style="color:#75715e"&gt;// copy ctor invoked
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;a &lt;span style="color:#f92672"&gt;=&lt;/span&gt; b; &lt;span style="color:#75715e"&gt;// operator= invoked
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="to-be-continued"&gt;To Be Continued&amp;hellip;&lt;/h3&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="to-be-continued"&gt;To Be Continued&amp;hellip;&lt;/h2&gt;
 &lt;p&gt;At first, I had big dreams of covering everything there is to know about structs in a single article. But, let&amp;rsquo;s be real—it was turning into a novel. So, I’ve decided to break it up into a trilogy (think &lt;em&gt;Lord of the Rings&lt;/em&gt;, but with fewer swords and more code). Stay tuned for the next part, where I’ll dive deeper into how structs really shine in C++!&lt;/p&gt;</content></item><item><title>Building a PC</title><link>https://priyavr.at/blog/first-pc-build-journey/</link><pubDate>Wed, 20 Jul 2022 12:12:12 +0530</pubDate><guid>https://priyavr.at/blog/first-pc-build-journey/</guid><content>&lt;p&gt;A couple of weeks ago, I learned that my laptop’s processor and motherboard had fried. While this might have come as a shock to some, I can’t say I was surprised.&lt;/p&gt;
 &lt;p&gt;After all, I’d been using that laptop for over four years, subjecting it to marathon sessions almost every day. Frankly, it was more of a “when” than an “if.” So, when the inevitable happened, I decided it was finally time to build myself a PC.&lt;/p&gt;
 &lt;p&gt;I spent several exhausting days researching hardware, poring over benchmarks, hunting for compatibility issues, and generally falling down the rabbit hole of PC building. Eventually, after much deliberation, I placed my orders. It was a ton of work, but hey—if it ends with a working PC, I’ll call that a win.&lt;/p&gt;
-&lt;h3 id="parts"&gt;Parts&lt;/h3&gt;
+&lt;h2 id="parts"&gt;Parts&lt;/h2&gt;
 &lt;p&gt;My goal was to get significantly better performance than my old laptop, but without blowing my budget. Mission accomplished—with these parts:&lt;/p&gt;
 &lt;p&gt;
 &lt;img src="https://priyavr.at/images/first-pc-build-journey/parts.webp" alt="The Parts" loading="lazy"&gt;
@@ -441,7 +441,7 @@ Now, you might be wondering: “Why on earth did you buy a &lt;strong&gt;GT 1030
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;/p&gt;
-&lt;h3 id="assemblage"&gt;Assemblage&lt;/h3&gt;
+&lt;h2 id="assemblage"&gt;Assemblage&lt;/h2&gt;
 &lt;p&gt;After a week of impatiently tracking shipping updates, my parts finally arrived. This was my first time assembling a PC, so I made sure I was prepared. Surprisingly, all I really needed was a &lt;a href="https://en.wikipedia.org/wiki/List_of_screw_drives#Phillips" target="_blank"&gt;Phillips #1 screwdriver&lt;/a&gt;. That, and a healthy dose of concentration (and maybe a little prayer).&lt;/p&gt;
 &lt;p&gt;I took my time reading through the manuals—yes, I actually read the manuals—and soon enough, everything started coming together (pun absolutely intended).&lt;/p&gt;
 &lt;table&gt;
@@ -476,7 +476,7 @@ Now, you might be wondering: “Why on earth did you buy a &lt;strong&gt;GT 1030
 &lt;figcaption class="text-center figure-caption"&gt;Translation: &amp;#34;Hello, World!&amp;#34;&lt;/figcaption&gt;
 &lt;/figure&gt;
 &lt;/p&gt;
-&lt;h3 id="final-thoughts"&gt;Final Thoughts&lt;/h3&gt;
+&lt;h2 id="final-thoughts"&gt;Final Thoughts&lt;/h2&gt;
 &lt;p&gt;If you ever get the chance, I highly recommend building your own PC. It takes a bit of research and patience, but the sense of accomplishment is absolutely worth it. I’m glad I took the plunge—and my new PC agrees.&lt;/p&gt;</content></item><item><title>Overengineering "Hello, World!"</title><link>https://priyavr.at/blog/hello-world/</link><pubDate>Thu, 16 Jun 2022 12:30:21 +0530</pubDate><guid>https://priyavr.at/blog/hello-world/</guid><content>&lt;blockquote&gt;
 &lt;p&gt;&lt;strong&gt;A word of warning:&lt;/strong&gt; This article is not for the faint of heart—or for those who believe “Hello, World!” should ever be simple.&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;You might be wondering, “Why start with ‘Hello, World!’?” Well, as this is my very first blog post, I wanted to pay homage to the time-honored tradition of beginning every programming journey with this iconic phrase. “Hello, World!” is simple, universal, and instantly recognizable—making it the perfect canvas for a little creative overengineering. If you thought printing a string was straightforward, prepare to have your expectations delightfully complicated.&lt;/p&gt;
