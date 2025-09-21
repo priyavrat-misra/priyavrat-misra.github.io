@@ -83,13 +83,13 @@
 &lt;td style="text-align: center"&gt;
 &lt;figure&gt;
 &lt;img src="https://priyavr.at/images/first-pc-build-journey/assembled.webp" alt="Assembled" loading="lazy"&gt;
-&lt;figcaption class="text-center"&gt;Version 1.0&lt;/figcaption&gt;
+&lt;figcaption class="text-center"&gt;&lt;small&gt;Version 1.0&lt;/small&gt;&lt;/figcaption&gt;
 &lt;/figure&gt;
 &lt;/td&gt;
 &lt;td style="text-align: center"&gt;
 &lt;figure&gt;
 &lt;img src="https://priyavr.at/images/first-pc-build-journey/assembledV2.webp" alt="Assembled V2" loading="lazy"&gt;
-&lt;figcaption class="text-center"&gt;Version 2.0&lt;/figcaption&gt;
+&lt;figcaption class="text-center"&gt;&lt;small&gt;Version 2.0&lt;/small&gt;&lt;/figcaption&gt;
 &lt;/figure&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
@@ -100,7 +100,7 @@
 &lt;p&gt;
 &lt;figure&gt;
 &lt;img src="https://priyavr.at/images/first-pc-build-journey/build.webp" alt="The Build" loading="lazy"&gt;
-&lt;figcaption class="text-center"&gt;Translation: &amp;#34;Hello, World!&amp;#34;&lt;/figcaption&gt;
+&lt;figcaption class="text-center"&gt;&lt;small&gt;Translation: &amp;#34;Hello, World!&amp;#34;&lt;/small&gt;&lt;/figcaption&gt;
 &lt;/figure&gt;
 &lt;/p&gt;
 &lt;h2 id="final-thoughts"&gt;Final Thoughts&lt;/h2&gt;
