@@ -4,8 +4,9 @@
 &lt;h2 id="parts"&gt;Parts&lt;/h2&gt;
 &lt;p&gt;My goal was to get significantly better performance than my old laptop, but without blowing my budget. Mission accomplished—with these parts:&lt;/p&gt;
 &lt;p&gt;
+&lt;figure&gt;
 &lt;img src="https://priyavr.at/images/first-pc-build-journey/parts.webp" alt="The Parts" loading="lazy"&gt;
-&lt;/p&gt;
+&lt;/figure&gt;&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -84,14 +85,12 @@
 &lt;figure&gt;
 &lt;img src="https://priyavr.at/images/first-pc-build-journey/assembled.webp" alt="Assembled" loading="lazy"&gt;
 &lt;figcaption class="text-center"&gt;&lt;small&gt;Version 1.0&lt;/small&gt;&lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;/td&gt;
+&lt;/figure&gt;&lt;/td&gt;
 &lt;td style="text-align: center"&gt;
 &lt;figure&gt;
 &lt;img src="https://priyavr.at/images/first-pc-build-journey/assembledV2.webp" alt="Assembled V2" loading="lazy"&gt;
 &lt;figcaption class="text-center"&gt;&lt;small&gt;Version 2.0&lt;/small&gt;&lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;/td&gt;
+&lt;/figure&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -101,7 +100,6 @@
 &lt;figure&gt;
 &lt;img src="https://priyavr.at/images/first-pc-build-journey/build.webp" alt="The Build" loading="lazy"&gt;
 &lt;figcaption class="text-center"&gt;&lt;small&gt;Translation: &amp;#34;Hello, World!&amp;#34;&lt;/small&gt;&lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;/p&gt;
+&lt;/figure&gt;&lt;/p&gt;
 &lt;h2 id="final-thoughts"&gt;Final Thoughts&lt;/h2&gt;
 &lt;p&gt;If you ever get the chance, I highly recommend building your own PC. It takes a bit of research and patience, but the sense of accomplishment is absolutely worth it. I’m glad I took the plunge—and my new PC agrees.&lt;/p&gt;</content></item></channel></rss>

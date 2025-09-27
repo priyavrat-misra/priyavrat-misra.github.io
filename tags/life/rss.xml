@@ -13,16 +13,16 @@
 &lt;figure&gt;
 &lt;img src="https://priyavr.at/images/100-commits/coracleBoats.webp" alt="Coracle Boats at Patalganga riverside, Srisailam" loading="lazy"&gt;
 &lt;figcaption class="text-center"&gt;&lt;small&gt;Coracle Boats at Patalganga riverside, Srisailam.&lt;/small&gt;&lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;/p&gt;
+&lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;I started this site because I was inspired by someone else&amp;rsquo;s little corner of the internet. So, if this resonated with you, consider it a sign. Go build your own. The web needs less uniformity and more weirdness. It needs more personality, more passion projects, and more of what makes you, you.&lt;/p&gt;</content></item><item><title>Building a PC</title><link>https://priyavr.at/blog/first-pc-build-journey/</link><pubDate>Wed, 20 Jul 2022 12:12:12 +0530</pubDate><guid>https://priyavr.at/blog/first-pc-build-journey/</guid><content>&lt;p&gt;A couple of weeks ago, I learned that my laptop’s processor and motherboard had fried. While this might have come as a shock to some, I can’t say I was surprised.&lt;/p&gt;
 &lt;p&gt;After all, I’d been using that laptop for over four years, subjecting it to marathon sessions almost every day. Frankly, it was more of a “when” than an “if.” So, when the inevitable happened, I decided it was finally time to build myself a PC.&lt;/p&gt;
 &lt;p&gt;I spent several exhausting days researching hardware, poring over benchmarks, hunting for compatibility issues, and generally falling down the rabbit hole of PC building. Eventually, after much deliberation, I placed my orders. It was a ton of work, but hey—if it ends with a working PC, I’ll call that a win.&lt;/p&gt;
 &lt;h2 id="parts"&gt;Parts&lt;/h2&gt;
 &lt;p&gt;My goal was to get significantly better performance than my old laptop, but without blowing my budget. Mission accomplished—with these parts:&lt;/p&gt;
 &lt;p&gt;
+&lt;figure&gt;
 &lt;img src="https://priyavr.at/images/first-pc-build-journey/parts.webp" alt="The Parts" loading="lazy"&gt;
-&lt;/p&gt;
+&lt;/figure&gt;&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -101,14 +101,12 @@
 &lt;figure&gt;
 &lt;img src="https://priyavr.at/images/first-pc-build-journey/assembled.webp" alt="Assembled" loading="lazy"&gt;
 &lt;figcaption class="text-center"&gt;&lt;small&gt;Version 1.0&lt;/small&gt;&lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;/td&gt;
+&lt;/figure&gt;&lt;/td&gt;
 &lt;td style="text-align: center"&gt;
 &lt;figure&gt;
 &lt;img src="https://priyavr.at/images/first-pc-build-journey/assembledV2.webp" alt="Assembled V2" loading="lazy"&gt;
 &lt;figcaption class="text-center"&gt;&lt;small&gt;Version 2.0&lt;/small&gt;&lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;/td&gt;
+&lt;/figure&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -118,7 +116,6 @@
 &lt;figure&gt;
 &lt;img src="https://priyavr.at/images/first-pc-build-journey/build.webp" alt="The Build" loading="lazy"&gt;
 &lt;figcaption class="text-center"&gt;&lt;small&gt;Translation: &amp;#34;Hello, World!&amp;#34;&lt;/small&gt;&lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;/p&gt;
+&lt;/figure&gt;&lt;/p&gt;
 &lt;h2 id="final-thoughts"&gt;Final Thoughts&lt;/h2&gt;
 &lt;p&gt;If you ever get the chance, I highly recommend building your own PC. It takes a bit of research and patience, but the sense of accomplishment is absolutely worth it. I’m glad I took the plunge—and my new PC agrees.&lt;/p&gt;</content></item></channel></rss>

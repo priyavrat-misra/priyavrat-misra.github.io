@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Priyavrat Misra</title><link>https://priyavr.at/</link><description>Recent content in Priyavrat Misra's Website</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&amp;copy; 2022-{year} Priyavrat Misra. All rights reserved.</copyright><atom:link href="https://priyavr.at/rss.xml" rel="self" type="application/rss+xml"/><item><title>3 Years and 100 Commits Later</title><link>https://priyavr.at/blog/100-commits/</link><pubDate>Sun, 21 Sep 2025 20:30:00 +0530</pubDate><guid>https://priyavr.at/blog/100-commits/</guid><content>&lt;h2 id="a-milestone-and-a-realization"&gt;A Milestone and a Realization&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Priyavrat Misra</title><link>https://priyavr.at/</link><description>Recent content in Priyavrat Misra</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&amp;copy; 2022-{year} Priyavrat Misra. All rights reserved.</copyright><atom:link href="https://priyavr.at/rss.xml" rel="self" type="application/rss+xml"/><item><title>3 Years and 100 Commits Later</title><link>https://priyavr.at/blog/100-commits/</link><pubDate>Sun, 21 Sep 2025 20:30:00 +0530</pubDate><guid>https://priyavr.at/blog/100-commits/</guid><content>&lt;h2 id="a-milestone-and-a-realization"&gt;A Milestone and a Realization&lt;/h2&gt;
 &lt;p&gt;A hundred commits. The number stared back at me from this site’s GitHub page. A small, yet significant milestone. That first commit, dated &lt;time&gt;May 20, 2022&lt;/time&gt;, was simply labeled &lt;em&gt;&lt;a href="https://github.com/priyavrat-misra/personal-website/commit/d4cd7f7008809a3c39a4736aed14783000fae3ad" target="_blank" rel="noopener noreferrer"&gt;&amp;#39;initial commit&amp;#39;&lt;/a&gt;&lt;/em&gt;. In hindsight, &lt;em&gt;&amp;lsquo;humble beginnings&amp;rsquo;&lt;/em&gt; would have been far more fitting.&lt;/p&gt;
 &lt;p&gt;More than three years have flown by since then. In that time, my main area of growth has been the transition from knowing very little to knowing just enough to appreciate how much I don&amp;rsquo;t. It&amp;rsquo;s a humbling reminder that the more you learn, the vaster the landscape of the unknown becomes.&lt;/p&gt;
 &lt;h2 id="the-origin"&gt;The Origin&lt;/h2&gt;
@@ -13,8 +13,7 @@
 &lt;figure&gt;
 &lt;img src="https://priyavr.at/images/100-commits/coracleBoats.webp" alt="Coracle Boats at Patalganga riverside, Srisailam" loading="lazy"&gt;
 &lt;figcaption class="text-center"&gt;&lt;small&gt;Coracle Boats at Patalganga riverside, Srisailam.&lt;/small&gt;&lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;/p&gt;
+&lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;I started this site because I was inspired by someone else&amp;rsquo;s little corner of the internet. So, if this resonated with you, consider it a sign. Go build your own. The web needs less uniformity and more weirdness. It needs more personality, more passion projects, and more of what makes you, you.&lt;/p&gt;</content></item><item><title>Counting at Scale</title><link>https://priyavr.at/blog/hyperloglog/</link><pubDate>Thu, 03 Jul 2025 20:48:00 +0530</pubDate><guid>https://priyavr.at/blog/hyperloglog/</guid><content>&lt;h2 id="motivation"&gt;Motivation&lt;/h2&gt;
 &lt;p&gt;Last weekend, I decided to delve deeper into the world of databases and stumbled upon the fantastic &lt;a href="https://15445.courses.cs.cmu.edu/" target="_blank" rel="noopener noreferrer"&gt;CMU 15-445/645&lt;/a&gt; course. After the introduction lecture, I jumped straight into the assignments. The first one, aptly named &lt;a href="https://15445.courses.cs.cmu.edu/fall2024/project0/" target="_blank" rel="noopener noreferrer"&gt;C&amp;#43;&amp;#43; Primer&lt;/a&gt;, is a straightforward programming task designed to assess your grasp of basic C++ features.&lt;/p&gt;
 &lt;h2 id="the-problem"&gt;The Problem&lt;/h2&gt;
@@ -35,8 +34,9 @@
 &lt;p&gt;HyperLogLog uses a hash function—ideally, one that produces uniformly distributed values. We take the user ID (or any suitable identifier), hash it to a numerical value, and use its binary representation. Some implementations consider the maximum number of trailing zeroes, others look at the maximum leftmost position of \(1\) (i.e., the maximum number of leading zeroes plus one). For our discussion, we’ll stick with the latter, as in the problem statement.&lt;/p&gt;
 &lt;p&gt;Assuming no hash collisions, our problem reduces to finding the number of unique binary strings. If you remember your high school math, for a random binary string, the probability of getting \(k\) leading zeroes followed by a one is \(1 / 2^{k+1}\).&lt;/p&gt;
 &lt;p&gt;
+&lt;figure&gt;
 &lt;img src="https://priyavr.at/images/hyperloglog/leftmostOneProbability.svg" alt="Probability of getting a leftmost one illustrated" loading="lazy"&gt;
-&lt;/p&gt;
+&lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;Alternatively, think of the string as a series of coin tosses: zero means heads, one means tails. If, across multiple individual runs, the longest run of heads we encountered is \(l\), then its probability is \(1 / 2^{l+1}\). In other words, we can estimate that, on average, we’ve tried at least \(2^{l+1}\) times.&lt;/p&gt;
 &lt;p&gt;To put it simply: if we see a maximum run of 2 heads, \(HHT\), we probably tossed the coin at least \(2^{2+1} = 8\) times, \(\{HHH, HHT, HTH, HTT,\allowbreak THH, THT, TTH, TTT\}\). The probability ends up being \(1 / 8\).&lt;/p&gt;
 &lt;p&gt;Note that, \(HHH\) isn&amp;rsquo;t valid here because we considered the maximum leading heads to be 2, so technically it should be one less, but to keep things simple, we can round it off.&lt;/p&gt;
@@ -45,8 +45,9 @@
 &lt;h3 id="bucketing-and-mergeability"&gt;Bucketing and Mergeability&lt;/h3&gt;
 &lt;p&gt;To manage outliers, HyperLogLog distributes the hash values into different buckets based on the initial \(b\) bits of the hash. This gives us a total of \(2^b\) buckets, each tracking its own maximum. Even though we’re distributing values, the maximum among them remains the same, so our problem is &lt;em&gt;mergeable&lt;/em&gt;—we don’t have to worry about double-counting.&lt;/p&gt;
 &lt;p&gt;
+&lt;figure&gt;
 &lt;img src="https://priyavr.at/images/hyperloglog/hllBuckets.svg" alt="Bucketing in HyperLogLog illustrated" loading="lazy"&gt;
-&lt;/p&gt;
+&lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;This property is incredibly useful for questions like, “How many unique users have liked posts in the last month?” We can easily combine the buckets for each day and calculate the result. To do this, we persist each day’s serialized HyperLogLog structure (typically just a few kilobytes—no big deal). The mergeability of HyperLogLog is also a boon in distributed systems: each server can maintain its own buckets, which can later be aggregated.&lt;/p&gt;
 &lt;h3 id="why-not-just-use-the-mean"&gt;Why not just use the mean?&lt;/h3&gt;
 &lt;p&gt;So, what if we take the average of all the maximums across the buckets? Does it solve the outlier problem? Unfortunately, no. The average is still affected by outliers. Instead, HyperLogLog uses the &lt;em&gt;harmonic mean&lt;/em&gt;, which is less sensitive to large outliers.&lt;/p&gt;
@@ -367,8 +368,9 @@
 &lt;h2 id="parts"&gt;Parts&lt;/h2&gt;
 &lt;p&gt;My goal was to get significantly better performance than my old laptop, but without blowing my budget. Mission accomplished—with these parts:&lt;/p&gt;
 &lt;p&gt;
+&lt;figure&gt;
 &lt;img src="https://priyavr.at/images/first-pc-build-journey/parts.webp" alt="The Parts" loading="lazy"&gt;
-&lt;/p&gt;
+&lt;/figure&gt;&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -447,14 +449,12 @@
 &lt;figure&gt;
 &lt;img src="https://priyavr.at/images/first-pc-build-journey/assembled.webp" alt="Assembled" loading="lazy"&gt;
 &lt;figcaption class="text-center"&gt;&lt;small&gt;Version 1.0&lt;/small&gt;&lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;/td&gt;
+&lt;/figure&gt;&lt;/td&gt;
 &lt;td style="text-align: center"&gt;
 &lt;figure&gt;
 &lt;img src="https://priyavr.at/images/first-pc-build-journey/assembledV2.webp" alt="Assembled V2" loading="lazy"&gt;
 &lt;figcaption class="text-center"&gt;&lt;small&gt;Version 2.0&lt;/small&gt;&lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;/td&gt;
+&lt;/figure&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -464,8 +464,7 @@
 &lt;figure&gt;
 &lt;img src="https://priyavr.at/images/first-pc-build-journey/build.webp" alt="The Build" loading="lazy"&gt;
 &lt;figcaption class="text-center"&gt;&lt;small&gt;Translation: &amp;#34;Hello, World!&amp;#34;&lt;/small&gt;&lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;/p&gt;
+&lt;/figure&gt;&lt;/p&gt;
 &lt;h2 id="final-thoughts"&gt;Final Thoughts&lt;/h2&gt;
 &lt;p&gt;If you ever get the chance, I highly recommend building your own PC. It takes a bit of research and patience, but the sense of accomplishment is absolutely worth it. I’m glad I took the plunge—and my new PC agrees.&lt;/p&gt;</content></item><item><title>Overengineering "Hello, World!"</title><link>https://priyavr.at/blog/hello-world/</link><pubDate>Thu, 16 Jun 2022 12:30:21 +0530</pubDate><guid>https://priyavr.at/blog/hello-world/</guid><content>&lt;blockquote&gt;
 &lt;p&gt;&lt;strong&gt;A word of warning:&lt;/strong&gt; This article is not for the faint of heart—or for those who believe “Hello, World!” should ever be simple.&lt;/p&gt;&lt;/blockquote&gt;
