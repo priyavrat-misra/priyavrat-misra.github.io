@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Priyavrat Misra's Life</title><link>https://priyavr.at/tags/life/</link><description>Recent content in Priyavrat Misra's Life</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&amp;copy; 2022-{year} Priyavrat Misra. All rights reserved.</copyright><lastBuildDate>Sun, 21 Sep 2025 20:30:00 +0530</lastBuildDate><atom:link href="https://priyavr.at/tags/life/rss.xml" rel="self" type="application/rss+xml"/><item><title>3 Years and 100 Commits Later</title><link>https://priyavr.at/blog/100-commits/</link><pubDate>Sun, 21 Sep 2025 20:30:00 +0530</pubDate><guid>https://priyavr.at/blog/100-commits/</guid><content>&lt;h2 id="a-milestone-and-a-realization"&gt;A Milestone and a Realization&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Priyavrat Misra's Life</title><link>https://priyavr.at/tags/life/</link><description>Recent content in Priyavrat Misra's Life</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&amp;copy; 2022-{year} Priyavrat Misra. &lt;em&gt;Built on fundamentals. Accessible by design.&lt;/em&gt;</copyright><lastBuildDate>Sun, 21 Sep 2025 20:30:00 +0530</lastBuildDate><atom:link href="https://priyavr.at/tags/life/rss.xml" rel="self" type="application/rss+xml"/><item><title>3 Years and 100 Commits Later</title><link>https://priyavr.at/blog/100-commits/</link><pubDate>Sun, 21 Sep 2025 20:30:00 +0530</pubDate><guid>https://priyavr.at/blog/100-commits/</guid><content>&lt;h2 id="a-milestone-and-a-realization"&gt;A Milestone and a Realization&lt;/h2&gt;
 &lt;p&gt;A hundred commits. The number stared back at me from this site’s GitHub page. A small, yet significant milestone. That first commit, dated &lt;time&gt;May 20, 2022&lt;/time&gt;, was simply labeled &lt;em&gt;&lt;a href="https://github.com/priyavrat-misra/personal-website/commit/d4cd7f7008809a3c39a4736aed14783000fae3ad" target="_blank" rel="noopener noreferrer"&gt;&amp;#39;initial commit&amp;#39;&lt;/a&gt;&lt;/em&gt;. In hindsight, &lt;em&gt;&amp;lsquo;humble beginnings&amp;rsquo;&lt;/em&gt; would have been far more fitting.&lt;/p&gt;
 &lt;p&gt;More than three years have flown by since then. In that time, my main area of growth has been the transition from knowing very little to knowing just enough to appreciate how much I don&amp;rsquo;t. It&amp;rsquo;s a humbling reminder that the more you learn, the vaster the landscape of the unknown becomes.&lt;/p&gt;
 &lt;h2 id="the-origin"&gt;The Origin&lt;/h2&gt;
@@ -14,11 +14,12 @@
 &lt;img src="https://priyavr.at/images/100-commits/coracleBoats.webp" alt="Coracle Boats at Patalganga riverside, Srisailam" loading="lazy"&gt;
 &lt;figcaption class="text-center"&gt;&lt;small&gt;Coracle Boats at Patalganga riverside, Srisailam.&lt;/small&gt;&lt;/figcaption&gt;
 &lt;/figure&gt;&lt;/p&gt;
-&lt;p&gt;I started this site because I was inspired by someone else&amp;rsquo;s little corner of the internet. So, if this resonated with you, consider it a sign. Go build your own. The web needs less uniformity and more weirdness. It needs more personality, more passion projects, and more of what makes you, you.&lt;/p&gt;</content></item><item><title>Building a PC</title><link>https://priyavr.at/blog/first-pc-build-journey/</link><pubDate>Wed, 20 Jul 2022 12:12:12 +0530</pubDate><guid>https://priyavr.at/blog/first-pc-build-journey/</guid><content>&lt;p&gt;A couple of weeks ago, I learned that my laptop’s processor and motherboard had fried. While this might have come as a shock to some, I can’t say I was surprised.&lt;/p&gt;
-&lt;p&gt;After all, I’d been using that laptop for over four years, subjecting it to marathon sessions almost every day. Frankly, it was more of a “when” than an “if.” So, when the inevitable happened, I decided it was finally time to build myself a PC.&lt;/p&gt;
-&lt;p&gt;I spent several exhausting days researching hardware, poring over benchmarks, hunting for compatibility issues, and generally falling down the rabbit hole of PC building. Eventually, after much deliberation, I placed my orders. It was a ton of work, but hey—if it ends with a working PC, I’ll call that a win.&lt;/p&gt;
-&lt;h2 id="parts"&gt;Parts&lt;/h2&gt;
-&lt;p&gt;My goal was to get significantly better performance than my old laptop, but without blowing my budget. Mission accomplished—with these parts:&lt;/p&gt;
+&lt;p&gt;I started this site because I was inspired by someone else&amp;rsquo;s little corner of the internet. So, if this resonated with you, consider it a sign. Go build your own. The web needs less uniformity and more weirdness. It needs more personality, more passion projects, and more of what makes you, you.&lt;/p&gt;</content></item><item><title>Building a PC</title><link>https://priyavr.at/blog/first-pc-build-journey/</link><pubDate>Wed, 20 Jul 2022 12:12:12 +0530</pubDate><guid>https://priyavr.at/blog/first-pc-build-journey/</guid><content>&lt;h2 id="prologue-the-crash"&gt;Prologue: The Crash&lt;/h2&gt;
+&lt;p&gt;A couple of weeks ago, I learned that my laptop’s processor and motherboard had fried. While this might have come as a shock to some, I can’t say I was surprised.&lt;/p&gt;
+&lt;p&gt;After all, I had been using that laptop for over four years, pushing it through marathon sessions almost every day. Frankly, it was more of a “when” rather than an “if.” So, when the inevitable finally happened, I decided it was time to build myself a PC.&lt;/p&gt;
+&lt;p&gt;I spent several exhausting days researching hardware, poring over benchmarks, hunting for compatibility issues, and generally falling down the rabbit hole of PC building. Eventually, after much deliberation, I placed my orders. It was a ton of work, but hey, if it ends with a working PC, I’ll call that a win.&lt;/p&gt;
+&lt;h2 id="act-i-the-hardware"&gt;Act I: The Hardware&lt;/h2&gt;
+&lt;p&gt;My goal was to get significantly better performance than my old laptop without blowing my budget. Mission accomplished. Here is the breakdown of the parts I chose:&lt;/p&gt;
 &lt;p&gt;
 &lt;figure&gt;
 &lt;img src="https://priyavr.at/images/first-pc-build-journey/parts.webp" alt="The Parts" loading="lazy"&gt;
@@ -61,8 +62,8 @@
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;p&gt;Now, you might be wondering: “Why on earth did you buy a &lt;strong&gt;GT 1030&lt;/strong&gt; in 2022?” Excellent question! The short answer: &lt;a href="https://en.wikipedia.org/wiki/2020%E2%80%93present_global_chip_shortage" target="_blank" rel="noopener noreferrer"&gt;global chip shortage&lt;/a&gt;. My plan was to use it as a placeholder until the GPU market cooled off. Until then, it was the little graphics card that could.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;em&gt;UPDATE:&lt;/em&gt;&lt;/strong&gt; About a year later, I finally upgraded to an &lt;strong&gt;RTX 3060 Ti&lt;/strong&gt;, along with a couple of other improvements:&lt;/p&gt;
+&lt;p&gt;Now, you might be wondering: “Why on earth did you buy a &lt;strong&gt;GT 1030&lt;/strong&gt; in 2022?” Excellent question! The short answer is the &lt;a href="https://en.wikipedia.org/wiki/2020%E2%80%93present_global_chip_shortage" target="_blank" rel="noopener noreferrer"&gt;global chip shortage&lt;/a&gt;. My plan was to use it as a placeholder until the GPU market cooled off. Until then, it was the little graphics card that could.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;UPDATE:&lt;/em&gt;&lt;/strong&gt; About a year later, I finally upgraded to an &lt;strong&gt;RTX 3060 Ti&lt;/strong&gt; along with a couple of other improvements:&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -85,9 +86,9 @@
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h2 id="assemblage"&gt;Assemblage&lt;/h2&gt;
-&lt;p&gt;After a week of impatiently tracking shipping updates, my parts finally arrived. This was my first time assembling a PC, so I made sure I was prepared. Surprisingly, all I really needed was a &lt;a href="https://en.wikipedia.org/wiki/List_of_screw_drives#Phillips" target="_blank" rel="noopener noreferrer"&gt;Phillips #1 screwdriver&lt;/a&gt;. That, and a healthy dose of concentration (and maybe a little prayer).&lt;/p&gt;
-&lt;p&gt;I took my time reading through the manuals—yes, I actually read the manuals—and soon enough, everything started coming together (pun absolutely intended).&lt;/p&gt;
+&lt;h2 id="act-ii-the-build"&gt;Act II: The Build&lt;/h2&gt;
+&lt;p&gt;After a week of impatiently tracking shipping updates, my parts finally arrived. This was my first time assembling a PC, so I made sure I was prepared. To my surprise, all I really needed was a &lt;a href="https://en.wikipedia.org/wiki/List_of_screw_drives#Phillips" target="_blank" rel="noopener noreferrer"&gt;Phillips #1 screwdriver&lt;/a&gt;. That, and a healthy dose of concentration (plus maybe a little prayer).&lt;/p&gt;
+&lt;p&gt;I took my time reading through the manuals (yes, I actually read them) and soon enough, everything started coming together; pun absolutely intended.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -110,12 +111,12 @@
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;p&gt;As it turns out, building a PC is simpler than it sounds. That said, I still managed to have my “oops” moment. Here’s what happened:&lt;/p&gt;
-&lt;p&gt;I installed the AMD heatsink, but didn’t notice that the logo projection on one side was blocking a RAM slot. When I tried to remove the heatsink, the thermal paste had basically turned into superglue. Did I look up a solution online? Of course not. I went full Hulk and tried to muscle it off. The result? The CPU came out stuck to the heatsink—even though the motherboard’s CPU lock was still engaged. Miraculously, neither the CPU pins nor the motherboard were damaged. In the end, disaster was narrowly averted, and I lived to tell the tale—with all components intact!&lt;/p&gt;
+&lt;p&gt;As it turns out, building a PC is simpler than it sounds. That said, I still managed to have my “oops” moment. Here is what happened:&lt;/p&gt;
+&lt;p&gt;I installed the AMD heatsink but didn’t notice that the logo projection on one side was blocking a RAM slot. When I tried to remove the heatsink, the thermal paste had basically turned into superglue. Did I look up a solution online? Of course not. I went full Hulk and tried to muscle it off. The result? The CPU came out stuck to the heatsink, even though the motherboard’s CPU lock was still engaged. Miraculously, neither the CPU pins nor the motherboard were damaged. In the end, disaster was narrowly averted, and I lived to tell the tale with all components intact!&lt;/p&gt;
 &lt;p&gt;
 &lt;figure&gt;
 &lt;img src="https://priyavr.at/images/first-pc-build-journey/build.webp" alt="The Build" loading="lazy"&gt;
 &lt;figcaption class="text-center"&gt;&lt;small&gt;Translation: &amp;#34;Hello, World!&amp;#34;&lt;/small&gt;&lt;/figcaption&gt;
 &lt;/figure&gt;&lt;/p&gt;
-&lt;h2 id="final-thoughts"&gt;Final Thoughts&lt;/h2&gt;
-&lt;p&gt;If you ever get the chance, I highly recommend building your own PC. It takes a bit of research and patience, but the sense of accomplishment is absolutely worth it. I’m glad I took the plunge—and my new PC agrees.&lt;/p&gt;</content></item></channel></rss>
+&lt;h2 id="act-iii-the-verdict"&gt;Act III: The Verdict&lt;/h2&gt;
+&lt;p&gt;If you ever get the chance, I highly recommend building your own PC. It takes a bit of research and patience, but the sense of accomplishment is absolutely worth it. I’m glad I took the plunge, and my new PC agrees.&lt;/p&gt;</content></item></channel></rss>
