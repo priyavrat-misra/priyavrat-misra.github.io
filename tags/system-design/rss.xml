@@ -18,7 +18,7 @@
 &lt;p&gt;Assuming no hash collisions, our problem reduces to finding the number of unique binary strings. If you remember your high school math, for a random binary string, the probability of getting \(k\) leading zeroes followed by a one is \(1 / 2^{k+1}\).&lt;/p&gt;
 &lt;p&gt;
 &lt;figure&gt;
-&lt;img src="https://priyavr.at/images/hyperloglog/leftmostOneProbability.svg" alt="Probability of getting a leftmost one illustrated" loading="lazy"&gt;
+&lt;img src="https://priyavr.at/hyperloglog/leftmostOneProbability.svg" alt="Probability of getting a leftmost one illustrated" loading="lazy"&gt;
 &lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;Alternatively, think of the string as a series of coin tosses: zero means heads, one means tails. If, across multiple individual runs, the longest run of heads we encountered is \(l\), then its probability is \(1 / 2^{l+1}\). In other words, we can estimate that, on average, we’ve tried at least \(2^{l+1}\) times.&lt;/p&gt;
 &lt;p&gt;To put it simply: if we see a maximum run of \(2\) heads, \(HHT\), we probably tossed the coin at least \(2^{2+1} = 8\) times, \(\{HHH, HHT, HTH, HTT,\allowbreak THH, THT, TTH, TTT\}\). The probability ends up being \(1 / 8\). Note that, \(HHH\) isn&amp;rsquo;t valid here because we considered the maximum leading heads to be \(2\), so technically it should be one less, but to keep things simple, we can round it off. Relating this back to our user count example, if we encounter a user ID with a hash code where the leftmost one is at position \(5\), this implies we have seen approximately \(2^5\) users.&lt;/p&gt;
@@ -28,7 +28,7 @@
 &lt;p&gt;To manage outliers, HyperLogLog distributes the hash values into different buckets based on the initial \(b\) bits of the hash. This gives us a total of \(2^b\) buckets, and each bucket tracks its own maximum. Even though we are distributing values, the maximum among them remains the same. This means our problem is &lt;em&gt;mergeable&lt;/em&gt;, so we do not have to worry about double-counting.&lt;/p&gt;
 &lt;p&gt;
 &lt;figure&gt;
-&lt;img src="https://priyavr.at/images/hyperloglog/hllBuckets.svg" alt="Bucketing in HyperLogLog illustrated" loading="lazy"&gt;
+&lt;img src="https://priyavr.at/hyperloglog/hllBuckets.svg" alt="Bucketing in HyperLogLog illustrated" loading="lazy"&gt;
 &lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;This property is incredibly useful for queries such as “How many unique users have liked posts in the last month?” We can easily combine the buckets for each day and calculate the result. To do this, we persist each day’s serialized HyperLogLog structure. Since this structure is typically just a few kilobytes, storage is not an issue. The mergeability of HyperLogLog is also a boon in distributed systems: each server can maintain its own buckets, which can later be aggregated.&lt;/p&gt;
 &lt;h3 id="why-not-just-use-the-mean"&gt;Why not just use the mean?&lt;/h3&gt;

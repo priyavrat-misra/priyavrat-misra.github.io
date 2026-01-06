@@ -11,7 +11,7 @@
 &lt;p&gt;I find that personal websites have a distinct feel in a web full of centralized platforms and social media. In this age, finding a personal site is like discovering a &lt;em&gt;Coracle Boat&lt;/em&gt; in the vast sea of the internet. They are a deep reflection of what the author truly cares about.&lt;/p&gt;
 &lt;p&gt;
 &lt;figure&gt;
-&lt;img src="https://priyavr.at/images/100-commits/coracleBoats.webp" alt="Coracle Boats at Patalganga riverside, Srisailam" loading="lazy"&gt;
+&lt;img src="https://priyavr.at/100-commits/coracleBoats.webp" alt="Coracle Boats at Patalganga riverside, Srisailam" loading="lazy"&gt;
 &lt;figcaption class="text-center"&gt;&lt;small&gt;Coracle Boats at Patalganga riverside, Srisailam.&lt;/small&gt;&lt;/figcaption&gt;
 &lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;I started this site because I was inspired by someone else&amp;rsquo;s little corner of the internet. So, if this resonated with you, consider it a sign. Go build your own. The web needs less uniformity and more weirdness. It needs more personality, more passion projects, and more of what makes you, you.&lt;/p&gt;</content></item><item><title>Counting at Scale</title><link>https://priyavr.at/blog/hyperloglog/</link><pubDate>Thu, 03 Jul 2025 20:48:00 +0530</pubDate><guid>https://priyavr.at/blog/hyperloglog/</guid><content>&lt;h2 id="motivation"&gt;Motivation&lt;/h2&gt;
@@ -34,7 +34,7 @@
 &lt;p&gt;Assuming no hash collisions, our problem reduces to finding the number of unique binary strings. If you remember your high school math, for a random binary string, the probability of getting \(k\) leading zeroes followed by a one is \(1 / 2^{k+1}\).&lt;/p&gt;
 &lt;p&gt;
 &lt;figure&gt;
-&lt;img src="https://priyavr.at/images/hyperloglog/leftmostOneProbability.svg" alt="Probability of getting a leftmost one illustrated" loading="lazy"&gt;
+&lt;img src="https://priyavr.at/hyperloglog/leftmostOneProbability.svg" alt="Probability of getting a leftmost one illustrated" loading="lazy"&gt;
 &lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;Alternatively, think of the string as a series of coin tosses: zero means heads, one means tails. If, across multiple individual runs, the longest run of heads we encountered is \(l\), then its probability is \(1 / 2^{l+1}\). In other words, we can estimate that, on average, we’ve tried at least \(2^{l+1}\) times.&lt;/p&gt;
 &lt;p&gt;To put it simply: if we see a maximum run of \(2\) heads, \(HHT\), we probably tossed the coin at least \(2^{2+1} = 8\) times, \(\{HHH, HHT, HTH, HTT,\allowbreak THH, THT, TTH, TTT\}\). The probability ends up being \(1 / 8\). Note that, \(HHH\) isn&amp;rsquo;t valid here because we considered the maximum leading heads to be \(2\), so technically it should be one less, but to keep things simple, we can round it off. Relating this back to our user count example, if we encounter a user ID with a hash code where the leftmost one is at position \(5\), this implies we have seen approximately \(2^5\) users.&lt;/p&gt;
@@ -44,7 +44,7 @@
 &lt;p&gt;To manage outliers, HyperLogLog distributes the hash values into different buckets based on the initial \(b\) bits of the hash. This gives us a total of \(2^b\) buckets, and each bucket tracks its own maximum. Even though we are distributing values, the maximum among them remains the same. This means our problem is &lt;em&gt;mergeable&lt;/em&gt;, so we do not have to worry about double-counting.&lt;/p&gt;
 &lt;p&gt;
 &lt;figure&gt;
-&lt;img src="https://priyavr.at/images/hyperloglog/hllBuckets.svg" alt="Bucketing in HyperLogLog illustrated" loading="lazy"&gt;
+&lt;img src="https://priyavr.at/hyperloglog/hllBuckets.svg" alt="Bucketing in HyperLogLog illustrated" loading="lazy"&gt;
 &lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;This property is incredibly useful for queries such as “How many unique users have liked posts in the last month?” We can easily combine the buckets for each day and calculate the result. To do this, we persist each day’s serialized HyperLogLog structure. Since this structure is typically just a few kilobytes, storage is not an issue. The mergeability of HyperLogLog is also a boon in distributed systems: each server can maintain its own buckets, which can later be aggregated.&lt;/p&gt;
 &lt;h3 id="why-not-just-use-the-mean"&gt;Why not just use the mean?&lt;/h3&gt;
@@ -368,7 +368,7 @@
 &lt;p&gt;My goal was to get significantly better performance than my old laptop without blowing my budget. Mission accomplished. Here is the breakdown of the parts I chose:&lt;/p&gt;
 &lt;p&gt;
 &lt;figure&gt;
-&lt;img src="https://priyavr.at/images/first-pc-build-journey/parts.webp" alt="The Parts" loading="lazy"&gt;
+&lt;img src="https://priyavr.at/first-pc-build-journey/parts.webp" alt="The Parts" loading="lazy"&gt;
 &lt;/figure&gt;&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -446,12 +446,12 @@
 &lt;tr&gt;
 &lt;td style="text-align: center"&gt;
 &lt;figure&gt;
-&lt;img src="https://priyavr.at/images/first-pc-build-journey/assembled.webp" alt="Assembled" loading="lazy"&gt;
+&lt;img src="https://priyavr.at/first-pc-build-journey/assembled.webp" alt="Assembled" loading="lazy"&gt;
 &lt;figcaption class="text-center"&gt;&lt;small&gt;Version 1.0&lt;/small&gt;&lt;/figcaption&gt;
 &lt;/figure&gt;&lt;/td&gt;
 &lt;td style="text-align: center"&gt;
 &lt;figure&gt;
-&lt;img src="https://priyavr.at/images/first-pc-build-journey/assembledV2.webp" alt="Assembled V2" loading="lazy"&gt;
+&lt;img src="https://priyavr.at/first-pc-build-journey/assembledV2.webp" alt="Assembled V2" loading="lazy"&gt;
 &lt;figcaption class="text-center"&gt;&lt;small&gt;Version 2.0&lt;/small&gt;&lt;/figcaption&gt;
 &lt;/figure&gt;&lt;/td&gt;
 &lt;/tr&gt;
@@ -461,7 +461,7 @@
 &lt;p&gt;I installed the AMD heatsink but didn’t notice that the logo projection on one side was blocking a RAM slot. When I tried to remove the heatsink, the thermal paste had basically turned into superglue. Did I look up a solution online? Of course not. I went full Hulk and tried to muscle it off. The result? The CPU came out stuck to the heatsink, even though the motherboard’s CPU lock was still engaged. Miraculously, neither the CPU pins nor the motherboard were damaged. In the end, disaster was narrowly averted, and I lived to tell the tale with all components intact!&lt;/p&gt;
 &lt;p&gt;
 &lt;figure&gt;
-&lt;img src="https://priyavr.at/images/first-pc-build-journey/build.webp" alt="The Build" loading="lazy"&gt;
+&lt;img src="https://priyavr.at/first-pc-build-journey/build.webp" alt="The Build" loading="lazy"&gt;
 &lt;figcaption class="text-center"&gt;&lt;small&gt;Translation: &amp;#34;Hello, World!&amp;#34;&lt;/small&gt;&lt;/figcaption&gt;
 &lt;/figure&gt;&lt;/p&gt;
 &lt;h2 id="act-iii-the-verdict"&gt;Act III: The Verdict&lt;/h2&gt;

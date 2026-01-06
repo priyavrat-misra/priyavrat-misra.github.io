@@ -11,7 +11,7 @@
 &lt;p&gt;I find that personal websites have a distinct feel in a web full of centralized platforms and social media. In this age, finding a personal site is like discovering a &lt;em&gt;Coracle Boat&lt;/em&gt; in the vast sea of the internet. They are a deep reflection of what the author truly cares about.&lt;/p&gt;
 &lt;p&gt;
 &lt;figure&gt;
-&lt;img src="https://priyavr.at/images/100-commits/coracleBoats.webp" alt="Coracle Boats at Patalganga riverside, Srisailam" loading="lazy"&gt;
+&lt;img src="https://priyavr.at/100-commits/coracleBoats.webp" alt="Coracle Boats at Patalganga riverside, Srisailam" loading="lazy"&gt;
 &lt;figcaption class="text-center"&gt;&lt;small&gt;Coracle Boats at Patalganga riverside, Srisailam.&lt;/small&gt;&lt;/figcaption&gt;
 &lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;I started this site because I was inspired by someone else&amp;rsquo;s little corner of the internet. So, if this resonated with you, consider it a sign. Go build your own. The web needs less uniformity and more weirdness. It needs more personality, more passion projects, and more of what makes you, you.&lt;/p&gt;</content></item><item><title>Building a PC</title><link>https://priyavr.at/blog/first-pc-build-journey/</link><pubDate>Wed, 20 Jul 2022 12:12:12 +0530</pubDate><guid>https://priyavr.at/blog/first-pc-build-journey/</guid><content>&lt;h2 id="prologue-the-crash"&gt;Prologue: The Crash&lt;/h2&gt;
@@ -22,7 +22,7 @@
 &lt;p&gt;My goal was to get significantly better performance than my old laptop without blowing my budget. Mission accomplished. Here is the breakdown of the parts I chose:&lt;/p&gt;
 &lt;p&gt;
 &lt;figure&gt;
-&lt;img src="https://priyavr.at/images/first-pc-build-journey/parts.webp" alt="The Parts" loading="lazy"&gt;
+&lt;img src="https://priyavr.at/first-pc-build-journey/parts.webp" alt="The Parts" loading="lazy"&gt;
 &lt;/figure&gt;&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -100,12 +100,12 @@
 &lt;tr&gt;
 &lt;td style="text-align: center"&gt;
 &lt;figure&gt;
-&lt;img src="https://priyavr.at/images/first-pc-build-journey/assembled.webp" alt="Assembled" loading="lazy"&gt;
+&lt;img src="https://priyavr.at/first-pc-build-journey/assembled.webp" alt="Assembled" loading="lazy"&gt;
 &lt;figcaption class="text-center"&gt;&lt;small&gt;Version 1.0&lt;/small&gt;&lt;/figcaption&gt;
 &lt;/figure&gt;&lt;/td&gt;
 &lt;td style="text-align: center"&gt;
 &lt;figure&gt;
-&lt;img src="https://priyavr.at/images/first-pc-build-journey/assembledV2.webp" alt="Assembled V2" loading="lazy"&gt;
+&lt;img src="https://priyavr.at/first-pc-build-journey/assembledV2.webp" alt="Assembled V2" loading="lazy"&gt;
 &lt;figcaption class="text-center"&gt;&lt;small&gt;Version 2.0&lt;/small&gt;&lt;/figcaption&gt;
 &lt;/figure&gt;&lt;/td&gt;
 &lt;/tr&gt;
@@ -115,7 +115,7 @@
 &lt;p&gt;I installed the AMD heatsink but didn’t notice that the logo projection on one side was blocking a RAM slot. When I tried to remove the heatsink, the thermal paste had basically turned into superglue. Did I look up a solution online? Of course not. I went full Hulk and tried to muscle it off. The result? The CPU came out stuck to the heatsink, even though the motherboard’s CPU lock was still engaged. Miraculously, neither the CPU pins nor the motherboard were damaged. In the end, disaster was narrowly averted, and I lived to tell the tale with all components intact!&lt;/p&gt;
 &lt;p&gt;
 &lt;figure&gt;
-&lt;img src="https://priyavr.at/images/first-pc-build-journey/build.webp" alt="The Build" loading="lazy"&gt;
+&lt;img src="https://priyavr.at/first-pc-build-journey/build.webp" alt="The Build" loading="lazy"&gt;
 &lt;figcaption class="text-center"&gt;&lt;small&gt;Translation: &amp;#34;Hello, World!&amp;#34;&lt;/small&gt;&lt;/figcaption&gt;
 &lt;/figure&gt;&lt;/p&gt;
 &lt;h2 id="act-iii-the-verdict"&gt;Act III: The Verdict&lt;/h2&gt;
