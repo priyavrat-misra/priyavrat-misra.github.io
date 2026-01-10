@@ -9,22 +9,18 @@
 &lt;p&gt;That’s a silence I’m now committed to filling. Going forward, this site will serve as my journal. Who knows? Maybe one day it’ll make its way into something like &lt;a href="https://archiveprogram.github.com/arctic-vault/" target="_blank" rel="noopener noreferrer"&gt;GitHub&amp;#39;s Arctic Code Vault&lt;/a&gt;, preserved for future generations. For now, it&amp;rsquo;s a place to log those smaller, fleeting thoughts. It&amp;rsquo;s a reminder to myself that not every post needs to be a complex treatise; sometimes, the simple act of pinning down a thought before it vanishes is enough. It&amp;rsquo;s a message in a bottle from my present to my future self.&lt;/p&gt;
 &lt;h2 id="the-endangered-art-of-the-web"&gt;The Endangered Art of the Web&lt;/h2&gt;
 &lt;p&gt;I find that personal websites have a distinct feel in a web full of centralized platforms and social media. In this age, finding a personal site is like discovering a &lt;em&gt;Coracle Boat&lt;/em&gt; in the vast sea of the internet. They are a deep reflection of what the author truly cares about.&lt;/p&gt;
-&lt;p&gt;
 &lt;figure&gt;
 &lt;img src="https://priyavr.at/100-commits/coracleBoats.webp" alt="Coracle Boats at Patalganga riverside, Srisailam" loading="lazy"&gt;
 &lt;figcaption class="text-center"&gt;&lt;small&gt;Coracle Boats at Patalganga riverside, Srisailam.&lt;/small&gt;&lt;/figcaption&gt;
-&lt;/figure&gt;&lt;/p&gt;
-&lt;p&gt;I started this site because I was inspired by someone else&amp;rsquo;s little corner of the internet. So, if this resonated with you, consider it a sign. Go build your own. The web needs less uniformity and more weirdness. It needs more personality, more passion projects, and more of what makes you, you.&lt;/p&gt;</content></item><item><title>Building a PC</title><link>https://priyavr.at/blog/first-pc-build-journey/</link><pubDate>Wed, 20 Jul 2022 12:12:12 +0530</pubDate><guid>https://priyavr.at/blog/first-pc-build-journey/</guid><content>&lt;h2 id="prologue-the-crash"&gt;Prologue: The Crash&lt;/h2&gt;
+&lt;/figure&gt;&lt;p&gt;I started this site because I was inspired by someone else&amp;rsquo;s little corner of the internet. So, if this resonated with you, consider it a sign. Go build your own. The web needs less uniformity and more weirdness. It needs more personality, more passion projects, and more of what makes you, you.&lt;/p&gt;</content></item><item><title>Building a PC</title><link>https://priyavr.at/blog/first-pc-build-journey/</link><pubDate>Wed, 20 Jul 2022 12:12:12 +0530</pubDate><guid>https://priyavr.at/blog/first-pc-build-journey/</guid><content>&lt;h2 id="prologue-the-crash"&gt;Prologue: The Crash&lt;/h2&gt;
 &lt;p&gt;A couple of weeks ago, I learned that my laptop’s processor and motherboard had fried. While this might have come as a shock to some, I can’t say I was surprised.&lt;/p&gt;
 &lt;p&gt;After all, I had been using that laptop for over four years, pushing it through marathon sessions almost every day. Frankly, it was more of a “when” rather than an “if.” So, when the inevitable finally happened, I decided it was time to build myself a PC.&lt;/p&gt;
 &lt;p&gt;I spent several exhausting days researching hardware, poring over benchmarks, hunting for compatibility issues, and generally falling down the rabbit hole of PC building. Eventually, after much deliberation, I placed my orders. It was a ton of work, but hey, if it ends with a working PC, I’ll call that a win.&lt;/p&gt;
 &lt;h2 id="act-i-the-hardware"&gt;Act I: The Hardware&lt;/h2&gt;
 &lt;p&gt;My goal was to get significantly better performance than my old laptop without blowing my budget. Mission accomplished. Here is the breakdown of the parts I chose:&lt;/p&gt;
-&lt;p&gt;
 &lt;figure&gt;
 &lt;img src="https://priyavr.at/first-pc-build-journey/parts.webp" alt="The Parts" loading="lazy"&gt;
-&lt;/figure&gt;&lt;/p&gt;
-&lt;table&gt;
+&lt;/figure&gt;&lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
 &lt;th style="text-align: left"&gt;&lt;/th&gt;
@@ -113,10 +109,8 @@
 &lt;/table&gt;
 &lt;p&gt;As it turns out, building a PC is simpler than it sounds. That said, I still managed to have my “oops” moment. Here is what happened:&lt;/p&gt;
 &lt;p&gt;I installed the AMD heatsink but didn’t notice that the logo projection on one side was blocking a RAM slot. When I tried to remove the heatsink, the thermal paste had basically turned into superglue. Did I look up a solution online? Of course not. I went full Hulk and tried to muscle it off. The result? The CPU came out stuck to the heatsink, even though the motherboard’s CPU lock was still engaged. Miraculously, neither the CPU pins nor the motherboard were damaged. In the end, disaster was narrowly averted, and I lived to tell the tale with all components intact!&lt;/p&gt;
-&lt;p&gt;
 &lt;figure&gt;
 &lt;img src="https://priyavr.at/first-pc-build-journey/build.webp" alt="The Build" loading="lazy"&gt;
 &lt;figcaption class="text-center"&gt;&lt;small&gt;Translation: &amp;#34;Hello, World!&amp;#34;&lt;/small&gt;&lt;/figcaption&gt;
-&lt;/figure&gt;&lt;/p&gt;
-&lt;h2 id="act-iii-the-verdict"&gt;Act III: The Verdict&lt;/h2&gt;
+&lt;/figure&gt;&lt;h2 id="act-iii-the-verdict"&gt;Act III: The Verdict&lt;/h2&gt;
 &lt;p&gt;If you ever get the chance, I highly recommend building your own PC. It takes a bit of research and patience, but the sense of accomplishment is absolutely worth it. I’m glad I took the plunge, and my new PC agrees.&lt;/p&gt;</content></item></channel></rss>
