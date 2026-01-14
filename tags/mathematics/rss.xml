@@ -163,7 +163,7 @@ $$P(t) = (1-t)^2P_0 + 2(1-t)tP_1 + t^2P_2$$&lt;p&gt;The result is a smooth curve
 &lt;video controls preload="metadata" aria-labelledby="bf38ce663a0515bd48fc40ea4522faa2-video-caption-20"&gt;
 &lt;source src="https://priyavr.at/reversing-most-replayed/quadratic.webm" type="video/webm"&gt;
 &lt;/video&gt;
-&lt;figcaption id="bf38ce663a0515bd48fc40ea4522faa2-video-caption-20" class="text-center"&gt;&lt;small&gt;A quadratic Bézier curve. &lt;a href="https://www.desmos.com/calculator/rnnc9nmfuc" target="_blank" rel="noopener noreferrer"&gt;[Desmos]&lt;/a&gt;&lt;/small&gt;&lt;/figcaption&gt;
+&lt;figcaption id="bf38ce663a0515bd48fc40ea4522faa2-video-caption-20" class="text-center"&gt;&lt;small&gt;A quadratic Bézier curve. Notice how since it has only one control point, it can only bend in one direction. &lt;a href="https://www.desmos.com/calculator/rnnc9nmfuc" target="_blank" rel="noopener noreferrer"&gt;[Desmos]&lt;/a&gt;&lt;/small&gt;&lt;/figcaption&gt;
 &lt;/figure&gt;
 &lt;p&gt;However, because &lt;em&gt;Quadratic Bézier&lt;/em&gt; relies on a single control point, it lacks the flexibility to create &amp;ldquo;S&amp;rdquo; curves or inflections; it can only bend in one direction. For &amp;ldquo;S&amp;rdquo; curves we need two control points. Which brings us to the &lt;em&gt;Cubic Bézier&lt;/em&gt;. This adds a second control point, giving us four points total: Start (\(P_0\)), Control 1 (\(P_1\)), Control 2 (\(P_2\)), and End (\(P_3\)). We just add another layer of depth to the recursion.&lt;/p&gt;
 &lt;p&gt;First layer (edges of the hull):&lt;/p&gt;
@@ -175,7 +175,7 @@ $$P(t) =\\(1-t)^3P_0 + 3(1-t)^2tP_1 + 3(1-t)t^2P_2 + t^3P_3$$&lt;p&gt;As \(t\) m
 &lt;video controls preload="metadata" aria-labelledby="bf38ce663a0515bd48fc40ea4522faa2-video-caption-21"&gt;
 &lt;source src="https://priyavr.at/reversing-most-replayed/cubic.webm" type="video/webm"&gt;
 &lt;/video&gt;
-&lt;figcaption id="bf38ce663a0515bd48fc40ea4522faa2-video-caption-21" class="text-center"&gt;&lt;small&gt;A cubic Bézier curve. &lt;a href="https://www.desmos.com/calculator/fbwrcoalbv" target="_blank" rel="noopener noreferrer"&gt;[Desmos]&lt;/a&gt;&lt;/small&gt;&lt;/figcaption&gt;
+&lt;figcaption id="bf38ce663a0515bd48fc40ea4522faa2-video-caption-21" class="text-center"&gt;&lt;small&gt;A cubic Bézier curve. Notice how it can bend in two directions and form &amp;ldquo;S&amp;rdquo; curves easily. &lt;a href="https://www.desmos.com/calculator/fbwrcoalbv" target="_blank" rel="noopener noreferrer"&gt;[Desmos]&lt;/a&gt;&lt;/small&gt;&lt;/figcaption&gt;
 &lt;/figure&gt;
 &lt;p&gt;It is worth noting that this logic does not have to stop at four points. You can theoretically have Bézier curves with five, ten, or a hundred control points, creating increasingly intricate shapes with a single mathematical definition. However, there is a catch. As you add more points, the computational cost skyrockets. Solving high-degree polynomials for every frame of an animation or every resize event is expensive. That is why modern graphics systems usually stick to cubic curves. If you need a more complex shape, it is far more efficient to chain multiple cubic segments together than to crunch the numbers for a single, massive high-order curve.&lt;/p&gt;
 &lt;figure&gt;
@@ -314,7 +314,7 @@ $$P(t) =\\(1-t)^3P_0 + 3(1-t)^2tP_1 + 3(1-t)t^2P_2 + t^3P_3$$&lt;p&gt;As \(t\) m
 &lt;video controls preload="metadata" aria-labelledby="bf38ce663a0515bd48fc40ea4522faa2-video-caption-26"&gt;
 &lt;source src="https://priyavr.at/reversing-most-replayed/disappearing-dips.webm" type="video/webm"&gt;
 &lt;/video&gt;
-&lt;figcaption id="bf38ce663a0515bd48fc40ea4522faa2-video-caption-26" class="text-center"&gt;&lt;small&gt;Notice how the dips flatten out as the peak lowers.&lt;/small&gt;&lt;/figcaption&gt;
+&lt;figcaption id="bf38ce663a0515bd48fc40ea4522faa2-video-caption-26" class="text-center"&gt;&lt;small&gt;Notice how the dips flatten out as the peak lowers. &lt;a href="https://www.desmos.com/calculator/xhkrvqshnq" target="_blank" rel="noopener noreferrer"&gt;[Desmos]&lt;/a&gt;&lt;/small&gt;&lt;/figcaption&gt;
 &lt;/figure&gt;
 &lt;h2 id="conclusion"&gt;Conclusion&lt;/h2&gt;
 &lt;p&gt;I started pulling on this loose thread on a quiet afternoon, simply wondering about a song from &lt;em&gt;Spirited Away&lt;/em&gt;. By nightfall, I had followed the thread to its end, tracing the logic from pixel to polynomial. Documenting it, however, was a marathon that spanned many weeks of focused work.&lt;/p&gt;
